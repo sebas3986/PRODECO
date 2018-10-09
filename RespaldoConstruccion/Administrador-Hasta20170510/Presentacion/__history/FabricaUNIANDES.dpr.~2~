@@ -1,0 +1,17 @@
+program FabricaUNIANDES;
+
+uses
+  Vcl.Forms,
+  UFrm_Administrador in 'UFrm_Administrador.pas' {Form1},
+  frm_Login in '..\Persistencia\frm_Login.pas' {frmLogin};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmLogin, frmLogin);
+  Application.Run;
+end.

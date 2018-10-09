@@ -1,0 +1,13 @@
+unit UGlobales;
+
+interface
+
+var
+
+  TipoUsuaConeProg : string;
+  CodigoCarpetaB   : string;
+  idTipoCarpetaB, idSerieDocumentalB : Integer;
+
+implementation
+
+end.

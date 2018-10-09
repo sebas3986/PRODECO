@@ -1,0 +1,493 @@
+unit UProcesoDevolucionEsta;
+
+interface
+
+uses
+  DB, ZDataset,SysUtils,StrUtils,DateUtils,Forms,Classes,
+  UDAODevolucionEstado,UCarpetaDevolucionEsta,UDMAplicacion,UFtpImagen,UFtpGestor;
+
+type
+
+  TProcesoDevolucionEsta = class
+    private
+      FCarpetas               : TDataSource;
+      FDatosCarpeta           : TCarpetaDevolucionEsta;
+      FEstadosDevolver        : TDataSource;
+      FFoliosCarpeta          : TDataSource;
+    public
+      qr:TZQuery;
+      {CONSTRUCTORES Y DESTRUCTORES}
+      constructor Create;
+      destructor  Destroy;
+
+      {PROPIEDADES}
+      property Carpetas            : TDataSource            read FCarpetas;
+      property DatosCarpeta        : TCarpetaDevolucionEsta read FDatosCarpeta;
+      property EstadosDevolver     : TDataSource            read FEstadosDevolver;
+      property FoliosCarpeta       : TDataSource            read FFoliosCarpeta;
+
+      {METODOS PROPIOS}
+      Procedure DevolverEstadoCarpeta(p_ElimCarp: Boolean);
+      Procedure ObtenerCarpetas(p_CodiCaja: String);
+      Procedure ObtenerDatosCarpeta(p_IdenCarp: Int32; p_CodiCarp: string);
+      Procedure ObtenerEstadosDevolver(p_IdenFlujMaxi: Int32);
+      Procedure RetirarImagenes;
+      Function VerificarVersion(p_NombModu: string; p_VersModu: string; p_VeriRuta: Boolean): boolean;
+
+  end;
+
+
+implementation
+uses
+  UDevolucionEstado;
+
+var
+  DAODevolucionEstado: TDAODevolucionEstado;
+
+
+Procedure TProcesoDevolucionEsta.DevolverEstadoCarpeta(p_ElimCarp: Boolean);
+var
+  CantAletElim  : Int32;
+  CantCofoElim  : Int32;
+  CantFirmElim  : Int32;
+  CantFoliActu  : Int32;
+  CantFoliElim  : Int32;
+  CantIdenElim  : Int32;
+  CantImagElim  : Int32;
+  CantNofoElim  : Int32;
+  CantObfoElim  : Int32;
+  CantPlanElim  : Int32;
+  CodiAlet      : string;
+  CodiCaja      : string;
+  CodiFoli      : string;
+  HoraBase      : TTime;
+  I             : Int32;
+  IdenAlet      : Int32;
+  IdenCarp      : Int32;
+  IdenFoli      : Int64;
+  IdenTraz      : Int64;
+  MensErro      : string;
+  RetiOkok      : Boolean;
+  TipoFoli      : Char;
+  UsuaProc      : string;
+
+begin
+  try
+    CantAletElim := 0;
+    CantFirmElim := 0;
+    CantFoliActu := 0;
+    CantFoliElim := 0;
+    CantIdenElim := 0;
+    CantImagElim := 0;
+    CantCofoElim := 0;
+    CantNofoElim := 0;
+    CantObfoElim := 0;
+    CantPlanElim := 0;
+
+    with DAODevolucionEstado do
+    begin
+      IniciarTransaccion;
+      FrmDevolucionEstado.LblDevolverCarpeta.Caption:= 'DEVOLUCIÓN DE LA CARPETA ['
+                                + FDatosCarpeta.CodiCompCarpeta
+                                + ']  AL ESTADO  ['
+                                + FDatosCarpeta.DescTareFlujNuev + ']';
+      FrmDevolucionEstado.LblDevolverCarpeta.Visible:= True;
+      FrmDevolucionEstado.stgEstadoProceso.Visible:= True;
+      for I := 0 to FrmDevolucionEstado.stgEstadoProceso.RowCount - 1 do
+        FrmDevolucionEstado.stgEstadoProceso.cells[1,I]:= '';
+      Application.ProcessMessages;
+      CodiCaja  := 'M' + FDatosCarpeta.CodigoCaja;
+      IdenCarp  := FDatosCarpeta.IdCarpeta;
+      UsuaProc  := FDatosCarpeta.UsuarioProceso;
+      FFoliosCarpeta  := DAODevolucionEstado.ConsultarFoliosPorCarpeta(IdenCarp,
+                                                                FDatosCarpeta.CodiResuCarpeta);
+
+      {SE CREA REGISTRO EN LA TABLA DE TRAZABILIDAD EN ESTADO DE ERROR Y PARA OBTENER EL ID
+        DE DICHA TABLA PARA LOS REGISTROS DE DE DETALLE }
+
+      MensErro := 'ERROR: NO SE PROCESA ARCHIVOS DE IMAGEN. ['
+                  + DatosCarpeta.RutaImagenes + ']';
+      FDatosCarpeta.RutaBackImagTiff := '';
+      FDatosCarpeta.CantImagTiff     := 0;
+      FDatosCarpeta.CantImagPdff     := 0;
+      IdenTraz := DAODevolucionEstado.InsertarTrazaCarpeta(FDatosCarpeta,MensErro);
+
+      with FFoliosCarpeta.DataSet do
+      begin
+        HoraBase:= Now()-1;
+        if RecordCount > 0 then
+        begin
+          while not Eof do
+          begin
+            IdenAlet := FieldByName('idcarpetaaleta').Value;
+            CodiAlet := 'M' + FieldByName('codigocarpetaaleta').AsString;
+            while (not Eof ) and (IdenAlet = FieldByName('idcarpetaaleta').Value) do
+            begin
+              if not FieldByName('idfolio').IsNull then
+              begin
+                IdenFoli := FieldByName('idfolio').Value;
+                CodiFoli := 'M' + FieldByName('codigofolio').Value;
+                TipoFoli := FieldByName('tipofolio').AsString[1];
+                {SI SE DEVUELVE A GENERACION XML,CAPTURA O CALIDAD, SE MODIFICAN DATOS DEL FOLIO
+                 QUE TIENEN QUE VER CON FIRMA Y ESTAMPA}
+                if FDatosCarpeta.IdFlujoNuevo in [4,3,2]  then
+                begin
+                  Inc(CantFoliActu,DAODevolucionEstado.ModificarFolios(IdenFoli,CodiFoli,'FIRMA',
+                                                                       IdenTraz,UsuaProc));
+                end;
+                {SI SE DEVUELVE A GENERACION XML,CAPTURA, CALIDAD, PUBLICACION O RECEPCION,
+                 SE ELIMINAN REGISTROS DE FIRMA Y ESTAMPA ASOCIADOS AL FOLIO}
+                if FDatosCarpeta.IdFlujoNuevo in [4,3,2,1,0]  then
+                begin
+                  Inc(CantFirmElim,DAODevolucionEstado.EliminarFirmas(IdenFoli,CodiFoli,
+                                                                      IdenTraz,UsuaProc));
+                end;
+                {SI SE DEVUELVE A CAPTURA, CALIDAD, PUBLICACION O RECEPCION,
+                 SE ELIMINAN REGISTROS DE IDENTIFICACIONES ASOCIADAS AL FOLIO,
+                 REGISTROS DE CONTROL DE ASIGNACION DEL FOLIO, REGISTROS DE OBSERVACIONES
+                 DE CAPTURA PARA EL FOLIO }
+
+                if FDatosCarpeta.IdFlujoNuevo in [3,2,1,0]  THEN
+                begin
+                  Inc(CantIdenElim,DAODevolucionEstado.EliminarIDentificaciones(IdenFoli,CodiFoli,
+                                                                                IdenTraz,UsuaProc));
+                  Inc(CantCofoElim,DAODevolucionEstado.EliminarControlesFolio(IdenFoli,CodiFoli,
+                                                                    'CAPTURA',IdenTraz,UsuaProc));
+                  Inc(CantObfoElim,DAODevolucionEstado.EliminarObservacionesFolio(IdenFoli,CodiFoli,
+                                                                    'CAPTURA',IdenTraz,UsuaProc));
+                  {SI EL FOLIO TIENE ASOCIADOS DATOS DE PLANILLAS O APORTES SE ELIMINAN LOS REGISTROS
+                   Y LA ASOCIACION EXISTENTE}
+                  if not FieldByName('iddatoplanilla').isnull then
+                  begin
+                    DAODevolucionEstado.ModificarFolios(IdenFoli,CodiFoli,'PLANILLA',IdenTraz,
+                                                                                    UsuaProc);
+                    Inc(CantPlanElim,DAODevolucionEstado.EliminarDatosPlanilla
+                                                  (FieldByName('iddatoplanilla').value,CodiFoli,
+                                                                            IdenTraz,UsuaProc));
+                  end;
+                end;
+                {SI SE DEVUELVE A CALIDAD, PUBLICACION O RECEPCION, SE ELIMINAN REGISTROS DE NOVEDADES
+                 ASOCIADAS AL FOLIO, REGISTROS DE CONTROL DE ASIGNACION DEL FOLIO EN CALIDAD,
+                 REGISTROS DE OBSERVACIONES DE CALIDAD PARA EL FOLIO Y SE REMUVEN LAS MAARCAS DE
+                 CALIDAD EN EL FOLIO. SE ELIMINA EL FOLIO SI ES UN TESTIGO O SI DE DEVUELVE A
+                 PUBLICACION O RECEPCION }
+                if FDatosCarpeta.IdFlujoNuevo in [2,1,0] then
+                begin
+                  Inc(CantNofoElim,DAODevolucionEstado.EliminarNovedadesFolio(IdenFoli,CodiFoli,
+                                                                              IdenTraz,UsuaProc));
+                  Inc(CantCofoElim,DAODevolucionEstado.EliminarControlesFolio(IdenFoli,CodiFoli,
+                                                                    'CALIDAD',IdenTraz,UsuaProc));
+                  Inc(CantObfoElim,DAODevolucionEstado.EliminarObservacionesFolio(IdenFoli,CodiFoli,
+                                                                    'CALIDAD',IdenTraz,UsuaProc));
+
+                  if ((FDatosCarpeta.IdFlujoNuevo in [2]) and (TipoFoli = 'T')) or
+                        (FDatosCarpeta.IdFlujoNuevo in [1,0])     then
+                  begin
+                    Inc(CantImagElim,DAODevolucionEstado.EliminarImagenes(IdenFoli,CodiFoli,
+                                                                          IdenTraz,UsuaProc,
+                                                                          'TODAS'));
+                    Inc(CantFoliElim,DAODevolucionEstado.EliminarFolios(IdenFoli,CodiFoli,
+                                                                        IdenTraz,UsuaProc));
+                  end
+                  else
+                  begin
+                    Inc(CantImagElim,DAODevolucionEstado.EliminarImagenes(IdenFoli,CodiFoli,
+                                                                          IdenTraz,UsuaProc,
+                                                                          'VERSIONES'));
+
+                    DAODevolucionEstado.ModificarFolios(IdenFoli,CodiFoli,'CALIDAD',IdenTraz,UsuaProc);
+                  end;
+                end;
+
+                with FrmDevolucionEstado.stgEstadoProceso do
+                begin
+                  Cells[1,1]:= formatfloat('#,##0',CantFoliActu);
+                  Cells[1,2]:= formatfloat('#,##0',CantFoliElim);
+                  Cells[1,3]:= formatfloat('#,##0',CantIdenElim);
+                  Cells[1,4]:= formatfloat('#,##0',CantCofoElim);
+                  Cells[1,5]:= formatfloat('#,##0',CantImagElim);
+                  Cells[1,6]:= formatfloat('#,##0',CantNofoElim);
+                  Cells[1,7]:= formatfloat('#,##0',CantPlanElim);
+                  Cells[1,8]:= formatfloat('#,##0',CantObfoElim);
+                  Cells[1,9]:= formatfloat('#,##0',CantFirmElim);
+                  {PARA QUE MUESTRE LOS CONTADORES CADA 1.5 SEGUNDOS  }
+                  if MilliSecondSpan(Now(),HoraBase) > 1500 then
+                  begin;
+                    HoraBase:= Now();
+                    Application.ProcessMessages;
+                  end;
+                end;
+              end;
+              Next;
+            end;
+            Application.ProcessMessages;
+            {SI SE DEVUELVE A RECEPCION, SE ELIMINA REGISTRO DE LA ALETA. }
+            if FDatosCarpeta.IdFlujoNuevo = 0 then
+            begin
+              Inc(CantAletElim,DAODevolucionEstado.EliminarAletas(IdenAlet,CodiAlet,
+                                                                  IdenTraz,UsuaProc));
+            end;
+            FrmDevolucionEstado.stgEstadoProceso.Cells[1,0]:= formatfloat('#,##0',CantAletElim);
+            Application.ProcessMessages;
+          end;
+        end;
+        {SI SE DEVUELVE A RECEPCION Y SE INDICÓ ELIMINAR LA CARPETA, SE ELIMINA REGISTRO
+          DE LA CARPETA DE LO CONTRARIO SE CAMBIA EL ESTADO DE LA CARPETA. }
+        if FDatosCarpeta.IdFlujoNuevo = 0  then
+        begin
+          if p_ElimCarp then
+          begin
+            if not DAODevolucionEstado.EliminarCarpetas(FDatosCarpeta.IdCarpeta,
+                                                        FDatosCarpeta.CodiResuCarpeta,
+                                                        IdenTraz,UsuaProc)  then
+              raise Exception.Create('Error al realizar la Eliminación de la Carpeta.')
+          end
+          else
+          begin
+            if not DAODevolucionEstado.ModificarCarpetas(FDatosCarpeta.IdCarpeta,
+                                                          FDatosCarpeta.CodiResuCarpeta,
+                                                          FDatosCarpeta.IdFlujoNuevo,
+                                                          False,IdenTraz,UsuaProc)  then
+              raise Exception.Create('Error al cambiar el Estado de la Carpeta.');
+          end;
+          if not DAODevolucionEstado.ModificarCajas(FDatosCarpeta.IdCaja, CodiCaja,
+                                                    IdenTraz, UsuaProc)  then
+            raise Exception.Create('Error al abrir la Caja de la Carpeta.');
+        end
+        else
+        begin
+          if not DAODevolucionEstado.ModificarCarpetas(FDatosCarpeta.IdCarpeta,
+                                                        FDatosCarpeta.CodiResuCarpeta,
+                                                        FDatosCarpeta.IdFlujoNuevo,
+                                                        False,IdenTraz,UsuaProc)  then
+            raise Exception.Create('Error al cambiar el Estado de la Carpeta.');
+        end;
+      end;
+
+      FinalizarTransaccion;
+      RetiOkok := False;
+      {SI LA CARPETA POSEE AL MENOS UN FOLIO EN UNA RUTA DEL FTP SE REALIZA EL RETIRO
+       DE LAS IMAGENES}
+      if FDatosCarpeta.RutaImagenes <> '' then
+      begin
+        try
+          RetirarImagenes;
+          RetiOkok := True;
+        except
+          on E:Exception do
+             MensErro:= LeftStr(MensErro + E.Message,150);
+        end;
+      end
+      else
+         RetiOkok:= True;
+
+      IniciarTransaccion;
+      if RetiOkok then
+      begin
+        if not p_ElimCarp then
+        begin
+          if not DAODevolucionEstado.ModificarCarpetas(FDatosCarpeta.IdCarpeta,
+                                                       FDatosCarpeta.CodiResuCarpeta,
+                                                       FDatosCarpeta.IdFlujoNuevo,
+                                                       True,IdenTraz,UsuaProc)  then
+            raise Exception.Create('Error al Habilitar la Carpeta.');
+        end;
+        MensErro:= 'OK';
+      end;
+      DAODevolucionEstado.ModificarTrazaCarpeta(IdenTraz,FDatosCarpeta,MensErro);
+       FinalizarTransaccion;
+    end;
+  except
+    on e:exception do
+    begin
+      DAODevolucionEstado.CancelarTransaccion;
+      raise Exception.Create('Error ralizando la devolución de la Carpeta ['
+                              + FDatosCarpeta.CodiResuCarpeta + ']. '
+                              + #10#13 + '* ' + e.Message);
+    end;
+  end;
+end;
+
+
+Procedure TProcesoDevolucionEsta.ObtenerCarpetas(p_CodiCaja: string);
+begin
+  FCarpetas:= DAODevolucionEstado.ConsultarCarpetas(p_CodiCaja);
+end;
+
+Procedure TProcesoDevolucionEsta.ObtenerDatosCarpeta(p_IdenCarp: Int32; p_CodiCarp: string);
+begin
+  FDatosCarpeta := DAODevolucionEstado.ConsultarDatosCarpeta(p_IdenCarp, p_CodiCarp);
+  FDatosCarpeta.IpProceso         := FrmDevolucionEstado.DireccIp;
+  FDatosCarpeta.UsuarioProceso    := ProcLogi.DatosUsuarioDevolucionEsta.CodigoUsuarioDevo;
+end;
+
+Procedure TProcesoDevolucionEsta.ObtenerEstadosDevolver(p_IdenFlujMaxi: Int32);
+begin
+  FEstadosDevolver.DataSet.Filtered:= False;
+  FEstadosDevolver.DataSet.Filter := IfThen(p_IdenFlujMaxi = 0,'IdFlujo = ','IdFlujo < ')
+                                     + IntToStr(p_IdenFlujMaxi);
+  FEstadosDevolver.DataSet.Filtered:= True;
+end;
+
+Procedure TProcesoDevolucionEsta.RetirarImagenes;
+var
+  CodiFoli : string;
+  ConexFTP : TFtpGestor;
+  CarpPdff : string;
+  DatosFTP : TFtpImagen;
+  I        : Int16;
+  ListVers : TStringList;
+  RutaCarp : string;
+  RutaFoli : string;
+  TipoFoli : Char;
+
+begin
+  try
+    RutaCarp := FDatosCarpeta.RutaImagenes;
+    if (Trim(LeftStr(RutaCarp,4))<> '') and (MidStr(RutaCarp,5,1) = '\')
+        and  (Trim(MidStr(RutaCarp,6,2))<> '') and (MidStr(RutaCarp,8,1) = '\')
+        and  (Trim(MidStr(RutaCarp,9,2))<> '') and (MidStr(RutaCarp,11,2) = '\M')
+        and  (Trim(MidStr(RutaCarp,13,8))<> '')  then
+    begin
+      CarpPdff := LeftStr(RutaCarp,4) + 'FE' + MidStr(RutaCarp,5,1000);
+      with FFoliosCarpeta.DataSet do
+      begin
+        Filtered  := False;
+        Filter    := 'idfolio is not null ';
+        Filtered  := True;
+        if RecordCount > 0 then
+        begin
+          First;
+          {SE VERIFICA QUE TODOS LOS FOLIOS TENGEN LA MISMA RUTA DE IMAGENES}
+          RutaFoli  := FieldByName('rutaftp').AsString;
+          if RightStr(RutaFoli,1) <> '\' then
+            RutaFoli  := RutaFoli + '\';
+          while (not Eof) and (RutaFoli = RutaCarp ) do
+          begin
+            RutaFoli  := FieldByName('rutaftp').AsString;
+            if RightStr(RutaFoli,1) <> '\' then
+              RutaFoli  := RutaFoli + '\';
+            Next;
+          end;
+
+          if Eof then
+          begin
+            ListVers := TStringList.Create;
+            DatosFTP := TFtpImagen.Create;
+            ConexFTP := TFtpGestor.Create(DatosFTP.HostFtpImg,DatosFTP.UsuarioFtpImg,
+                                          DatosFTP.PasswordFtpImg,DatosFTP.PuertoFtpImg);
+            ConexFTP.ConectarFTP;
+
+            First;
+            FDatosCarpeta.CantImagTiff := 0;
+            FDatosCarpeta.CantImagPdff := 0;
+            While (not Eof) do
+            begin
+              FDatosCarpeta.RutaBackImagTiff := DatosFTP.CarpetaRaizFtpImg + RutaCarp;
+              CodiFoli  := 'M' + FieldByName('codigofolio').AsString;
+              TipoFoli  := FieldByName('tipofolio').AsString[1];
+              {SI SE DEVUELVE A CUALQUIER ESTADO, SE ELIMINAN LOS ARCHIVOS XML}
+              if (FDatosCarpeta.IdFlujoNuevo in [4,3,2,1,0]) then
+                ConexFTP.BorrarArchivos(DatosFTP.CarpetaRaizFtpImg + RutaCarp,  CodiFoli + '*.xml');
+
+              if (FDatosCarpeta.IdFlujoNuevo in [2,1,0]) then
+                if ((FDatosCarpeta.IdFlujoNuevo in [2]) and (TipoFoli = 'T')) or
+                      (FDatosCarpeta.IdFlujoNuevo in [1,0]) then
+                  FDatosCarpeta.CantImagTiff:= FDatosCarpeta.CantImagTiff
+                                               + ConexFTP.BorrarArchivos(DatosFTP.CarpetaRaizFtpImg + RutaCarp,
+                                                                        CodiFoli + '*.tif')
+                else
+                begin
+                  {SE ELIMINAN LAS IMAGENES CON VERSION > 0 (PARA DEJAR LA ORIGNAL UNICAMENTE)}
+                  ListVers:= ConexFTP.ListarArchivo(DatosFTP.CarpetaRaizFtpImg + RutaCarp,
+                                                    CodiFoli + '*.tif');
+                  for I := 0 to ListVers.Count -1  do
+                  begin
+                    if Pos('v00.tif',LowerCase(ListVers[I])) = 0 then
+                      ConexFTP.BorrarArchivos(DatosFTP.CarpetaRaizFtpImg + RutaCarp,  ListVers[I] + '*');
+
+                  end;
+                end;
+
+              if (FDatosCarpeta.IdFlujoNuevo in [4,3,2,1,0]) then
+                FDatosCarpeta.CantImagPdff:= FDatosCarpeta.CantImagPdff
+                                             + ConexFTP.BorrarArchivos(DatosFTP.CarpetaRaizFtpPdf + CarpPdff,
+                                                                      CodiFoli + '*.pdf');
+              Next;
+            end;
+            {SI LA CARPETA DE IMAGENES TIF Y ARCHIVOS XML ESTA VACIA, SE ELIMINA LA CARPETA}
+            if ConexFTP.ListarArchivo(DatosFTP.CarpetaRaizFtpImg + RutaCarp, '*.*').Count = 0 then
+              IF ConexFTP.BorrarCarpeta(DatosFTP.CarpetaRaizFtpImg, RutaCarp, 'RECURSIVO' ) = 'R' then
+                raise Exception.Create('Se presenta falla al eliminar la Carpeta: ['
+                                          + DatosFTP.CarpetaRaizFtpImg + RutaCarp + ']');
+
+            {SI LA CARPETA DE IMAGENES PDF ESTA VACIA, SE ELIMINA LA CARPETA}
+            if ConexFTP.ListarArchivo(DatosFTP.CarpetaRaizFtpPdf + CarpPdff, '*.*').Count = 0 then
+              IF ConexFTP.BorrarCarpeta(DatosFTP.CarpetaRaizFtpPdf, CarpPdff, 'RECURSIVO' ) = 'R' then
+                raise Exception.Create('Se presenta falla al eliminar la Carpeta: ['
+                                          +DatosFTP.CarpetaRaizFtpPdf + CarpPdff + ']');
+            ConexFTP.DesconectarFTP;
+            ConexFTP.Free;
+            DatosFTP.Free;
+          end
+          else
+            raise Exception.Create('Falla al retirar archivos de la Carpeta: ['
+                                    +  RutaCarp + ']. Existen folios en Rutas Diferentes.');
+        end
+        else
+            raise Exception.Create('Inconsistencia al retirar archivos de la Carpeta: ['
+                                    +  RutaCarp + ']');
+
+      end;
+    end
+    else
+    begin
+      if RutaCarp <> '' then
+        raise Exception.Create('La ruta de las Imágenes [' + RutaCarp + '] es Incorrecta.');
+    end;
+
+  except
+    on e:exception do
+      raise Exception.Create('Imposible Retirar Imágenes del FTP. * ' + e.Message);
+  end;
+end;
+
+
+Function TProcesoDevolucionEsta.VerificarVersion(p_NombModu: string; p_VersModu: string; p_VeriRuta: Boolean): boolean;
+begin
+  DMAplicacion.VerificarAplicacion(p_NombModu,p_VersModu, 'DEVOLUCIÓN DE ESTADO', p_VeriRuta);
+end;
+
+{$REGION 'CONSTRUTOR AND DESTRUCTOR'}
+
+constructor TProcesoDevolucionEsta.Create;
+begin
+  try
+    DAODevolucionEstado   := TDAODevolucionEstado.create;
+    FCarpetas             := TDataSource.create(nil);
+    FDatosCarpeta         := TCarpetaDevolucionEsta.create;
+    FEstadosDevolver      := TDataSource.create(nil);
+    FEstadosDevolver      := DAODevolucionEstado.ConsultarFlujosYTareas;
+    FFoliosCarpeta        := TDataSource.Create(nil);
+  except
+    on e:Exception do
+      raise Exception.Create('No es posible Inicializar Componentes. '
+                              + #10#13 + '* ' + e.Message);
+  end;
+end;
+
+destructor TProcesoDevolucionEsta.Destroy;
+begin
+  DAODevolucionEstado.Free;
+  FCarpetas.Free;
+  FDatosCarpeta.Free;
+  FEstadosDevolver.free;
+  FFoliosCarpeta.Free;
+end;
+{$ENDREGION}
+
+{$REGION 'GETTERS AND SETTERS'}
+
+{$ENDREGION}
+
+end.

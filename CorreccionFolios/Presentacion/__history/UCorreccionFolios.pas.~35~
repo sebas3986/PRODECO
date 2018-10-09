@@ -1,0 +1,185 @@
+unit UCorreccionFolios;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Grids, Data.DB, Vcl.DBGrids,
+  DAOCorreccionFolios;
+
+type
+  TFCorreccionFolios = class(TForm)
+    pnl1: TPanel;
+    DBGCarpetaFolios: TDBGrid;
+    btnGuardarCarpeta: TButton;
+    EdtFolios: TEdit;
+    lbl2: TLabel;
+    PnlCodigoCarpeta: TPanel;
+    EdtCodigoCarpeta: TEdit;
+    Lbllbl1: TLabel;
+    btnCancelar: TButton;
+    procedure EdtCodigoCarpetaKeyPress(Sender: TObject; var Key: Char);
+    procedure btnGuardarCarpetaClick(Sender: TObject);
+    procedure LimpiarFormulario;
+    procedure EdtFoliosKeyPress(Sender: TObject; var Key: Char);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure EdtCodigoCarpetaChange(Sender: TObject);
+    procedure EdtFoliosExit(Sender: TObject);
+    procedure DBGCarpetaFoliosCellClick(Column: TColumn);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FCorreccionFolios: TFCorreccionFolios;
+  DAOCorreccionFolios: TDAOCorreccionFolios;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFCorreccionFolios.btnCancelarClick(Sender: TObject);
+begin
+  LimpiarFormulario;
+end;
+
+procedure TFCorreccionFolios.btnGuardarCarpetaClick(Sender: TObject);
+var
+  TotalFolios : Word;
+  UltimoSitio : TBookmark;
+begin
+  TotalFolios:= 0;
+  with DAOCorreccionFolios do
+  begin
+    UltimoSitio:= cdsCarpeta.GetBookmark;
+    cdsCarpeta.DisableControls;
+    cdsCarpeta.First;
+    { SE REEMPLAZA EL SEGMENTO PARA QUE VERIFIQUE QUE EL TOTAL DE FOLIOS SEA > 0 (GUSTAVO VEGA ROZO)
+    if StrToInt (EdtFolios.Text) > 0 then
+      begin
+        repeat
+          DMCorreccionFolios.ActualizarFolios(StrToInt(EdtFolios.Text), DMCorreccionFolios.cdsCarpeta.FieldByName('idCarpetaAleta').AsInteger, edCodigoCarpeta.Text);
+          DMCorreccionFolios.cdsCarpeta.Next;
+        until DMCorreccionFolios.cdsCarpeta.Eof;
+        LimpliarFormulario;
+        DMCorreccionFolios.BuscarCarpeta(edCodigoCarpeta.Text);
+        ShowMessage('Operación terminada con éxito ...');
+    end else
+       begin
+         ShowMessage ('No se puede ingresar valores menores a 1 ...');
+         EdtFolios.Text := '';
+       end;
+    }
+
+    repeat
+      TotalFolios:=TotalFolios + cdsCarpeta.FieldByName('CantidadFolios').AsInteger;
+      cdsCarpeta.Next;
+    until cdsCarpeta.Eof;
+    if TotalFolios > 0  then
+    begin
+      cdsCarpeta.First;
+      repeat
+        ActualizarFolios(cdsCarpeta.FieldByName('CantidadFolios').AsInteger,
+                         cdsCarpeta.FieldByName('idCarpetaAleta').AsInteger, edtCodigoCarpeta.Text);
+        cdsCarpeta.Next;
+      until cdsCarpeta.Eof;
+      ShowMessage('Operación terminada con éxito ...');
+      cdsCarpeta.EnableControls;
+      LimpiarFormulario;
+    end
+    else
+    begin
+      cdsCarpeta.GotoBookmark(UltimoSitio);
+      cdsCarpeta.EnableControls;
+      ShowMessage ('No se permiten carpetas sin Folios. Al menos una Aleta debe tener Folios ...');
+      EdtFolios.Text := '';
+      DBGCarpetaFolios.SetFocus;
+    end;
+
+  end;
+end;
+
+procedure TFCorreccionFolios.DBGCarpetaFoliosCellClick(Column: TColumn);
+begin
+    EdtFolios.Text := IntToStr(DAOCorreccionFolios.cdsCarpeta.FieldByName('CantidadFolios').AsInteger);
+    EdtFolios.Enabled:= True;
+    EdtFolios.SetFocus;
+end;
+
+procedure TFCorreccionFolios.EdtCodigoCarpetaChange(Sender: TObject);
+begin
+  if EdtCodigoCarpeta.Text = '' then
+    btnCancelar.Enabled := False
+  else
+    btnCancelar.Enabled := True;
+end;
+
+procedure TFCorreccionFolios.EdtCodigoCarpetaKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = #13 then
+    if DAOCorreccionFolios.BuscarCarpeta(edtCodigoCarpeta.Text) then
+    begin
+        btnGuardarCarpeta.Enabled := True;
+        DBGCarpetaFolios.Enabled  := True;
+        DBGCarpetaFolios.SetFocus;
+        PnlCodigoCarpeta.Enabled:= False;
+    end else
+        begin
+          ShowMessage('No se encontró la carpeta '+ edtCodigoCarpeta.Text
+                      +' o tiene un estado diferente a RECEPCIÓN '
+                      +' o no tiene aletas registradas ...');
+          btnGuardarCarpeta.Enabled := False;
+        end;
+end;
+
+procedure TFCorreccionFolios.EdtFoliosExit(Sender: TObject);
+begin
+  {SE CAMBIA LA SIGUIENTE LINEA PARA QUE ACEPTE VALORES >= 0 (GUSTAVO VEGA ROZO)
+  if StrToInt (EdtFolios.Text) <= 0 then
+  }
+  if (EdtFolios.Text = '') or (StrToInt (EdtFolios.Text) < 0)   then
+  begin
+    ShowMessage ('Cantidad incorrecta de Folios. Se aceptan valores mayores e iguales a cero ...');
+    EdtFolios.Text:=DAOCorreccionFolios.cdsCarpeta.FieldByName('CantidadFolios').Value;
+    EdtFolios.SetFocus;
+  end
+  else
+  begin
+    DAOCorreccionFolios.cdsCarpeta.Edit;
+    DAOCorreccionFolios.cdsCarpeta.FieldByName('CantidadFolios').Value := StrToInt (EdtFolios.Text);
+    EdtFolios.Enabled:=False;
+    EdtFolios.Text := '';
+  end;
+
+end;
+
+procedure TFCorreccionFolios.EdtFoliosKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+     btnGuardarCarpeta.SetFocus
+  else
+    if  not (key in ['0'..'9',#8]) then
+      Key := #0;
+
+end;
+
+procedure TFCorreccionFolios.LimpiarFormulario;
+begin
+  if not DAOCorreccionFolios.cdsCarpeta.IsEmpty then
+  begin
+    DAOCorreccionFolios.cdsCarpeta.EmptyDataSet;
+    DAOCorreccionFolios.cdsCarpeta.Close;
+  end;
+  btnGuardarCarpeta.Enabled := False;
+  DBGCarpetaFolios.Enabled  := False;
+  edtCodigoCarpeta.Text     := '';
+  EdtFolios.Text            := '';
+  PnlCodigoCarpeta.Enabled  := True;
+  edtCodigoCarpeta.SetFocus;
+end;
+
+end.

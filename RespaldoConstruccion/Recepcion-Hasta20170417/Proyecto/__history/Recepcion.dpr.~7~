@@ -1,0 +1,21 @@
+program Recepcion;
+
+uses
+  Vcl.Forms,
+  URecepcion in '..\Presentacion\URecepcion.pas' {Frm_Recepcion},
+  UDMConexion in '..\Persistencia\UDMConexion.pas' {DMConexion: TDataModule},
+  UDMRecepcion in '..\Persistencia\UDMRecepcion.pas' {DMRecepcion: TDataModule},
+  Vcl.Themes,
+  Vcl.Styles,
+  UValidaciones in '..\Persistencia\UValidaciones.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFrm_Recepcion, Frm_Recepcion);
+  Application.CreateForm(TDMConexion, DMConexion);
+  Application.CreateForm(TDMRecepcion, DMRecepcion);
+  Application.Run;
+end.

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2013/05/02 15:20:40.000.628,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2013/05/15 18:13:13.000.842,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2013/10/17 14:24:51.000.311,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2013/11/28 08:38:19.000.203,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\WebModuleUnit1.pas</Transaction>
+    <Transaction>2013/11/28 08:38:19.000.094,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\FormUnit1.pas</Transaction>
+    <Transaction>2013/11/28 08:57:46.000.434,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2013/11/28 08:59:27.000.912,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/08/04 17:06:15.000.788,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/10/28 17:06:19.000.371,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/10/29 15:40:13.000.417,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/11/24 17:19:27.000.092,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/12/17 16:36:49.000.945,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/12/17 16:48:51.000.110,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/01/05 08:13:00.000.644,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/01/05 08:13:27.000.706,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/03/02 08:23:17.000.687,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\GroupedItems1.pas</Transaction>
+    <Transaction>2015/03/02 08:23:18.000.164,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\ItemDetail1.pas</Transaction>
+    <Transaction>2015/03/02 08:24:12.000.354,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\GridView1.pas</Transaction>
+    <Transaction>2015/03/02 08:24:12.000.569,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\DetailView1.pas</Transaction>
+    <Transaction>2015/08/25 10:35:22.000.494,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/09/29 11:41:28.000.708,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/10/23 09:13:34.000.799,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/10/23 09:40:24.000.908,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/10/23 09:42:05.000.512,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/10/23 09:53:17.000.051,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/10/28 10:40:49.000.082,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/11/18 11:31:49.000.424,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/11/18 11:35:24.000.426,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.dfm=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Presentacion\UReimpresionSticker.dfm</Transaction>
+    <Transaction>2015/11/18 11:35:24.000.426,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Presentacion\UReimpresionSticker.pas</Transaction>
+    <Transaction>2015/11/18 11:35:37.000.021,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Project1.dproj=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Proyecto\ReimpresionSticker.dproj</Transaction>
+    <Transaction>2015/11/18 11:37:32.000.472,=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Proyecto\Unit1.pas</Transaction>
+    <Transaction>2015/11/18 11:38:50.000.043,=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Proyecto\Unit1.pas</Transaction>
+    <Transaction>2015/11/18 11:42:46.000.054,D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Proyecto\Unit1.dfm=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Persistencia\UDAOImpresionSticker.dfm</Transaction>
+    <Transaction>2015/11/18 11:42:46.000.054,D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Proyecto\Unit1.pas=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Persistencia\UDAOImpresionSticker.pas</Transaction>
+    <Transaction>2015/11/18 11:45:18.000.737,=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Persistencia\UDMConexion.pas</Transaction>
+    <Transaction>2017/05/02 11:05:07.000.045,=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\PEDRO\FuncionesGenerales\Clases\Logica\UGlobales.pas</Transaction>
+    <Transaction>2017/05/02 11:05:25.000.589,=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\PEDRO\FuncionesGenerales\Clases\Persistencia\Aplicacion\UDMAplicacion.pas</Transaction>
+    <Transaction>2017/05/02 11:07:33.000.084,=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\PEDRO\FuncionesGenerales\Funciones\FPGenerales.pas</Transaction>
+    <Transaction>2017/05/02 11:11:32.000.500,=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\PEDRO\FuncionesGenerales\Clases\Persistencia\DAO\UDAOParametro.pas</Transaction>
+    <Transaction>2017/05/02 11:12:10.000.293,=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\PEDRO\FuncionesGenerales\Clases\Persistencia\ConexionFTP\UFtpGestor.pas</Transaction>
+    <Transaction>2017/05/02 11:13:39.000.447,=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\PEDRO\FuncionesGenerales\Clases\Presentacion\UActualizaModulo.pas</Transaction>
+    <Transaction>2017/05/02 11:48:47.000.358,D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\PEDRO\ReimpresionSticker\Persistencia\UDMConexion.pas=</Transaction>
+    <Transaction>2017/05/02 11:49:15.000.344,=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\PEDRO\FuncionesGenerales\Clases\Persistencia\ConexionBD\UDMConexion.pas</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,24 @@
+unit UHerramientas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ComCtrls, ExtCtrls, StdCtrls, Grids, DBGrids, Buttons,IniFiles, DB;
+
+  function CompararCaptura (IngresoUno, IngresoDos : string) : boolean;
+
+
+
+implementation
+
+
+function CompararCaptura (IngresoUno, IngresoDos : string) : boolean;
+begin
+  Result := False;
+  if IngresoUno = IngresoDos then
+    Result := True;
+end;
+
+
+end.

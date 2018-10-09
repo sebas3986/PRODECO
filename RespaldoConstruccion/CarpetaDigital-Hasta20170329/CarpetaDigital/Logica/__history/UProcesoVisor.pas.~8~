@@ -1,0 +1,195 @@
+unit UProcesoVisor;
+
+interface
+
+uses
+  IOUtils,  Sysutils, StrUtils,
+  UFolioCarpetaDigi,  UFTP;
+
+type
+
+  TProcesoVisor = class
+    private
+      FDatosFolio            : TFolioCarpetaDigi;
+
+    public
+      constructor Create;
+      destructor  Destroy;
+
+      {CONSTRUCTORES Y DESTRUCTORES}
+
+      {PROPIEDADES}
+      property DatosFolio    : TFolioCarpetaDigi  read FDatosFolio;
+      {METODOS PROPIOS}
+      Procedure BorrarCarpetaLocal(p_CarpLoca:string);
+      Procedure CrearCarpetaLocal(p_CarpLoca:string);
+      Function VerificarDescargarImagen(p_NombImag: string; p_RutaFtpp: string;
+                                        p_FormImag: string; p_TipoCone: string): string;
+      Function VerificarDescargarXml(p_NombImag: string; p_RutaFtpp: string;
+                                     p_TipoCone: string): string;
+  end;
+
+
+implementation
+
+
+{$REGION 'METODOS PROPIOS'}
+
+Procedure TProcesoVisor.BorrarCarpetaLocal(p_CarpLoca:string);
+begin
+  try
+    if TDirectory.Exists(p_CarpLoca) then
+      TDirectory.Delete(p_CarpLoca,TRUE);
+  except
+  end;
+end;
+
+Procedure TProcesoVisor.CrearCarpetaLocal(p_CarpLoca:string);
+begin
+  try
+    if TDirectory.Exists(p_CarpLoca) then
+      TDirectory.Delete(p_CarpLoca,TRUE);
+    TDirectory.CreateDirectory(p_CarpLoca);
+    FDatosFolio.RutaLocal := p_CarpLoca;
+  except
+    on e:exception do
+      raise Exception.Create('No es posible crear la Carpeta Local de Descarga.'
+                              + #10#13 + '* ' + e.Message);
+
+  end;
+end;
+
+
+Function TProcesoVisor.VerificarDescargarImagen(p_NombImag: string; p_RutaFtpp: string;
+                                                p_FormImag: string; p_TipoCone: string): string;
+var
+  ConexFTP      : TFTP;
+  ExteArch      : string;
+  ImagFtppDesd  : string;   {NOMBRE DEL ARCHIVO DE IMAGEN QUE SE VA A DESCARGAR DEPENDIENDO DEL FORMATO (PDF O TIF)}
+  RutaFtppDesd  : string;   {RUTA DESDE DONDE SE VA A DESCARGAR DEPENDIENDO DEL FORMATO (PDF O TIF)}
+
+begin
+  try
+    FDatosFolio.NombreImagenOrig:= p_NombImag;
+    ExteArch    := ExtractFileExt(p_NombImag);
+    if UpperCase(ExteArch)  <> '.TIF' then
+      Result:= 'La Extensión del Archivo Original es incorrecta' + #10#13
+                + '[ ' + ExteArch + ' ].'
+    else
+    begin
+      with FDatosFolio do
+      begin
+        RutaFtpOrig := p_RutaFtpp;
+        {SE CAMBIA LA CARPETA RAIZ DE LA RUTA AGREGANDOLE 'FE' (firma y estampa)}
+        RutaFtpFirm := AnsiLeftStr(RutaFtpOrig,Pos('\',RutaFtpOrig)-1) + 'FE'
+                                   + AnsiMidStr(RutaFtpOrig,Pos('\',RutaFtpOrig),1000);
+        {SE CAMBIA LA EXTENSION DEL ARCHIVO POR 'PDF' }
+        NombreImagenFirm := AnsiLeftStr(NombreImagenOrig,
+                                        Length(NombreImagenOrig) - Length(ExteArch))
+                            + '.pdf';
+        if p_FormImag = 'PDF' then
+        begin
+          RutaFtppDesd:= RutaFtpFirm;
+          ImagFtppDesd:= NombreImagenFirm;
+          ImagenLocal := RutaLocal + NombreImagenFirm;
+        end
+        else
+        begin
+          RutaFtppDesd:= RutaFtpOrig;
+          ImagFtppDesd:= NombreImagenOrig;
+          ImagenLocal := RutaLocal + NombreImagenOrig;
+        end;
+        if not FileExists(ImagenLocal) then
+        begin
+          ConexFTP:= TFTP.Create;
+          ConexFTP.ConfigurarFTP(p_TipoCone);
+          if p_FormImag = 'PDF' then
+             RutaFtppDesd:= ConexFTP.CarpetaRaizPdf + RutaFtppDesd
+          else
+             RutaFtppDesd:= ConexFTP.CarpetaRaizTif + RutaFtppDesd;
+          ConexFTP.BajarArchivo(RutaFtppDesd,ImagFtppDesd, RutaLocal );
+          ConexFTP.Free;
+        end;
+      end;
+    end;
+  except
+    on E:Exception do
+    begin
+      if FDatosFolio.ImagenLocal <> '' then
+        TFile.Delete(FDatosFolio.ImagenLocal);
+      Result:= 'No es posible Descargar la Imagen ' + #10#13 + '[ '
+              + ImagFtppDesd + ' ]' + #10#13 + 'en el equipo local.'
+              + #10#13 + '* ' + ifthen (e.Message = 'Falla al copiar',
+                                        'Es posible que la Imagen no se encuentre firmada.',
+                                        e.Message);
+    end;
+
+  end;
+end;
+Function TProcesoVisor.VerificarDescargarXml(p_NombImag: string; p_RutaFtpp: string;
+                                             p_TipoCone: string): string;
+var
+  ConexFTP      : TFTP;
+  ExteArch      : string;
+  RutaXmll      : string;
+
+begin
+  try
+    ExteArch    := ExtractFileExt(p_NombImag);
+    if UpperCase(ExteArch)  <> '.TIF' then
+      Result:= 'La Extensión del Archivo Original es incorrecta' + #10#13
+                + '[ ' + ExteArch + ' ].'
+    else
+    begin
+      with FDatosFolio do
+      begin
+        {SE CAMBIA LA EXTENSION DEL ARCHIVO POR 'XML' }
+        NombreXmlOrig := AnsiLeftStr(p_NombImag,Length(NombreImagenOrig) - Length(ExteArch))
+                         + '.xml';
+        XmlLocal      := RutaLocal + NombreXmlOrig;
+
+        if not FileExists(XmlLocal) then
+        begin
+          ConexFTP:= TFTP.Create;
+          ConexFTP.ConfigurarFTP(p_TipoCone);
+          RutaXmll := ConexFTP.CarpetaRaizTif + p_RutaFtpp;
+          ConexFTP.BajarArchivo(RutaXmll,NombreXmlOrig, RutaLocal );
+          ConexFTP.Free;
+        end;
+      end;
+    end;
+  except
+    on E:Exception do
+    begin
+      if FDatosFolio.ImagenLocal <> '' then
+        TFile.Delete(FDatosFolio.XmlLocal);
+      Result:= 'No es posible Descargar el Archivo ' + #10#13 + '[ '
+              + FDatosFolio.NombreXmlOrig + ' ]' + #10#13 + 'en el equipo local.'
+              + #10#13 + '* ' + ifthen (e.Message = 'Falla al copiar',
+                                        'Es posible que el archivo XML no se haya generado.',
+                                        e.Message);
+    end;
+
+  end;
+end;
+
+{$ENDREGION}
+
+
+{$REGION 'CONSTRUTOR AND DESTRUCTOR'}
+constructor TProcesoVisor.Create;
+begin
+  FDatosFolio := TFolioCarpetaDigi.Create;
+end;
+destructor TProcesoVisor.Destroy;
+begin
+  FDatosFolio.free;
+end;
+
+{$ENDREGION}
+
+{$REGION 'GETTERS AND SETTERS'}
+
+{$ENDREGION}
+
+end.

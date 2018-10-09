@@ -1,0 +1,110 @@
+<HISTORIA_LABORAL>
+  <contenido>
+    <nombreimagen>M16080904040002N-V00</nombreimagen>
+    <tipoidentificacion>CEDULA DE CIUDADANIA</tipoidentificacion>
+    <identificacion>40777634</identificacion>
+    <folio_es_tipoidentificacion>NO</folio_es_tipoidentificacion>
+    <tipo_documental>
+      <tipodocumental>HISTORIA LABORAL</tipodocumental>
+    </tipo_documental>
+    <titulo_documento>
+      <titulodocumento>HISTORIA LABORAL</titulodocumento>
+      <ContratoCivil>
+        <Contrato_Civil>NO</Contrato_Civil>
+      </ContratoCivil>
+      <Seccion>VACACIONES / AUSENTISMOS</Seccion>
+      <Seccion>CAPACITACIÓN Y DESARROLLO</Seccion>
+      <Seccion>CONTRATACIÓN</Seccion>
+      <Seccion>COMPENSACIÓN Y BENEFICIOS</Seccion>
+      <Seccion>SEGURIDAD SOCIAL / PRESTACIONES SOCIALES</Seccion>
+      <Seccion>RELACIONES LABORALES</Seccion>
+    </titulo_documento>
+    <autor_emisorresponsable>
+      <fondo>UNIVERSIDAD DE LOS ANDES</fondo>
+      <unidad_responsable>DIRECCION DE GESTION HUMANA Y DESARROLLO ORGANIZACIONAL</unidad_responsable>
+    </autor_emisorresponsable>
+    <clasificacion_acceso>
+      <nivel_acceso>INTERNO</nivel_acceso>
+    </clasificacion_acceso>
+    <fecha_creacion>
+      <fechacreacion>06/09/2016 11:55:02 a.m.</fechacreacion>
+    </fecha_creacion>
+    <folio_electronico>
+      <folios_totales>162</folios_totales>
+      <folio_actual>2</folio_actual>
+    </folio_electronico>
+    <tema_asunto>
+      <tema>TALENTO HUMANO</tema>
+    </tema_asunto>
+    <palabras_clave>
+      <Num_id>40777634</Num_id>
+      <Nombres_Apellidos>LUZ,MIRIAM,MARIN,ORREGO</Nombres_Apellidos>
+      <Secciones>
+        <Seccion_1>VACACIONES / AUSENTISMOS</Seccion_1>
+        <Seccion_2>CAPACITACIÓN Y DESARROLLO</Seccion_2>
+        <Seccion_3>CONTRATACIÓN</Seccion_3>
+        <Seccion_4>COMPENSACIÓN Y BENEFICIOS</Seccion_4>
+        <Seccion_5>SEGURIDAD SOCIAL / PRESTACIONES SOCIALES</Seccion_5>
+        <Seccion_6>RELACIONES LABORALES</Seccion_6>
+      </Secciones>
+    </palabras_clave>
+  </contenido>
+  <estructura>
+    <descripcion>
+      <descripcion_>EXPEDIENTE QUE CONTIENE TODOS LOS DOCUMENTOS DE CARACTER ADMINISTRATIVO RELACIONADOS CON EL VINCULO LABORAL QUE SE ESTABLECE ENTRE EL COLABORADOR Y LA UNIVERSIDAD</descripcion_>
+    </descripcion>
+    <formato>
+      <formato_>PDF/A-3B</formato_>
+    </formato>
+    <proceso_administrativo>
+      <macroproceso>TALENTO HUMANO</macroproceso>
+      <procesonivel1>ADMINISTRACION Y BIENESTAR DEL TALENTO HUMANO</procesonivel1>
+      <procesonivel2>ADMINISTRACION DE SUELDOS Y PRESTACIONES ADMINISTRACION DE PERSONAL</procesonivel2>
+    </proceso_administrativo>
+    <unidad_administrativa_resp>
+      <unidadadministrativaresp>DIRECCION DE GESTION HUMANA Y DESARROLLO ORGANIZACIONAL</unidadadministrativaresp>
+    </unidad_administrativa_resp>
+    <perfil_autorizado>NULL</perfil_autorizado>
+    <serie>
+      <serie_>GESTION DE TALENTO HUMANO</serie_>
+      <subserie>HISTORIA LABORAL</subserie>
+    </serie>
+  </estructura>
+  <contexto>
+    <juridico_administrativo>
+      <valores_primarios>LEGALES,ADMINISTRATIVOS,FINANCIEROS</valores_primarios>
+      <valores_secundarios>HISTORICO,CULTURAL</valores_secundarios>
+    </juridico_administrativo>
+    <documental>LOS DOCUMENTOS CONTENIDOS EN ESTE EXPEDIENTE (HISTORIA LABORAL) REFLEJAN LA TRAYECTORIA PROFESIONAL DE LA PERSONA CONTRATADA,SE ENCUENTRAN EN SOPORTE FISICO Y ELECTRONICO PARA SU CONSERVACION</documental>
+    <procedencia>DIRECCION DE GESTION HUMANA Y DESARROLLO ORGANIZACIONAL</procedencia>
+    <procedimental>ESTE DOCUMENTO ES ORIGINAL,CUENTA CON FIRMA DIGITAL Y UN ESTAMPADO CRONOLOGICO PARA MAYOR SEGURIDAD Y CONFIABILIDAD</procedimental>
+    <tecnologico>
+      <tecnologico_1>NULL</tecnologico_1>
+      <tipodefirma>PADESLTV</tipodefirma>
+    </tecnologico>
+    <autenticidad>
+      <dominio_red>THOMASGREG.COM</dominio_red>
+      <ip_usuario>172.17.39.32</ip_usuario>
+      <MAC_usuario>08-2E-5F-24-00-D6</MAC_usuario>
+    </autenticidad>
+    <digitalizacion>
+      <procesado_por>THOMAS MTI</procesado_por>
+      <fecha_digitalizacion>06/09/2016 11:55:02 a.m.</fecha_digitalizacion>
+      <fecha_indexacion>07/09/2016 09:10:39 a.m.</fecha_indexacion>
+      <resolucion>300 DPI</resolucion>
+      <tamano>2550*2300 PIXELS</tamano>
+      <software_captura>THOMAS MTI</software_captura>
+      <color>RGB</color>
+      <compresion>CCIT GRUPO 4</compresion>
+      <folio_inicial>1</folio_inicial>
+      <folio_final>162</folio_final>
+    </digitalizacion>
+  </contexto>
+  <indices>
+    <num_id>40777634</num_id>
+    <prim_nomb>LUZ</prim_nomb>
+    <seg_nomb>MIRIAM</seg_nomb>
+    <prim_apll>MARIN</prim_apll>
+    <seg_apll>ORREGO</seg_apll>
+  </indices>
+</HISTORIA_LABORAL>

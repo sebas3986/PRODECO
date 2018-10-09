@@ -1,0 +1,27 @@
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Release\Validacion.exe.config
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Release\Validacion.exe
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Release\Validacion.pdb
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Release\DevComponents.DotNetBar2.dll
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Release\Mono.Security.dll
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Release\Npgsql.dll
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Release\System.Drawing.dll
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Release\System.Windows.Forms.dll
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Release\DevComponents.DotNetBar2.xml
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\obj\Release\Validacion.Form1.resources
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\obj\Release\Validacion.Properties.Resources.resources
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\obj\Release\Validacion.csproj.GenerateResource.Cache
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\obj\Release\Validacion.exe
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\obj\Release\Validacion.pdb
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\bin\Release\Validacion.exe.config
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\obj\Release\Validacion.exe
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\obj\Release\Validacion.pdb
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\obj\Release\Validacion.Form1.resources
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\obj\Release\Validacion.Properties.Resources.resources
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\obj\Release\Validacion.csproj.GenerateResource.Cache
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\bin\Release\Validacion.exe
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\bin\Release\Validacion.pdb
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\bin\Release\Npgsql.dll
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\bin\Release\System.Drawing.dll
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\bin\Release\System.Windows.Forms.dll
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\bin\Release\Npgsql.xml
+C:\Users\omara.diaz\Documents\Visual Studio 2013\Projects\Validacion\Validacion\obj\Release\Validacion.csprojResolveAssemblyReference.cache

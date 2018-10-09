@@ -1,0 +1,14 @@
+program Recepcion;
+
+uses
+  Vcl.Forms,
+  URecepcion in '..\Presentacion\URecepcion.pas' {FRecepcion};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFRecepcion, FRecepcion);
+  Application.Run;
+end.

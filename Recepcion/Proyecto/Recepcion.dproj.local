@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2015/11/03 14:40:13.000.791,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.dfm=D:\TM_UNIANDES_BPO\BRANCHES\Recepcion\Presentacion\URecepcion.dfm</Transaction>
+    <Transaction>2015/11/03 14:40:13.000.791,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas=D:\TM_UNIANDES_BPO\BRANCHES\Recepcion\Presentacion\URecepcion.pas</Transaction>
+    <Transaction>2015/11/03 14:40:26.000.147,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Project1.dproj=D:\TM_UNIANDES_BPO\BRANCHES\Recepcion\Proyecto\Recepcion.dproj</Transaction>
+    <Transaction>2015/11/03 14:43:49.000.121,D:\TM_UNIANDES_BPO\BRANCHES\Recepcion\Proyecto\Unit1.dfm=D:\TM_UNIANDES_BPO\BRANCHES\Recepcion\Persistencia\UDMConexion.dfm</Transaction>
+    <Transaction>2015/11/03 14:43:49.000.121,D:\TM_UNIANDES_BPO\BRANCHES\Recepcion\Proyecto\Unit1.pas=D:\TM_UNIANDES_BPO\BRANCHES\Recepcion\Persistencia\UDMConexion.pas</Transaction>
+    <Transaction>2015/11/03 14:44:57.000.535,D:\TM_UNIANDES_BPO\BRANCHES\Recepcion\Proyecto\Unit1.dfm=D:\TM_UNIANDES_BPO\BRANCHES\Recepcion\Persistencia\UDMRecepcion.dfm</Transaction>
+    <Transaction>2015/11/03 14:44:57.000.535,D:\TM_UNIANDES_BPO\BRANCHES\Recepcion\Proyecto\Unit1.pas=D:\TM_UNIANDES_BPO\BRANCHES\Recepcion\Persistencia\UDMRecepcion.pas</Transaction>
+    <Transaction>2017/02/06 10:23:29.000.682,D:\TM_UNIANDES-BPO\Aplicacion\Recepcion\Persistencia\UBusquedaCarpeta.dfm=D:\TM_UNIANDES-BPO\Aplicacion\Recepcion\Proyecto\Unit1.dfm</Transaction>
+    <Transaction>2017/02/06 10:23:29.000.682,D:\TM_UNIANDES-BPO\Aplicacion\Recepcion\Persistencia\UBusquedaCarpeta.pas=D:\TM_UNIANDES-BPO\Aplicacion\Recepcion\Proyecto\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

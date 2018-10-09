@@ -1,0 +1,147 @@
+unit UFolio;
+
+interface
+
+uses
+  Sysutils,strutils,DB, DBClient, UDAOParametro;
+
+type
+
+  TFolio = class
+    private
+      FIdCarpetaAleta     : Int64;   {RUTA LOCAL DONDE SE DEJAN LOS ARCHIVOS DIGITALIZADOS}
+      FSecuenciaFolio     : Integer;   {RUTA LOCAL DONDE EL PUBLICADOR DEJA LAS IMAGENES QUE NO SE PROCESARON}
+      FTipoFolio          : string;   {RUTA DE PROCESAMIENTO PARA RENOMBRADO Y PUBLICACION}
+      FCodigoFolio        : string;   {RUTA DONDE SE DEJAN LAS IMAGENES PUBLICADAS}
+      FIdDatoPlanilla     : Int64;   {EXPRESION REGULAR PARA EL NOMBRE DEL ARCHIVO DE IMAGEN}
+      FChequeoPublicacion : boolean;   {EXPRESION REGULAR PARA EL NOMBRE DE LA CARPETA DE IMAGEN}
+      FChequeoCalidad     : boolean;   {EXPRESION REGULAR PARA EL NOMBRE DE LA ALETA DE IMAGEN}
+
+      {GETTERS AND SETTERS}
+      function  GetIdCarpetaAleta():Int64;
+      procedure SetIdCarpetaAleta(Valor:Int64);
+
+      function  GetSecuenciaFolio():integer;
+      procedure SetSecuenciaFolio(Valor:integer);
+
+      function  GetTipoFolio():string;
+      procedure SetTipoFolio(Valor:string);
+
+      function  GetCodigoFolio():string;
+      procedure SetCodigoFolio(valor:string);
+
+      function  GetIdDatoPlanilla():int64;
+      procedure SetIdDatoPlanilla(valor:int64);
+
+      function  GetChequeoPublicacion():Boolean;
+      procedure SetChequeoPublicacion(valor:Boolean);
+
+      function  GetChequeoCalidad():Boolean;
+      procedure SetChequeoCalidad(valor:Boolean);
+
+    public
+      {CONSTRUCTORES}
+      constructor Create;
+      destructor  Destroy;
+      {PROPIEDADES}
+      property IdCarpetaAleta     : Int64     read GetIdCarpetaAleta      write SetIdCarpetaAleta;
+      property SecuenciaFolio     : Integer   read GetSecuenciaFolio      write SetSecuenciaFolio;
+      property TipoFolio          : string    read GetTipoFolio           write SetTipoFolio;
+      property CodigoFolio        : string    read GetCodigoFolio         write SetCodigoFolio;
+      property IdDatoPlanilla     : Int64     read GetIdDatoPlanilla      write SetIdDatoPlanilla;
+      property ChequeoPublicacion : boolean   read GetChequeoPublicacion  write SetChequeoPublicacion;
+      property ChequeoCalidad     : boolean   read GetChequeoCalidad      write SetChequeoCalidad;
+
+  end;
+
+
+implementation
+
+{$REGION 'CONSTRUTOR AND DESTRUCTOR'}
+constructor TFolio.Create;
+begin
+  inherited;
+end;
+
+destructor TFolio.Destroy;
+begin
+  inherited;
+
+end;
+{$ENDREGION}
+
+{$REGION 'GETTERS AND SETTERS'}
+function  TFolio.GetIdCarpetaAleta():Int64;
+begin
+  Result := FIdCarpetaAleta;
+end;
+
+procedure TFolio.SetIdCarpetaAleta(valor:Int64);
+begin
+  FIdCarpetaAleta := valor;
+end;
+
+function  TFolio.GetSecuenciaFolio():Integer;
+begin
+  Result := FSecuenciaFolio;
+end;
+
+procedure TFolio.SetSecuenciaFolio(Valor:Integer);
+begin
+  FSecuenciaFolio := Valor;
+end;
+
+function  TFolio.GetTipoFolio():string;
+begin
+  Result := FTipoFolio;
+end;
+
+procedure TFolio.SetTipoFolio(Valor:string);
+begin
+  FTipoFolio := Valor;
+end;
+
+function  TFolio.GetCodigoFolio():string;
+begin
+  Result := FCodigoFolio;
+end;
+
+procedure TFolio.SetCodigoFolio(Valor:string);
+begin
+  FCodigoFolio := Valor;
+end;
+
+function  TFolio.GetIdDatoPlanilla():Int64;
+begin
+  Result := FIdDatoPlanilla;
+end;
+
+procedure TFolio.SetIdDatoPlanilla(Valor:Int64);
+begin
+  FIdDatoPlanilla := Valor;
+end;
+
+function  TFolio.GetChequeoPublicacion():boolean;
+begin
+  Result := FChequeoPublicacion;
+end;
+
+procedure TFolio.SetChequeoPublicacion(Valor:boolean);
+begin
+  FChequeoPublicacion := Valor;
+end;
+
+function  TFolio.GetChequeoCalidad():boolean;
+begin
+  Result := FChequeoCalidad;
+end;
+
+procedure TFolio.SetChequeoCalidad(Valor:boolean);
+begin
+  FChequeoCalidad := Valor;
+end;
+
+
+{$ENDREGION}
+
+end.

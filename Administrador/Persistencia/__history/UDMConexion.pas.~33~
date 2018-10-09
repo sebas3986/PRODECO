@@ -1,0 +1,165 @@
+unit UDMConexion;
+
+interface
+
+uses
+  Windows,Forms,SysUtils, System.Classes, ZAbstractConnection, ZConnection, ActnMan,
+  dm_Login, UGlobales;
+
+type
+  TDMConexion = class(TDataModule)
+    ZConexion: TZConnection;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+    CurrentUser  : TUserData;
+    Restrictions : TStringList;
+    FHost     : string;
+    FUsuario  : string;
+    FPassword : string;
+    FBaseDatos: string;
+    FEsquema  : string;
+    FPuerto   : string;
+
+    procedure Conectar;
+    function  GetLoginUser: String;
+    function  GetNameUser: String;
+  public
+    { Public declarations }
+  property Esquema   : string   read FEsquema    write FEsquema;
+  Property LoginUser : String   read GetLoginUser;
+  property NameUser  : string   read GetNameUser;
+  procedure BloquearOpcionesMenu(Actions: TActionManager; Modulo: String);
+  end;
+
+var
+  DMConexion: TDMConexion;
+
+implementation
+
+
+
+{$R *.dfm}
+
+procedure TDMConexion.DataModuleCreate(Sender: TObject);
+var
+  ErroTipo : Boolean;
+begin
+  try
+    ErroTipo:= True;
+    //Sebastian Camacho 19/09/2018
+    if AmbiEjecApli = 'DESA' then
+    begin
+      FHost     := '10.10.253.113';
+      FUsuario  := 'prodeco.apl';
+      FPassword := 'Prodeco2018';
+      FBaseDatos:= 'PRODECO_DES';
+      FEsquema  := 'prodeco_desa';
+      FPuerto   := 5432;
+      ErroTipo  := False;
+    end
+    else
+      if AmbiEjecApli = 'PROD' then
+      begin
+        FHost     := '172.17.4.22';
+        FUsuario  := 'produniandes';
+        FPassword := 'Pr0dUn12015d';
+        FBaseDatos:= 'UNIANDES';
+        FEsquema  := 'andes_prod';
+        FPuerto   := '5432';
+        ErroTipo  := False;
+      end
+      else
+        if AmbiEjecApli = 'OPER' then
+        begin
+          FHost     := '172.17.4.22';
+          FUsuario  := 'dsroperacion';
+          FPassword := 'Mt1bp02016';
+          FBaseDatos:= 'UNIANDES';
+          FEsquema  := 'andes_prod';
+          FPuerto   := '5432';
+          ErroTipo  := False;
+        end
+        else
+          if AmbiEjecApli = 'QA' then
+          begin
+            FHost     := '172.17.4.22';
+            FUsuario  := 'dsroperacion';
+            FPassword := 'Mt1bp02016';
+            FBaseDatos:= 'UNIANDES';
+            FEsquema  := 'andes_prod';
+            FPuerto   := 5432;
+            FAmbiente := 'QA';
+            ErroTipo  := False;
+          end;
+    if ErroTipo then
+          raise Exception.Create('Error en el parámetro de Tipo de Conexión de la Base de Datos.')
+    else
+    begin
+      conectar;
+      if not Assigned(CurrentUser) then
+        CurrentUser := TUserData.Create;
+      if not Assigned(Restrictions) then
+        Restrictions := TStringList.Create;
+
+      if not ExeLogin('FabricaPRODECO','Fabrica PRODECO', '1.0', CurrentUser, Restrictions) then
+        Exit;
+
+    end;
+    except
+      on e:Exception do
+      begin
+        Application.MessageBox(PChar('No se permite la ejecución de la Aplicacion.' + #10#13
+                                      + '* ' + e.Message),'Información',
+                                      MB_ICONINFORMATION + MB_OK);
+        ExitProcess(0);
+      end;
+    end;
+end;
+
+procedure TDMConexion.Conectar;
+begin
+  try
+    try
+      with ZConexion do
+      begin
+        User     := FUsuario;
+        Password := FPassword;
+        Database := FBaseDatos;
+        Port     := StrToInt(FPuerto);
+        HostName := FHost;
+        Connect;
+        Disconnect;
+      end;
+    except
+      on E : Exception do
+        raise Exception.Create('Error Al Conectar Base de Datos. Fuente Del Error:' + E.Message);
+    end;
+  finally
+    ZConexion.Disconnect;
+  end;
+end;
+
+
+
+procedure TDMConexion.BloquearOpcionesMenu(Actions: TActionManager; Modulo: String);
+begin
+  RestrictionsMenus(Actions,Modulo,Restrictions,nil);
+end;
+
+
+{$REGION 'GET AND SETTERS'}
+function TDMConexion.GetLoginUser: String;
+begin
+  Result := CurrentUser.LoginUser;
+end;
+
+function TDMConexion.GetNameUser: String;
+begin
+  Result := CurrentUser.NameUser;
+end;
+{$ENDREGION}
+
+
+
+end.

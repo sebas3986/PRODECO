@@ -1,0 +1,10 @@
+unit UGlobales;
+
+interface
+var
+  TipoUsuaConeProg : string;
+  CodigoCarpetaB   : string;
+  idTipoCarpetaB   : Integer;
+implementation
+
+end.

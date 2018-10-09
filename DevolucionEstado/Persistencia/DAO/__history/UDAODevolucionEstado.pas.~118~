@@ -1,0 +1,962 @@
+unit UDAODevolucionEstado;
+
+interface
+uses
+  SysUtils,  StrUtils,  DB,  zdataset,  ZDbcIntfs,
+  UDMConexion,  UCarpetaDevolucionEsta;
+
+type
+  TDAODevolucionEstado = class
+    private
+      FQuery : TZquery;
+    public
+      {CONSTRUCTORES Y DESTRUCTORES}
+      constructor create;
+      destructor  destroy;
+
+      { PROCEDIMIENTOS Y FUNCIONES }
+      procedure CancelarTransaccion;
+      {GVVR function ConsultarAletasPorCarpeta (p_IdenCarp: Int32; p_CodiCarp: string): TDataSource;}
+      function ConsultarCarpetas(p_CodiCaja: string): TDataSource;
+      function ConsultarDatosCarpeta(P_IdenCarp: Int32;
+                                      P_CodiCarp: string): TCarpetaDevolucionEsta;
+      function ConsultarFlujosYTareas: TDataSource;
+      {GVVR function ConsultarFoliosPorAleta (p_IdenAlet: Int64; p_CodiAlet: string): TDataSource;}
+      function ConsultarFoliosPorCarpeta (P_IdenCarp: Int32; P_CodiCarp: string): TDataSource;
+      function EliminarAletas(p_IdenAlet: int64; p_CodiAlet: string; p_IdenTraz:Int64;
+                              p_UsuaProc: string) : int32;
+      function EliminarCarpetas(p_IdenCarp: int32; p_CodiCarp: string; p_IdenTraz:Int64;
+                                p_UsuaProc: string): boolean;
+      function EliminarControlesFolio(p_IdenFoli: int64; p_CodiFoli: string;
+                                      p_OpciElim: string;  p_IdenTraz:Int64;
+                                      p_UsuaProc: string) : int32;
+      function EliminarDatosPlanilla(p_IdenPlan: int64; p_CodiFoli: string;
+                                     p_IdenTraz:Int64; p_UsuaProc: string) : int32;
+      function EliminarFirmas(p_IdenFoli: int64; p_CodiFoli: string; p_IdenTraz:Int64;
+                              p_UsuaProc: string) : int32;
+      function EliminarFolios(p_IdenFoli: int64; p_CodiFoli: string; p_IdenTraz:Int64;
+                              p_UsuaProc: string) : int32;
+      function EliminarIdentificaciones(p_IdenFoli: int64; p_CodiFoli: string;
+                                        p_IdenTraz:Int64; p_UsuaProc: string) : int32;
+      function EliminarImagenes(p_IdenFoli: int64; p_CodiFoli: string; p_IdenTraz:Int64;
+                                p_UsuaProc: string) : int32;
+      function EliminarNovedadesFolio(p_IdenFoli: int64; p_CodiFoli: string;
+                                      p_IdenTraz:Int64; p_UsuaProc: string) : int32;
+      function EliminarObservacionesFolio(p_IdenFoli: int64; p_CodiFoli: string;
+                                          p_OpciElim: string; p_IdenTraz: Int64;
+                                          p_UsuaProc: string) : int32;
+      procedure FinalizarTransaccion;
+      procedure IniciarTransaccion;
+      procedure InsertarDetalleTrazaCarpeta(p_IdenTraz: Int64; p_NombTabl: string;
+                                            p_IdenRegi: Int64; P_TipoAcci: Char;
+                                            p_UsuaProc: string);
+      function InsertarTrazaCarpeta(p_DatoCarp: TCarpetaDevolucionEsta;
+                                    p_MensErro: string):int64;
+      function ModificarCajas(p_IdenCaja: int32; p_CodiCaja: string;
+                              p_IdenTraz: Int64; p_UsuaProc: string): boolean;
+      function ModificarCarpetas(p_IdenCarp: int32; p_CodiCarp: string;
+                                 p_FlujNuev: Int32; p_CarpHabi:Boolean;
+                                 p_IdenTraz: Int64; p_UsuaProc: string): boolean;
+      function ModificarFolios(p_IdenFoli: int64; p_CodiFoli: string; p_OpciModi: string;
+                               p_IdenTraz: Int64; p_UsuaProc: string) : int32;
+      function ModificarTrazaCarpeta(p_IdenTraza: int64;p_DatoCarp: TCarpetaDevolucionEsta;
+                                     p_MensErro: string): boolean;
+  end;
+
+implementation
+
+{$REGION 'METODOS PROPIOS'}
+
+{GVVR function TDAODevolucionEstado.ConsultarAletasPorCarpeta (p_IdenCarp: Int32;
+                                                         p_CodiCarp: string): TDataSource;
+{ FUNCION QUE BUSCA LAS ALETAS POR CARPETA
+var
+  QuerConsAlet: TZQuery;
+begin
+  try
+    QuerConsAlet:= TZQuery.Create(nil);
+    QuerConsAlet.Connection:= DMConexion.ZConexion;
+    Result:= TDataSource.Create(nil);
+    with QuerConsAlet do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT idcarpetaaleta, codigocarpetaaleta');
+      SQL.Add(Format('FROM %s.CARPETAALETA', [DMConexion.esquema]));
+      SQL.Add(Format('WHERE idcarpeta = %d' , [p_IdenCarp]));
+      SQL.Add('       ORDER BY idcarpetaaleta ');
+      open;
+      first;
+      result.DataSet:= QuerConsAlet;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar las Aletas de la Carpeta ['
+                              + p_CodiCarp + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+}
+
+
+function TDAODevolucionEstado.ConsultarCarpetas(p_CodiCaja: string): TDataSource;
+{ FUNCION QUE BUSCA LAS CARPETAS QUE POSEE UNA CAJA TENIENDO EN CUENTA QUE LAS CARPETAS DE
+  INSERCION SE PERMITIRA LA DEVOLUCIÓN DE LA ULTIMA A LA PRIMERA Y LUEGO LA DE CREACION}
+var
+  QuerConsCarp: TZQuery;
+begin
+  try
+    QuerConsCarp:= TZQuery.Create(nil);
+    QuerConsCarp.Connection:= DMConexion.ZConexion;
+    Result:= TDataSource.Create(nil);
+    with QuerConsCarp do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT idcarpeta, codigocarpeta, idcaja ');
+      SQL.Add('   FROM (SELECT CARP.idcarpeta, ');
+      SQL.Add('                CAST(CASE WHEN CARP.clasecarpeta = ''C'' ');
+      SQL.Add('                           THEN CARP.codigocarpeta ');
+      SQL.Add('                           ELSE CARP.codigocarpeta || ''-'' || CARP.clasecarpeta || ');
+      SQL.Add('                                 ''-'' || CAST(CARP.SECUENCIACLASE AS VARCHAR) ');
+      SQL.Add('                     END AS VARCHAR(25)) AS codigocarpeta, ');
+      SQL.Add('                CARP.habilitado, CAJA.idcaja ');
+      SQL.Add(Format('    FROM %s.CAJA', [DMConexion.esquema]));
+      SQL.Add(Format('    LEFT JOIN %s.CARPETA AS CARP ON CARP.idcaja = CAJA.idcaja ',
+                          [DMConexion.esquema]));
+      SQL.Add(Format('    WHERE CAJA.codigocaja = ''%s''' , [p_CodiCaja]));
+      SQL.Add('        ) DACA ');
+      SQL.Add('  WHERE (DACA.habilitado ');
+      SQL.Add('            AND EXISTS (SELECT codigocarpeta ');
+      SQL.Add('                           FROM (SELECT MAX(CAST(CASE WHEN CARP.clasecarpeta = ''C'' ');
+      SQL.Add('                                                       THEN CARP.codigocarpeta ');
+      SQL.Add('                                                       ELSE CARP.codigocarpeta || ''-'' ');
+      SQL.Add('                                                             || CARP.clasecarpeta || ''-'' ');
+      SQL.Add('                                                             || CAST(CARP.SECUENCIACLASE AS VARCHAR)');
+      SQL.Add('                                                 END AS VARCHAR(25))) AS codigocarpeta ');
+      SQL.Add(Format('                            FROM %s.CAJA', [DMConexion.esquema]));
+      SQL.Add(Format('                            LEFT JOIN %s.CARPETA AS CARP ON CARP.idcaja = CAJA.idcaja ',
+                                                  [DMConexion.esquema]));
+      SQL.Add(Format('                            WHERE CAJA.codigocaja = ''%s''' , [p_CodiCaja]));
+      SQL.Add('                                         AND CAJA.habilitado ');
+      SQL.Add('                                   GROUP BY CARP.idcarpetacrea ');
+      SQL.Add('                                ) AS MAXI ');
+      SQL.Add('                            WHERE MAXI.codigocarpeta = DACA.codigocarpeta ');
+      SQL.Add('                        )');
+      SQL.Add('        ) OR DACA.codigocarpeta IS NULL ');
+      SQL.Add('  ORDER BY DACA.codigocarpeta ');
+      open;
+      first;
+      result.DataSet:=QuerConsCarp;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar las Carpetas.'
+                              + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+
+function TDAODevolucionEstado.ConsultarDatosCarpeta(P_IdenCarp: Int32;
+                                                    P_CodiCarp: string): TCarpetaDevolucionEsta;
+{ FUNCION QUE BUSCA LA INFORMACION DE UN CARPETA }
+
+var
+  QuerDatoCarp: TZQuery;
+begin
+  try
+    QuerDatoCarp := TZQuery.Create(nil);
+    QuerDatoCarp.Connection := DMConexion.ZConexion;
+    Result:= TCarpetaDevolucionEsta.Create;
+    with QuerDatoCarp do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT CARP.idcarpeta, CARP.codigocarpeta, CARP.clasecarpeta, ' );
+      SQL.Add('         CARP.secuenciaclase, CARP.cerrada, CARP.idflujo, ');
+      SQL.Add('         TARE.idtarea idtarearealizada,TARE.descripciontarea descripciontarearealizada,');
+      SQL.Add('         TAPR.idtarea idtareaproxima, TAPR.descripciontarea descripciontareaproxima,');
+      SQL.Add('         CAJA.idcaja, CAJA.codigocaja, SEDO.idseriedocumental,');
+      SQL.Add('         SEDO.descripcionseriedocumental, ');
+      SQL.Add('         (SELECT COUNT(*) ');
+      SQL.Add(Format('    FROM %s.CARPETAALETA ICAAL',[DMConexion.esquema]));
+      SQL.Add('           WHERE ICAAL.IDCARPETA = CARP.IDCARPETA) AS cantidadaletas, ');
+      SQL.Add('         (SELECT COUNT(*)');
+      SQL.Add(Format('    FROM %s.CARPETAALETA ICAAL ',[DMConexion.esquema]));
+      SQL.Add(Format('    INNER JOIN %s.FOLIO IFOLI ON IFOLI.idcarpetaaleta = ICAAL.idcarpetaaleta',
+                            [DMConexion.esquema]));
+      SQL.Add('           WHERE ICAAL.IDCARPETA = CARP.IDCARPETA) AS cantidadfolios, ');
+      SQL.Add('         (SELECT COUNT(*) ');
+      SQL.Add(Format('    FROM %s.CARPETAALETA ICAAL',[DMConexion.esquema]));
+      SQL.Add(Format('    INNER JOIN %s.FOLIO IFOLI ON IFOLI.idcarpetaaleta = ICAAL.idcarpetaaleta ',
+                            [DMConexion.esquema]));
+      SQL.Add(Format('    INNER JOIN %s.FOLIOIDENTIFICACION IFOID ON IFOID.idfolio = IFOLI.idfolio',
+                            [DMConexion.esquema]));
+      SQL.Add('           WHERE ICAAL.IDCARPETA = CARP.IDCARPETA) AS registrospersonas, ');
+      SQL.Add('        (SELECT COUNT(*)   ');
+      SQL.Add(Format('    FROM %s.CARPETAALETA ICAAL ',[DMConexion.esquema]));
+      SQL.Add(Format('    INNER JOIN %s.FOLIO IFOLI ON IFOLI.idcarpetaaleta = ICAAL.idcarpetaaleta',
+                            [DMConexion.esquema]));
+      SQL.Add('           WHERE ICAAL.IDCARPETA = CARP.IDCARPETA ');
+      SQL.Add('                  AND FIRMADO ) AS foliosfirmados,');
+      SQL.Add('        (SELECT rutaftp ');
+      SQL.Add(Format('    FROM %s.CARPETAALETA ICAAL',[DMConexion.esquema]));
+      SQL.Add(Format('    INNER JOIN %s.FOLIO IFOLI ON IFOLI.idcarpetaaleta = ICAAL.idcarpetaaleta',
+                            [DMConexion.esquema]));
+      SQL.Add(Format('    INNER JOIN %s.IMAGEN IIMAG ON IIMAG.idfolio = IFOLI.idfolio',
+                            [DMConexion.esquema]));
+      SQL.Add('           WHERE ICAAL.IDCARPETA = CARP.IDCARPETA AND IIMAG.rutaftp IS NOT NULL');
+      SQL.Add('           LIMIT 1) AS rutaftp');
+      SQL.Add(Format('FROM %s.CAJA ',[DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.CARPETA CARP ON CARP.idcaja = CAJA.idcaja ',
+                        [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.SERIEDOCUMENTAL SEDO '
+                        + 'ON SEDO.idseriedocumental = CARP.idseriedocumental ',
+                        [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.FLUJO FLUJ ON FLUJ.idflujo = CARP.idflujo ',
+                        [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.TAREA TARE ON TARE.idtarea = FLUJ.idtarearealizada',
+                        [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.TAREA TAPR ON TAPR.idtarea = FLUJ.idtareaproxima',
+                        [DMConexion.esquema]));
+      SQL.Add(Format('WHERE CARP.idcarpeta = %d ',[P_IdenCarp]));
+      Open;
+      if NOT IsEmpty then
+      begin
+        First;
+        Result.IdCarpeta        := FieldByName('idcarpeta').Value;
+        Result.CodigoCarpeta    := FieldByName('codigocarpeta').Value;
+        Result.ClaseCarpeta     := FieldByName('clasecarpeta').AsString[1];
+        Result.SecuenciaClase   := FieldByName('secuenciaclase').Value;
+        Result.Cerrada          := FieldByName('cerrada').Value;
+        Result.IdFlujo          := FieldByName('idflujo').Value;
+        Result.IdTarea          := FieldByName('idtareaproxima').Value;
+        Result.DescTareCarpeta  := FieldByName('descripciontareaproxima').Value;
+        if (FieldByName('descripciontareaproxima').AsString = 'PUBLICACIÓN') then
+        begin
+          if(FieldByName('cantidadaletas').Value = 0) or (not FieldByName('cerrada').Value) then
+          begin
+            Result.IdFlujo          := 0;
+            Result.IdTarea          := FieldByName('idtarearealizada').Value;
+            Result.DescTareCarpeta  := FieldByName('descripciontarearealizada').Value;
+          end;
+        end;
+        Result.IdCaja             := FieldByName('idcaja').Value;
+        Result.CodigoCaja         := FieldByName('codigocaja').AsString;
+        Result.IdSerieDocumental  := FieldByName('idseriedocumental').Value;
+        Result.DescSeriDocumental := FieldByName('descripcionseriedocumental').AsString;
+        Result.CantidadAletas     := FieldByName('cantidadaletas').Value;
+        Result.CantidadFolios     := FieldByName('cantidadfolios').Value;
+        Result.CantRegiPersonas   := FieldByName('registrospersonas').Value;
+        Result.CantFoliFirmados   := FieldByName('foliosfirmados').Value;
+        Result.RutaImagenes       := FieldByName('rutaftp').AsString;
+        if RightStr(Result.RutaImagenes,1) <> '\' then
+          Result.RutaImagenes := Result.RutaImagenes + '\';
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create(format('No es posible consultar la Información de la '
+                                    + ' Carpeta [%s].',[p_CodiCarp]) + #10#13
+                                    + '* '+ e.Message);
+
+  end;
+end;
+
+function TDAODevolucionEstado.ConsultarFlujosYTareas: TDataSource;
+{ FUNCION QUE BUSCA TODOS LOS FLUJOS CON SU TAREA}
+
+var
+  QuerFlujTare: TZQuery;
+begin
+  try
+    QuerFlujTare:= TZQuery.Create(nil);
+    QuerFlujTare.Connection:= DMConexion.ZConexion;
+    Result:= TDataSource.Create(nil);
+    with QuerFlujTare do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT *');
+      SQL.Add('   FROM  ((SELECT 0 idflujo, descripciontarea');
+      SQL.Add(Format('      FROM %s.FLUJO AS FLUJ ', [DMConexion.esquema]));
+      SQL.Add(Format('      INNER JOIN %s.TAREA AS TARE ON '
+                              + 'TARE.idtarea = FLUJ.idtarearealizada',[DMConexion.esquema]));
+      SQL.Add('             ORDER BY idflujo');
+      SQL.Add('             LIMIT 1)');
+      SQL.Add('          UNION');
+      SQL.Add('          SELECT idflujo, descripciontarea ');
+      SQL.Add(Format('      FROM %s.FLUJO AS FLUJ ', [DMConexion.esquema]));
+      SQL.Add(Format('      INNER JOIN %s.TAREA AS TARE ON '
+                              + 'TARE.idtarea = FLUJ.idtareaproxima',[DMConexion.esquema]));
+      SQL.Add('         ) AS LIFL');
+      SQL.Add('   ORDER BY idflujo ');
+      open;
+      first;
+      result.DataSet:=QuerFlujTare;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar los Flujos y Tareas.'
+                              + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+
+{GVVR function TDAODevolucionEstado.ConsultarFoliosPorAleta (p_IdenAlet: Int64;
+                                                        p_CodiAlet: string): TDataSource;
+{ FUNCION QUE BUSCA LOS FOLIOS POR ALETA
+var
+  QuerConsFoli: TZQuery;
+begin
+  try
+    QuerConsFoli:= TZQuery.Create(nil);
+    QuerConsFoli.Connection:= DMConexion.ZConexion;
+    Result:= TDataSource.Create(nil);
+    with QuerConsFoli do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT FOLI.idfolio,FOLI.codigofolio,FOLI.iddatoplanilla,FOLI.capturable');
+      SQL.Add(Format('FROM %s.CARPETAALETA CAAL', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.FOLIO FOLI ON FOLI.idcarpetaaleta  = CAAL.idcarpetaaleta',
+                              [DMConexion.esquema]));
+      SQL.Add(Format('WHERE CAAL.idcarpetaaleta = %d' , [p_IdenAlet]));
+      SQL.Add('       ORDER BY FOLI.codigofolio ');
+      open;
+      first;
+      result.DataSet:= QuerConsFoli;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar los Folios de la Aleta ['
+                              + p_CodiAlet + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+}
+
+function TDAODevolucionEstado.ConsultarFoliosPorCarpeta (P_IdenCarp: Int32;
+                                                         P_CodiCarp: string): TDataSource;
+{ FUNCION QUE BUSCA LOS FOLIOS POR CARPETA }
+var
+  QuerConsFoli: TZQuery;
+begin
+  try
+    QuerConsFoli:= TZQuery.Create(nil);
+    QuerConsFoli.Connection:= DMConexion.ZConexion;
+    Result:= TDataSource.Create(nil);
+    with QuerConsFoli do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT CAAL.idcarpetaaleta, CAAL.codigocarpetaaleta, FOLI.idfolio, ');
+      SQL.Add('       FOLI.codigofolio, FOLI.tipofolio, FOLI.iddatoplanilla, IMAG.rutaftp ');
+      SQL.Add(Format('FROM %s.CARPETAALETA CAAL', [DMConexion.esquema]));
+      SQL.Add(Format('LEFT JOIN %s.FOLIO FOLI ON FOLI.idcarpetaaleta  = CAAL.idcarpetaaleta',
+                              [DMConexion.esquema]));
+      SQL.Add(Format('LEFT JOIN %s.IMAGEN IMAG ON IMAG.idfolio  = FOLI.idfolio',
+                              [DMConexion.esquema]));
+      SQL.Add(Format('WHERE CAAL.idcarpeta = %d' , [P_IdenCarp]));
+      SQL.Add('       ORDER BY CAAL.idcarpetaaleta, FOLI.idfolio ');
+      open;
+      first;
+      result.DataSet:= QuerConsFoli;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar los Folios de la Carpeta ['
+                              + P_CodiCarp + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.EliminarAletas(p_IdenAlet: int64; p_CodiAlet: string;
+                                             p_IdenTraz:Int64; p_UsuaProc: string): int32;
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('DELETE FROM %s.CARPETAALETA',[DMConexion.esquema]));
+      SQL.Add(Format('    WHERE idcarpetaaleta = %d RETURNING idcarpetaaleta ',[p_IdenAlet]));
+      open;
+      first;
+      result := RecordCount;
+      while not eof do
+      begin
+        InsertarDetalleTrazaCarpeta(p_IdenTraz,'CARPETAALETA',
+                                    FieldByName('idcarpetaaleta').Value,'D', p_UsuaProc);
+        Next;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al eliminar la Aleta ['
+                              + p_CodiAlet + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.EliminarCarpetas(p_IdenCarp: int32; p_CodiCarp: string;
+                                               p_IdenTraz:Int64;  p_UsuaProc: string): boolean;
+begin
+  try
+    with FQuery do
+    begin
+      Result := false;
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('DELETE FROM %s.CARPETA',[DMConexion.esquema]));
+      SQL.Add(Format('    WHERE idcarpeta = %d RETURNING idcarpeta ',[p_IdenCarp]));
+      open;
+      first;
+      if not eof then
+      begin
+        result := true;
+        while not eof do
+        begin
+          InsertarDetalleTrazaCarpeta(p_IdenTraz,'CARPETA',
+                                      FieldByName('idcarpeta').Value,'D', p_UsuaProc);
+          Next;
+        end;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al eliminar la Carpeta ['
+                              + p_CodiCarp + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.EliminarControlesFolio(p_IdenFoli: int64; p_CodiFoli: string;
+                                                     p_OpciElim: string; p_IdenTraz:Int64;
+                                                     p_UsuaProc: string ) : int32;
+begin
+  try
+    if (p_OpciElim = 'CAPTURA') or (p_OpciElim = 'CALIDAD')  then
+    begin
+      with FQuery do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add(Format('DELETE FROM %s.CONTROLFOLIO',[DMConexion.esquema]));
+        SQL.Add(Format('    WHERE idfolio = %d ',[p_IdenFoli]));
+        SQL.Add('                 AND idtarea = (SELECT idtarea ');
+        SQL.Add(Format('                            FROM %s.TAREA',[DMConexion.esquema]));
+        SQL.Add(Format('                            WHERE descripciontarea = ''%s'') ',
+                                                          [p_OpciElim]));
+        SQL.Add('           RETURNING idcontrolfolio ');
+        open;
+        first;
+        result := RecordCount;
+        while not eof do
+        begin
+          InsertarDetalleTrazaCarpeta(p_IdenTraz,'CONTROLFOLIO',
+                                      FieldByName('idcontrolfolio').Value,'D', p_UsuaProc);
+          Next;
+        end;
+      end;
+    end
+    else
+      raise Exception.Create('Error al invocar la Funcion EliminarControlesFolio.');
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al eliminar Controles del Folio ['
+                              + p_CodiFoli + '] con la opción [' + p_OpciElim + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.EliminarDatosPlanilla(p_IdenPlan: int64; p_CodiFoli: string;
+                                                    p_IdenTraz: Int64; p_UsuaProc: string) : int32;
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('DELETE FROM %s.DATOPLANILLA',[DMConexion.esquema]));
+      SQL.Add(Format('    WHERE iddatoplanilla = %d ',[p_IdenPlan]));
+      SQL.Add('           RETURNING iddatoplanilla ');
+      open;
+      first;
+      result := RecordCount;
+      while not eof do
+      begin
+        InsertarDetalleTrazaCarpeta(p_IdenTraz,'DATOPLANILLA',
+                                    FieldByName('iddatoplanilla').Value,'D', p_UsuaProc);
+        Next;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al eliminar Datos de Planilla del Folio ['
+                              + p_CodiFoli + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.EliminarFirmas(p_IdenFoli: int64; p_CodiFoli: string;
+                                             p_IdenTraz:Int64; p_UsuaProc: string) : int32;
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('DELETE FROM %s.DATOFIRMAESTAMPA',[DMConexion.esquema]));
+      SQL.Add(Format('    WHERE idfolio = %d RETURNING iddatofirmaestampa ',[p_IdenFoli]));
+      open;
+      first;
+      result := RecordCount;
+      while not eof do
+      begin
+        InsertarDetalleTrazaCarpeta(p_IdenTraz,'DATOFIRMAESTAMPA',
+                                    FieldByName('iddatofirmaestampa').Value,'D', p_UsuaProc);
+        Next;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al eliminar Firma y Estampa del Folio ['
+                              + p_CodiFoli + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.EliminarFolios(p_IdenFoli: int64; p_CodiFoli: string;
+                                             p_IdenTraz: Int64; p_UsuaProc: string) : int32;
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('DELETE FROM %s.FOLIO',[DMConexion.esquema]));
+      SQL.Add(Format('    WHERE idfolio = %d RETURNING idfolio ',[p_IdenFoli]));
+      open;
+      first;
+      result := RecordCount;
+      while not eof do
+      begin
+        InsertarDetalleTrazaCarpeta(p_IdenTraz,'FOLIO',
+                                    FieldByName('idfolio').Value,'D', p_UsuaProc);
+        Next;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al eliminar el Folio ['
+                              + p_CodiFoli + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.EliminarIdentificaciones(p_IdenFoli: int64; p_CodiFoli: string;
+                                                       p_IdenTraz:Int64; p_UsuaProc: string) : int32;
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('DELETE FROM %s.FOLIOIDENTIFICACION',[DMConexion.esquema]));
+      SQL.Add(Format('    WHERE idfolio = %d RETURNING idfolioidentificacion ',[p_IdenFoli]));
+      open;
+      first;
+      result := RecordCount;
+      while not eof do
+      begin
+        InsertarDetalleTrazaCarpeta(p_IdenTraz,'FOLIOIDENTIFICACION',
+                                    FieldByName('idfolioidentificacion').Value,'D', p_UsuaProc);
+        Next;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al eliminar Identificaciones Capturadas del Folio ['
+                              + p_CodiFoli + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.EliminarImagenes(p_IdenFoli: int64; p_CodiFoli: string;
+                                               p_IdenTraz: Int64; p_UsuaProc: string) : int32;
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('DELETE FROM %s.IMAGEN',[DMConexion.esquema]));
+      SQL.Add(Format('    WHERE idfolio = %d RETURNING idimagen ',[p_IdenFoli]));
+      open;
+      first;
+      result := RecordCount;
+      while not eof do
+      begin
+        InsertarDetalleTrazaCarpeta(p_IdenTraz,'IMAGEN',
+                                    FieldByName('idimagen').Value,'D', p_UsuaProc);
+        Next;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al eliminar Imágenes del Folio ['
+                              + p_CodiFoli + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.EliminarNovedadesFolio(p_IdenFoli: int64; p_CodiFoli: string;
+                                                     p_IdenTraz:Int64; p_UsuaProc: string) : int32;
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('DELETE FROM %s.FOLIONOVEDAD',[DMConexion.esquema]));
+      SQL.Add(Format('    WHERE idfolio = %d RETURNING idfolionovedad ',[p_IdenFoli]));
+      open;
+      first;
+      result := RecordCount;
+      while not eof do
+      begin
+        InsertarDetalleTrazaCarpeta(p_IdenTraz,'FOLIONOVEDAD',
+                                    FieldByName('idfolionovedad').Value,'D', p_UsuaProc);
+        Next;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al eliminar Novedad del Folio ['
+                              + p_CodiFoli + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.EliminarObservacionesFolio(p_IdenFoli: int64; p_CodiFoli: string;
+                                                         p_OpciElim: string;p_IdenTraz: Int64;
+                                                         p_UsuaProc: string) : int32;
+begin
+  try
+    if (p_OpciElim ='CAPTURA') or (p_OpciElim = 'CALIDAD') then
+    begin
+      with FQuery do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add(Format('DELETE FROM %s.OBSERVACIONFOLIO',[DMConexion.esquema]));
+        SQL.Add(Format('    WHERE idfolio = %d ',[p_IdenFoli]));
+        if p_OpciElim = 'CAPTURA' then
+          SQL.Add('             AND idtarea = 4 ')
+        else
+          SQL.Add('             AND idtarea = 3 ');
+        SQL.Add('           RETURNING idobservacionfolio ');
+        open;
+        first;
+        result := RecordCount;
+        while not eof do
+        begin
+          InsertarDetalleTrazaCarpeta(p_IdenTraz,'OBSERVACIONFOLIO',
+                                      FieldByName('idobservacionfolio').Value,'D', p_UsuaProc);
+          Next;
+        end;
+      end;
+    end
+    else
+        raise Exception.Create('Error al invocar la Funcion EliminarObservacionesFolio.');
+
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al eliminar Observaciones del Folio ['
+                              + p_CodiFoli + '] con la opción [' + p_OpciElim + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+
+function TDAODevolucionEstado.InsertarTrazaCarpeta(p_DatoCarp: TCarpetaDevolucionEsta;
+                                                   p_MensErro: string): int64;
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('INSERT INTO %s.TRAZACARPETA',[DMConexion.esquema]));
+      SQL.Add('         (idcarpeta, idflujoanterior, idflujonuevo, ipproceso, ');
+      SQL.Add('          rutaftpbackuptif, cantidadimagenestif, cantidadimagenespdf,');
+      SQL.Add('          mensajeerror, usuarioaplicativo,usuario)');
+      SQL.Add(Format('  VALUES(%d, %d, %d, ''%s'',''%s'', %d, %d, ''%s'', ''%s'', ''%s'')',
+                        [p_DatoCarp.IdCarpeta, p_DatoCarp.IdFlujo, p_DatoCarp.IdFlujoNuevo,
+                         p_DatoCarp.IpProceso, p_DatoCarp.RutaBackImagTiff,
+                         p_DatoCarp.CantImagTiff, p_DatoCarp.CantImagPdff,
+                         p_MensErro,p_DatoCarp.UsuarioProceso,
+                         p_DatoCarp.UsuarioProceso]));
+      SQL.Add('         RETURNING idtrazacarpeta');
+      open;
+      first;
+      if not eof then
+        Result:=  FieldByName('idtrazacarpeta').Value;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al agregar la Trazabilidad de la Carpeta ['
+                              + p_DatoCarp.CodiResuCarpeta + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+procedure TDAODevolucionEstado.InsertarDetalleTrazaCarpeta(p_IdenTraz: Int64; p_NombTabl: string;
+                                                          p_IdenRegi: Int64; P_TipoAcci: Char;
+                                                          p_UsuaProc: string);
+begin
+  try
+    if P_TipoAcci in ['I','U','D'] then
+    begin
+      with FQuery do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add(Format('INSERT INTO %s.DETALLETRAZACARPETA',[DMConexion.esquema]));
+        SQL.Add('         (idtrazacarpeta, nombretabla, idtabla, accion, usuario)');
+        SQL.Add(Format('  VALUES(%d, ''%s'', %d, ''%s'', ''%s'')',
+                          [p_IdenTraz, AnsiUpperCase(p_NombTabl),p_IdenRegi,
+                            p_TipoAcci, p_UsuaProc]));
+        open;
+      end;
+    end
+    else
+      raise Exception.Create('Error al invocar la Funcion InsertarDetalleTrazaCarpeta.');
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al agregar el detalle de la Trazabilidad '
+                              + 'de la Tabla [' + p_NombTabl + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+
+function TDAODevolucionEstado.ModificarCajas(p_IdenCaja: int32; p_CodiCaja: string;
+                                             p_IdenTraz: Int64; p_UsuaProc: string): boolean;
+begin
+  try
+    with FQuery do
+    begin
+      Result := false;
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('UPDATE %s.CAJA',[DMConexion.esquema]));
+      SQL.Add('         SET cerrada = FALSE');
+      SQL.Add(Format('  WHERE idcaja = %d RETURNING idcaja ',[p_IdenCaja]));
+      open;
+      first;
+      if not eof then
+      begin
+        result := true;
+        while not eof do
+        begin
+          InsertarDetalleTrazaCarpeta(p_IdenTraz,'CAJA',FieldByName('idcaja').Value,
+                                                                     'U', p_UsuaProc);
+          Next;
+        end;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al abrir la Caja ['
+                              + p_CodiCaja + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.ModificarCarpetas(p_IdenCarp: int32; p_CodiCarp: string;
+                                                p_FlujNuev: Int32; p_CarpHabi:Boolean;
+                                                p_IdenTraz: Int64; p_UsuaProc: string): boolean;
+begin
+  try
+    with FQuery do
+    begin
+      Result := false;
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('UPDATE %s.CARPETA',[DMConexion.esquema]));
+      if p_FlujNuev = 0 then
+      begin
+        p_FlujNuev := 1;
+        SQL.Add(Format('  SET idflujo = %d, cerrada = FALSE,',[p_FlujNuev]))
+      end
+      else
+        SQL.Add(Format('  SET idflujo = %d, ',[p_FlujNuev]));
+      if p_CarpHabi then
+        SQL.Add('               habilitado = TRUE')
+      else
+        SQL.Add('               habilitado = FALSE');
+
+      SQL.Add(Format('  WHERE idcarpeta = %d RETURNING idcarpeta ',[p_IdenCarp]));
+      open;
+      first;
+      if not eof then
+      begin
+        result := true;
+        while not eof do
+        begin
+          InsertarDetalleTrazaCarpeta(p_IdenTraz,'CARPETA',FieldByName('idcarpeta').Value,
+                                                                          'U', p_UsuaProc);
+          Next;
+        end;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al Modificar el Estado de la Carpeta ['
+                              + p_CodiCarp + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.ModificarFolios(p_IdenFoli: int64;p_CodiFoli: string;
+                                              p_OpciModi: string; p_IdenTraz:Int64;
+                                              p_UsuaProc: string) : int32;
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('UPDATE %s.FOLIO',[DMConexion.esquema]));
+      if (p_OpciModi = 'FIRMA') or (p_OpciModi = 'PLANILLA') or (p_OpciModi = 'CALIDAD') then
+      begin
+        if p_OpciModi = 'FIRMA' then
+        begin
+          SQL.Add('         SET solicitadofirma = FALSE, archivosolicitudfirma = NULL, ');
+          SQL.Add('             firmado = FALSE, archivofirma = NULL, secuenciaxml = NULL');
+        end
+        else
+          if p_OpciModi = 'PLANILLA' then
+            SQL.Add('       SET iddatoplanilla = NULL')
+          else
+            SQL.Add('       SET chequeocalidad = FALSE, capturable = FALSE');
+      end
+      else
+        raise Exception.Create('Error al invocar la Funcion ModificarFolios');
+
+      SQL.Add(Format('  WHERE idfolio = %d RETURNING idfolio  ',[p_IdenFoli]));
+      open;
+      first;
+      result := RecordCount;
+      while not eof do
+      begin
+        InsertarDetalleTrazaCarpeta(p_IdenTraz,'FOLIO',FieldByName('idfolio').Value,'U', p_UsuaProc);
+        Next;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al actualizar el Folio ['
+                              + p_CodiFoli + '] con la opción [' + p_OpciModi + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAODevolucionEstado.ModificarTrazaCarpeta(p_IdenTraza: int64;
+                                                    p_DatoCarp: TCarpetaDevolucionEsta;
+                                                    p_MensErro: string): boolean;
+begin
+  try
+    with FQuery do
+    begin
+      Result := false;
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('UPDATE %s.TRAZACARPETA',[DMConexion.esquema]));
+      SQL.Add(Format('       SET idcarpeta = %d, ',            [p_DatoCarp.IdCarpeta]));
+      SQL.Add(Format('           rutaftpbackuptif = ''%s'', ', [p_DatoCarp.RutaBackImagTiff]));
+      SQL.Add(Format('           cantidadimagenestif = %d, ',  [p_DatoCarp.CantImagTiff]));
+      SQL.Add(Format('           cantidadimagenespdf = %d, ',  [p_DatoCarp.CantImagPdff]));
+      SQL.Add(Format('           mensajeerror = %s ', [ifthen(p_MensErro = '', 'NULL',
+                                                              QuotedStr(p_MensErro))]));
+      SQL.Add(Format('  WHERE idtrazacarpeta = %d RETURNING idtrazacarpeta ',[p_IdenTraza]));
+      open;
+      first;
+      if not eof then
+        result := true;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('Se presenta Falla al actualizar la Trazabilidad de la Carpeta ['
+                              + p_DatoCarp.CodigoCarpeta + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+
+{$REGION 'CONTROL DE TRANSACCIONES'}
+
+procedure TDAODevolucionEstado.CancelarTransaccion;
+begin
+  try
+    with FQuery do
+    begin
+      if Connection.InTransaction then
+        Connection.Rollback;
+      Connection.TransactIsolationLevel:= TZTransactIsolationLevel.tinone;
+    end;
+  finally
+  end;
+end;
+
+procedure TDAODevolucionEstado.FinalizarTransaccion;
+begin
+  try
+    with FQuery do
+    begin
+      Connection.commit;
+      Connection.TransactIsolationLevel:= TZTransactIsolationLevel.tinone;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible finalizar el Administrador de Transacciones. '
+                              + #10#13 + '* ' + e.Message);
+  end;
+end;
+
+procedure TDAODevolucionEstado.IniciarTransaccion;
+begin
+  try
+    with FQuery do
+    begin
+      Connection.TransactIsolationLevel := TZTransactIsolationLevel.tiReadCommitted;
+      Connection.StartTransaction;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible inicializar Administrador de Transacciones. '
+                              + #10#13 + '* ' + e.Message);
+  end;
+end;
+{$ENDREGION}
+
+{$REGION 'CONSTRUCTOR Y DESTRUCTOR'}
+constructor TDAODevolucionEstado.create;
+begin
+  FQuery:= TZQuery.create(nil);
+  FQuery.Connection:= DMConexion.ZConexion;
+end;
+
+destructor TDAODevolucionEstado.destroy;
+begin
+  FQuery.Close;
+  FQuery.Connection.Disconnect;
+  FQuery.free;
+end;
+{$ENDREGION}
+
+
+
+end.

@@ -1,0 +1,151 @@
+unit UCliente;
+
+interface
+
+uses
+  Sysutils,DB, DBClient, UDAOParametro;
+
+type
+
+  TCliente = class
+    private
+      FRutaScanner      : string;   {RUTA LOCAL DONDE SE DEJAN LOS ARCHIVOS DIGITALIZADOS}
+      FRutaNovedad      : string;   {RUTA LOCAL DONDE EL PUBLICADOR DEJA LAS IMAGENES QUE NO SE PROCESARON}
+      FRutaProceso      : string;   {RUTA DE PROCESAMIENTO PARA RENOMBRADO Y PUBLICACION}
+      FRutaPublicado    : string;   {RUTA DONDE SE DEJAN LAS IMAGENES PUBLICADAS}
+      FEstucturaNombre  : string;   {EXPRESION REGULAR PARA EL NOMBRE DEL ARCHIVO DE IMAGEN}
+
+      {GETTERS AND SETTERS}
+      function  GetRutaScanner():string;
+      procedure SetRutaScanner(Valor:string);
+
+      function  GetRutaNovedad():string;
+      procedure SetRutaNovedad(Valor:string);
+
+      function  GetRutaProceso():string;
+      procedure SetRutaProceso(Valor:string);
+
+      function  GetRutaPublicado():string;
+      procedure SetRutaPublicado(valor:string);
+
+      function  GetEstructuraNombre():string;
+      procedure SetEstructuraNombre(valor:string);
+
+    public
+      {CONSTRUCTORES}
+      constructor Create;
+      destructor  Destroy;
+      {PROPIEDADES}
+      property RutaScanner      : string    read GetRutaScanner       write SetRutaScanner;
+      property RutaNovedad      : string    read GetRutaNovedad       write SetRutaNovedad;
+      property RutaProceso      : string    read GetRutaProceso       write SetRutaProceso;
+      property RutaPublicado    : string    read GetRutaPublicado     write SetRutaPublicado;
+      property EstructuraNombre : string    read GetEstructuraNombre  write SetEstructuraNombre;
+      {METODOS}
+      procedure ConfigurarCliente;
+
+  end;
+
+
+implementation
+
+procedure TCliente.ConfigurarCliente;
+var
+  DatoPara  : TDAOParametro;
+  ParaClie  : TClientDataSet;
+begin
+  try
+    DatoPara := TDAOParametro.create;
+    ParaClie := TclientDataSet.create(nil);
+    ParaClie := DatoPara.BuscarParametros('IMAGENCLIENTE');
+    ParaClie.Locate('PROPIEDAD','RUTASCANNER',[]);
+    RutaScanner := ParaClie.Fields[2].value;
+    ParaClie.Locate('PROPIEDAD','RUTANOVEDAD',[]);
+    RutaNovedad := ParaClie.Fields[2].value;
+    ParaClie.Locate('PROPIEDAD','RUTAPROCESO',[]);
+    RutaProceso := ParaClie.Fields[2].value;
+    ParaClie.Locate('PROPIEDAD','RUTAPUBLICADO',[]);
+    RutaPublicado := ParaClie.Fields[2].value;
+    ParaClie.Locate('PROPIEDAD','ESTRUCTURANOMBRE',[]);
+    EstructuraNombre := ParaClie.Fields[2].value;
+    DatoPara.Free;
+    ParaClie.Free;
+    if (Trim(RutaScanner) = '') or (Trim(RutaNovedad) = '') or (trim(RutaProceso) = '')
+          or (Trim(RutaPublicado) = '') then
+      raise Exception.Create('La información de Parámetros sobre las carpetas está incompleta.');
+  except
+    on e : exception do
+      raise Exception.Create('Error configurando Carpetas Locales. ' + #10#13 + '* '
+                              + e.Message);
+  end;
+
+end;
+
+
+{$REGION 'CONSTRUTOR AND DESTRUCTOR'}
+constructor TCliente.Create;
+begin
+  inherited;
+end;
+
+destructor TCliente.Destroy;
+begin
+  inherited;
+
+end;
+{$ENDREGION}
+
+{$REGION 'GETTERS AND SETTERS'}
+function  TCliente.GetRutaScanner():string;
+begin
+  Result := FRutaScanner;
+end;
+
+procedure TCliente.SetRutaScanner(valor:string);
+begin
+  FRutaScanner := valor;
+end;
+
+function  TCliente.GetRutaNovedad():string;
+begin
+  Result := FRutaNovedad;
+end;
+
+procedure TCliente.SetRutaNovedad(Valor:string);
+begin
+  FRutaNovedad := Valor;
+end;
+
+function  TCliente.GetRutaProceso():string;
+begin
+  Result := FRutaProceso;
+end;
+
+procedure TCliente.SetRutaProceso(Valor:string);
+begin
+  FRutaProceso := Valor;
+end;
+
+function  TCliente.GetRutaPublicado():string;
+begin
+  Result := FRutaPublicado;
+end;
+
+procedure TCliente.SetRutaPublicado(Valor:string);
+begin
+  FRutaPublicado := Valor;
+end;
+
+function  TCliente.GetEstructuraNombre():string;
+begin
+  Result := FEstucturaNombre;
+end;
+
+procedure TCliente.SetEstructuraNombre(Valor:string);
+begin
+  FEstucturaNombre := Valor;
+end;
+
+{$ENDREGION}
+
+end.

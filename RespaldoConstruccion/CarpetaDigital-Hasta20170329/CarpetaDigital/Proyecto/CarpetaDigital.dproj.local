@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2016/04/11 17:17:17.000.264,D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\CarpetaDigital\Proyecto\Unit1.dfm=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\CarpetaDigital\Presentacion\UVisor.dfm</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="..\..\CarpetaDigital"/>
+    <File Path="..\Logica"/>
+    <File Path="..\Logica\UAplicacion.pas"/>
+    <File Path="..\Logica\UFolioCarpetaDigi.pas"/>
+    <File Path="..\Logica\UProcesoCarpetaDigi.pas"/>
+    <File Path="..\Logica\UProcesoLogin.pas"/>
+    <File Path="..\Logica\UProcesoVisor.pas"/>
+    <File Path="..\Logica\UUsuarioCarpetaDigi.pas"/>
+    <File Path="..\Logica\UCarpetaCarpetaDigi.pas"/>
+    <File Path="..\Persistencia"/>
+    <File Path="..\Persistencia\ConexionFTP"/>
+    <File Path="..\Persistencia\ConexionFTP\UFTP.pas"/>
+    <File Path="..\Persistencia\ConexiónBD"/>
+    <File Path="..\Persistencia\ConexiónBD\UDMConexion.pas"/>
+    <File Path="..\Persistencia\ConexiónBD\UDMConexion.dfm"/>
+    <File Path="..\Persistencia\DAO"/>
+    <File Path="..\Persistencia\DAO\UDAOCarpetaDigital.pas"/>
+    <File Path="..\Persistencia\DAO\UDAOLogin.pas"/>
+    <File Path="..\Presentacion"/>
+    <File Path="..\Presentacion\UCarpetaDigital.pas"/>
+    <File Path="..\Presentacion\UCarpetaDigital.dfm"/>
+    <File Path="..\Presentacion\ULogin.pas"/>
+    <File Path="..\Presentacion\ULogin.dfm"/>
+    <File Path="..\Presentacion\UVisor.pas"/>
+    <File Path="..\Presentacion\UVisor.dfm"/>
+    <File Path="..\..\..\..\Aplicacion"/>
+    <File Path="..\..\..\FuncionesGenerales"/>
+    <File Path="..\..\..\FuncionesGenerales\Clases"/>
+    <File Path="..\..\..\FuncionesGenerales\Clases\Logica"/>
+    <File Path="..\..\..\FuncionesGenerales\Clases\Logica\UCliente.pas"/>
+    <File Path="..\..\..\FuncionesGenerales\Clases\Persistencia"/>
+    <File Path="..\..\..\FuncionesGenerales\Clases\Persistencia\DAO"/>
+    <File Path="..\..\..\FuncionesGenerales\Clases\Persistencia\DAO\UDAOParametro.pas"/>
+    <File Path="..\..\..\FuncionesGenerales\Funciones"/>
+    <File Path="..\..\..\FuncionesGenerales\Funciones\FPGenerales.pas"/>
+  </ProjectSortOrder>
+</BorlandProject>

@@ -1,0 +1,28 @@
+program Publicacion;
+
+
+
+uses
+  Vcl.Forms,
+  UPublicacion in '..\Presentacion\UPublicacion.pas' {frmPublicacion},
+  Vcl.Themes,
+  Vcl.Styles,
+  ClienteImagen in '..\Persistencia\ClienteImagen\ClienteImagen.pas',
+  UDMConexion in '..\..\FuncionesGenerales\Clases\Persistencia\ConexionBD\UDMConexion.pas' {DMConexion: TDataModule},
+  UDAOParametro in '..\..\FuncionesGenerales\Clases\Persistencia\DAO\UDAOParametro.pas',
+  UFTP in '..\..\FuncionesGenerales\Clases\Persistencia\ConexionFTP\UFTP.pas',
+  UImagen in '..\..\FuncionesGenerales\Clases\Logica\UImagen.pas',
+  UCarpetaArchivo in '..\Logica\UCarpetaArchivo.pas',
+  UCliente in '..\..\FuncionesGenerales\Clases\Logica\UCliente.pas',
+  UDAOPublicacion in '..\Persistencia\UDAOPublicacion.pas',
+  FPGenerales in '..\..\FuncionesGenerales\Funciones\FPGenerales.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TDMConexion, DMConexion);
+  Application.CreateForm(TfrmPublicacion, frmPublicacion);
+  Application.Run;
+end.

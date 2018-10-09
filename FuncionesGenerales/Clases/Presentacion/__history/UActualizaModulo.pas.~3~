@@ -1,0 +1,82 @@
+unit UActualizaModulo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, RxCtrls;
+
+type
+  TFrmActualizaModulo = class(TForm)
+    btnActualizar: TButton;
+    btnSalir: TButton;
+    LblMensaje: TLabel;
+    RpnFondo: TRxPanel;
+    procedure btnActualizarClick(Sender: TObject);
+    procedure btnSalirClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    DescripcionModulo : string;
+    VersionNueva      : string;
+  end;
+
+
+
+implementation
+uses
+  UAplicacion;
+
+{$R *.dfm}
+
+procedure TFrmActualizaModulo.btnActualizarClick(Sender: TObject);
+begin
+  try
+    btnActualizar.Visible:= False;
+    LblMensaje.Caption:= 'Actualizando Módulo: ' + '[ ' + DescripcionModulo + ' ] . . . . '
+                        + #13#10 + #13#10 + 'Nueva Versión: ' + VersionNueva;
+    btnSalir.Enabled:=False;
+    LblMensaje.Caption := FAplicacion.FFtpHost;
+    btnSalir.Enabled:=True;
+  except
+    on E:Exception do
+    begin
+      Application.MessageBox(PChar(e.Message), 'Advertencia', MB_ICONINFORMATION
+                              + MB_OK);
+      Application.Terminate;
+    end;
+  end;
+end;
+
+procedure TFrmActualizaModulo.btnSalirClick(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+
+
+procedure TFrmActualizaModulo.FormShow(Sender: TObject);
+begin
+  LblMensaje.Caption:= 'Se ha generado una actualización del Módulo:'
+                        + #13#10 + '[ ' + DescripcionModulo + ' ]'
+                        + #13#10 + #13#10 + 'Nueva Versión: ' + VersionNueva;
+end;
+
+{$REGION 'CREATE AND DESTRUCTOR'}
+ {
+constructor TFrmAplicacionCtrl.Create(p_NombModu: string; p_VersModu: string);
+begin
+  Modulo := p_NombModu;
+  ConfigurarAplicacion;
+end;
+
+destructor TFrmAplicacionCtrl.Destroy;
+begin
+  inherited;
+end;    }
+
+{$ENDREGION}
+end.

@@ -1,0 +1,193 @@
+unit UVisor;
+
+interface
+
+uses
+  Winapi.Windows, System.SysUtils,  Vcl.Controls,  System.Classes,  FMX.Dialogs,
+  Vcl.Forms,  RxCtrls, RxSpin, Strutils, Vcl.OleCtrls, AcroPDFLib_TLB, Mask,
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, EnImgScr, EnBlowupForm,Vcl.Buttons,
+  UDMConexion, UProcesoVisor,  FPGenerales ;
+
+type
+  TFrmVisor = class(TForm)
+    RpnVisor: TRxPanel;
+    LblImagen: TLabel;
+    RpnVisorFolio: TRxPanel;
+    apdVisorPDF: TAcroPDF;
+    RpnInformacionImagen: TRxPanel;
+    GrpInformacionImagen: TGroupBox;
+    TrvSeleccionImagen: TTreeView;
+    RpnMensajeArbol: TRxPanel;
+    rxlMensajeArbol: TRxLabel;
+    RpnMensajeImagen: TRxPanel;
+    rxlMensajeImagen: TRxLabel;
+    LblEncabezado: TLabel;
+    RpnTitulo: TRxPanel;
+    LblTitulo: TLabel;
+    imsVisorTif: TImageScrollBox;
+    rgrVisor: TRadioGroup;
+    RpnEncabezadoVisorTIF: TRxPanel;
+    cbxZoomPredefinido: TComboBox;
+    LblZoomPredefinido: TLabel;
+    LblZoomPorcentaje: TLabel;
+    rseZoom: TRxSpinEdit;
+    spbLupa: TSpeedButton;
+    procedure FormShow(Sender: TObject);
+    procedure TrvSeleccionImagenChange(Sender: TObject; Node: TTreeNode);
+    procedure rgrVisorClick(Sender: TObject);
+    procedure rseZoomChange(Sender: TObject);
+    procedure spbLupaClick(Sender: TObject);
+    procedure cbxZoomPredefinidoSelect(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+
+  private
+    { Private declarations }
+
+  public
+    { Public declarations }
+    NombImag      : string;
+    TituloPrn     : string;
+    TituloUno     : string;
+    TituloDos     : string;
+    EstaForm      : TWindowState;
+
+  end;
+
+var
+  frmLupa : TBlowupForm;
+
+implementation
+uses
+  UCarpetaDigital;
+
+{$R *.dfm}
+
+procedure TFrmVisor.cbxZoomPredefinidoSelect(Sender: TObject);
+begin
+    rseZoom.Value:=Trunc(ZoomInstruccion(imsVisorTIF, cbxZoomPredefinido.ItemIndex));
+end;
+
+procedure TFrmVisor.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  ProcViso.BorrarCarpetaLocal(ExtractFileDir(Application.ExeName) + '\UNIANDES\');
+  Action:= caFree;
+end;
+
+procedure TFrmVisor.FormShow(Sender: TObject);
+begin
+
+  ProcViso.CrearCarpetaLocal(ExtractFileDir(Application.ExeName) + '\UNIANDES\');
+  LblTitulo.Caption     := TituloPrn;
+  LblEncabezado.Caption := TituloUno;
+  if TituloDos <> '' then
+    LblEncabezado.Caption:= LblEncabezado.Caption + #13#10 + TituloDos;
+  if ProcLogi.DatosUsuarioCarpeta.DescripcionPerfilCarpeta = 'MTI' then
+    rgrVisor.Visible:=True
+  else
+    rgrVisor.Visible:=False;
+  rgrVisor.ItemIndex := 1;
+end;
+
+
+procedure TFrmVisor.rgrVisorClick(Sender: TObject);
+begin
+  if rgrVisor.ItemIndex = 0 then
+  begin
+    apdVisorPDF.Visible           := False;
+    imsVisorTif.Visible           := True;
+    RpnEncabezadoVisorTIF.Visible := True;
+    cbxZoomPredefinido.ItemIndex:= cbxZoomPredefinido.Items.IndexOf('Ajustar al Ancho');
+    rseZoom.Value:= 1;
+    if TrvSeleccionImagen.Selected = nil then
+      RpnEncabezadoVisorTIF.Enabled:= False;
+  end
+  else
+  begin
+    apdVisorPDF.Visible           := True;
+    imsVisorTif.Visible           := False;
+    RpnEncabezadoVisorTIF.Visible := False;
+  end;
+  if TrvSeleccionImagen.Selected <> nil then
+    TrvSeleccionImagenChange(TrvSeleccionImagen, TrvSeleccionImagen.Selected);
+end;
+
+procedure TFrmVisor.rseZoomChange(Sender: TObject);
+begin
+  if rseZoom.Value > 100 then
+    rseZoom.Value:= 100;
+  ZoomPorcentaje(imsVisorTif,rseZoom.Value);
+end;
+
+procedure TFrmVisor.spbLupaClick(Sender: TObject);
+begin
+  if spbLupa.Caption = 'Activar L&upa' then
+  begin
+    ZoomEmergente(frmLupa,imsVisorTif,'Función de Aumento (Lupa)', FrmVisor,300,300,true);
+    spbLupa.Caption:= 'Remover L&upa'
+  end
+  else
+  begin
+    ZoomEmergente(frmLupa,imsVisorTif,'Función de Aumento (Lupa)',FrmVisor, 300,300,false);
+    spbLupa.Caption:= 'Activar L&upa';
+  end;
+end;
+
+procedure TFrmVisor.TrvSeleccionImagenChange(Sender: TObject; Node: TTreeNode);
+var
+  MensErro  : string;
+begin
+  RpnMensajeImagen.Visible:= false;
+  if rgrVisor.Items[rgrVisor.ItemIndex] = 'PDF' then
+  begin
+    apdVisorPDF.LoadFile('x');
+    apdVisorPDF.Refresh;
+  end
+  else
+  begin
+    imsVisorTif.Clear;
+  end;
+  with ProcCarp do
+  begin
+    DatosArbolSelector.RecNo:= Node.AbsoluteIndex + 1;
+
+    if DatosArbolSelector.FieldByName('NOMBREIMAGEN').asstring  <> '' then
+    begin
+      MensErro:= ProcViso.VerificarDescargarImagen
+                                    (DatosArbolSelector.FieldByName('NOMBREIMAGEN').Value,
+                                     DatosArbolSelector.FieldByName('RUTAFTP').Value,
+                                     rgrVisor.Items[rgrVisor.ItemIndex],
+                                     DMConexion.TipoConeFtp);
+
+      LblImagen.Caption := 'Imagen : [ '
+                            + ifthen(rgrVisor.Items[rgrVisor.ItemIndex] = 'PDF',
+                                      ProcViso.DatosFolio.NombreImagenFirm,
+                                      ProcViso.DatosFolio.NombreImagenOrig)
+                            + ' ] ';
+      if MensErro = '' then
+      begin
+        if rgrVisor.Items[rgrVisor.ItemIndex] = 'PDF' then
+        begin
+          apdVisorPDF.LoadFile(ProcViso.DatosFolio.ImagenLocal);
+          apdVisorPDF.setShowToolbar(false);
+        end
+        else
+        begin
+          if not RpnEncabezadoVisorTIF.Enabled then
+            RpnEncabezadoVisorTIF.Enabled:=True;
+          imsVisorTif.FileName:= ProcViso.DatosFolio.ImagenLocal;
+          cbxZoomPredefinido.ItemIndex:= cbxZoomPredefinido.Items.IndexOf('Ajustar al Ancho');
+          rseZoom.Value:= Trunc(ZoomInstruccion(imsVisorTIF, cbxZoomPredefinido.ItemIndex));
+        end;
+
+        TrvSeleccionImagen.SetFocus;
+      end
+      else
+      begin
+        RpnMensajeImagen.Visible:= True;
+        rxlMensajeImagen.Caption:= MensErro;
+      end
+    end;
+  end;
+end;
+
+end.

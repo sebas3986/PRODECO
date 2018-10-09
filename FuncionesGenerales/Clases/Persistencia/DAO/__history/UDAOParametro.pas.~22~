@@ -1,0 +1,133 @@
+unit UDAOParametro;
+
+interface
+uses
+  SysUtils,  StrUtils,  Classes,  DB,  DBClient,  zdataset,
+  UDMConexion;
+
+type
+  TDAOParametro = class
+    private
+      FQuery : TZquery;
+    public
+      constructor create;
+      destructor  destroy;
+      function BuscarInformacionModulo(P_NombModu: string) : TClientDataSet;
+      function BuscarParametros(P_ListPara: string): TClientDataSet;
+
+  end;
+
+implementation
+{$REGION 'METODOS PROPIOS'}
+
+function BuscarInformacionModulo(P_NombModu: string) : TClientDataSet;
+begin
+  try
+    result:= TClientDataSet.Create(nil);
+    result.FieldDefs.Add('IDENTIFICADOR',ftString, 50);
+    result.FieldDefs.Add('PROPIEDAD',ftString, 50);
+    result.FieldDefs.Add('VALOR',ftString, 300);
+    result.CreateDataSet;
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT identificador, propiedad, valor');
+      SQL.Add(Format('FROM %s.PARAMETRO',[DMConexion.esquema]));
+      SQL.Add(FORMAT('       WHERE IDENTIFICADOR LIKE ''MODULO%'' ');
+      open;
+      first;
+      if not Eof then
+      begin
+        while (not Eof) do
+        begin
+          {SE LLENA EL CLIENTDATASET RESPUESTA}
+          result.Append;
+          result.FieldByName('IDENTIFICADOR').Value:= FieldByName('identificador').AsString;
+          result.FieldByName('PROPIEDAD').Value:= FieldByName('propiedad').AsString;
+          result.FieldByName('VALOR').Value:= FieldByName('valor').AsString;
+          next;
+        end;
+      end
+      else
+        raise Exception.Create('La tabla de Parámetros sin información de Módulos.');
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar información de los Módulos de la Aplicación.'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TDAOParametro.BuscarParametros(P_ListPara: string): TClientDataSet;
+var
+  I         : Integer;
+  ListBusq  : string;
+  ListDato  : TStringList;
+
+begin
+  try
+    ListDato:= TStringList.Create;
+    ListDato.CommaText:= P_ListPara;
+
+    {SE CREA EL CLIENTDATASET DE RESPUESTA DE LA FUNCION}
+    result:= TClientDataSet.Create(nil);
+    result.FieldDefs.Add('IDENTIFICADOR',ftString, 50);
+    result.FieldDefs.Add('PROPIEDAD',ftString, 50);
+    result.FieldDefs.Add('VALOR',ftString, 300);
+    result.FieldDefs.Add('FECHA',ftDateTime,0);
+    result.CreateDataSet;
+
+    ListBusq:='';
+    for I := 0  to ListDato.Count - 1 do
+    begin
+      ListBusq:= ListBusq + ifthen(ListBusq='','',',') + QuotedStr(ListDato[I]);
+    end;
+
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT *,NOW() AS FECHA');
+      SQL.Add(Format('FROM %s.PARAMETRO',[DMConexion.esquema]));
+      SQL.Add('       WHERE IDENTIFICADOR IN (' + ListBusq + ')');
+      open;
+      first;
+      while (not Eof) do
+      begin
+        {SE LLENA EL CLIENTDATASET RESPUESTA}
+        result.Append;
+        result.FieldByName('IDENTIFICADOR').Value:= FieldByName('IDENTIFICADOR').AsString;
+        result.FieldByName('PROPIEDAD').Value:= FieldByName('PROPIEDAD').AsString;
+        result.FieldByName('VALOR').Value:= FieldByName('VALOR').AsString;
+        result.FieldByName('FECHA').Value:= FieldByName('FECHA').AsDateTime;
+        next;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar Parametros (' + ListDato.CommaText
+                              + ')' + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+
+
+
+{$ENDREGION}
+
+{$REGION 'CONSTRUCTOR Y DESTRUCTOR'}
+constructor TDAOParametro.create;
+begin
+  FQuery:= TZQuery.create(nil);
+  FQuery.Connection:= DMConexion.ZConexion;
+end;
+
+destructor TDAOParametro.destroy;
+begin
+  FQuery.Close;
+  FQuery.Connection.Disconnect;
+  FQuery.free;
+end;
+{$ENDREGION}
+end.

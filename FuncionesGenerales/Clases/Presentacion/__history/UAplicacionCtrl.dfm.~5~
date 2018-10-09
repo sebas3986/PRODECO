@@ -1,0 +1,59 @@
+object FrmAplicacionCtrl: TFrmAplicacionCtrl
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Actualizador de Aplicaciones - UNIANDES'
+  ClientHeight = 227
+  ClientWidth = 579
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object btnActualizar: TButton
+    Left = 8
+    Top = 187
+    Width = 169
+    Height = 36
+    Caption = '&Actualizar M'#243'dulo'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    OnClick = btnActualizarClick
+  end
+  object btnSalir: TButton
+    Left = 408
+    Top = 187
+    Width = 153
+    Height = 36
+    Caption = '&Salir'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    OnClick = btnSalirClick
+  end
+  object Rpn1: TRxPanel
+    Left = 64
+    Top = 48
+    Width = 465
+    Height = 73
+    BevelOuter = bvNone
+    TabOrder = 2
+    TileImage = False
+  end
+end

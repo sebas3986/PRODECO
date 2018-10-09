@@ -1,0 +1,69 @@
+unit UActualizaModulo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, RxCtrls,
+  IOUtils,strutils,DBClient, UDAOParametro,UFtpGestor;
+
+type
+  TFrmActualizaModulo = class(TForm)
+    btnActualizar: TButton;
+    btnSalir: TButton;
+    Rpn1: TRxPanel;
+    procedure btnActualizarClick(Sender: TObject);
+    procedure btnSalirClick(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmActualizaModulo.btnActualizarClick(Sender: TObject);
+begin
+  try
+    btnActualizar.Visible:= False;
+    //lstActualiazando.Visible:=True;
+    btnSalir.Enabled:=False;
+    //ProcActu.VerificarArchivos;
+    btnSalir.Enabled:=True;
+  except
+    on E:Exception do
+    begin
+      Application.MessageBox(PChar(e.Message), 'Advertencia', MB_ICONINFORMATION
+                              + MB_OK);
+      Application.Terminate;
+    end;
+  end;
+end;
+
+procedure TFrmActualizaModulo.btnSalirClick(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+
+
+{$REGION 'CREATE AND DESTRUCTOR'}
+ {
+constructor TFrmAplicacionCtrl.Create(p_NombModu: string; p_VersModu: string);
+begin
+  Modulo := p_NombModu;
+  ConfigurarAplicacion;
+end;
+
+destructor TFrmAplicacionCtrl.Destroy;
+begin
+  inherited;
+end;    }
+
+{$ENDREGION}
+end.

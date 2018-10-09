@@ -1,0 +1,183 @@
+unit UAplicacionCtrl;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, RxCtrls,
+  IOUtils,strutils,DBClient, UDAOParametro,UFtpGestor;
+
+type
+  TFrmAplicacionCtrl = class(TForm)
+    btnActualizar: TButton;
+    btnSalir: TButton;
+    Rpn1: TRxPanel;
+    procedure btnActualizarClick(Sender: TObject);
+    procedure btnSalirClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+
+    { Public declarations }
+    Modulo                : string;   {MODULO A VERIFICAR}
+    Version               : string;   {VERSION DEL MODULO}
+    FtpHost               : string;   {DIRECCION FTP DESCARGA DEL MODULO}
+    FtpPuerto             : word;     {PUERTO DEL FTP}
+    FtpUsuario            : string;   {USUARIO DEL FTP}
+    FtpPassword           : string;   {PASSWORD DEL USUARIO FTP}
+    FtpRutaAplicacion     : string;   {RUTA CARPETA DESCARGA DEL MODULO}
+    RutaDestino           : string;   {RUTA LOCAL DONDE SE DESCARGA EL MODULO}
+    ArchivoEjecutable     : string;   {NOMBRE DEL ARCHIVO EJECUTABLE}
+
+    constructor Create(p_NombModu: string; p_VersModu: string);
+    destructor Destroy;
+    procedure ConfigurarAplicacion;
+    Procedure DescargarEjecutable;
+  end;
+
+
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmAplicacionCtrl.btnActualizarClick(Sender: TObject);
+begin
+  try
+    btnActualizar.Visible:= False;
+    //lstActualiazando.Visible:=True;
+    btnSalir.Enabled:=False;
+    //ProcActu.VerificarArchivos;
+    btnSalir.Enabled:=True;
+  except
+    on E:Exception do
+    begin
+      Application.MessageBox(PChar(e.Message), 'Advertencia', MB_ICONINFORMATION
+                              + MB_OK);
+      Application.Terminate;
+    end;
+  end;
+end;
+
+procedure TFrmAplicacionCtrl.btnSalirClick(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+procedure TFrmAplicacionCtrl.ConfigurarAplicacion;
+var
+  CodiErro  : Integer;
+  y: Integer;
+  DatoPara  : TDAOParametro;
+  NumePuer  : string;
+  ParaApli  : TClientDataSet;
+begin
+  try
+    DatoPara := TDAOParametro.create;
+    ParaApli := TclientDataSet.create(nil);
+    ParaApli := DatoPara.BuscarParametros(Modulo);
+    ParaApli.First;
+    if ParaApli.RecordCount > 0 then
+    begin
+      ParaApli.Locate('PROPIEDAD','VERSION',[]);
+      Version           := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','FTPHOST',[]);
+      FtpHost           := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','FTPPUERTO',[]);
+      NumePuer          := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','FTPUSUARIO',[]);
+      FtpUsuario        := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','FTPPASSWORD',[]);
+      FtpPassword       := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','FTPRUTAAPLICACION',[]);
+      FtpRutaAplicacion := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','RUTADESTINO',[]);
+      RutaDestino       := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','ARCHIVOEJECUTABLE',[]);
+      ArchivoEjecutable := ParaApli.Fields[2].value;
+      DatoPara.Free;
+      ParaApli.Free;
+      if (Trim(Version) = '') or (Trim(FtpHost) = '') or (Trim(NumePuer) = '') or
+          (Trim(FtpUsuario) = '') or (Trim(FtpPassword) = '') or
+          (Trim(FtpRutaAplicacion) = '') or (Trim(RutaDestino) = '') or
+          (Trim(ArchivoEjecutable) = '') then
+        raise Exception.Create('La información de Parámetros sobre la Aplicación está incompleta.')
+      else
+      begin
+        val(NumePuer,FtpPuerto,CodiErro);
+        if CodiErro = 0 then
+        begin
+          FtpRutaAplicacion := ifThen(AnsiRightStr(FtpRutaAplicacion,1) = '\',
+                                      FtpRutaAplicacion,FtpRutaAplicacion + '\');
+          RutaDestino       := ifThen(AnsiRightStr(RutaDestino,1) = '\',
+                                                    RutaDestino,RutaDestino + '\');
+        end
+        else
+          raise Exception.Create('Valor incorrecto en el Puerto del FTP: [' + NumePuer + '].')
+      end;
+    end
+    else
+      raise Exception.Create('No hay Información de Parámetros para el Módulo: ['
+                              + Modulo + ']');
+  except
+    on e : exception do
+      raise Exception.Create('Error configurando Parámetros de la Aplicación. ' + #10#13 + '* '
+                              + e.Message);
+  end;
+
+end;
+
+
+Procedure TFrmAplicacionCtrl.DescargarEjecutable;
+var
+  ArchLocl : string;
+  ArchBack : string;
+  ConexFTP : TFtpGestor;
+  RutaBack : string;
+
+begin
+  try
+    ConexFTP:= TFtpGestor.Create(FtpHost, FtpUsuario, FtpPassword, FtpPuerto);
+    ConexFTP.ConectarFTP;
+    ArchLocl:= RutaDestino + ArchivoEjecutable;
+    RutaBack:= RutaDestino + 'backup\' ;
+    ArchBack:= RutaBack
+                + ReplaceStr(StrLower(PChar(ArchivoEjecutable)),'.exe', '.bck');
+
+    if not TDirectory.Exists(RutaDestino) then
+      TDirectory.CreateDirectory(RutaDestino);
+    if TFile.Exists(ArchLocl) then
+    begin
+      if not TDirectory.Exists(RutaBack) then
+        TDirectory.CreateDirectory(RutaBack);
+      SetFileAttributes(PChar(RutaBack),FaHidden + faSysFile + faArchive);
+      if TFile.Exists(ArchBack) then
+        TFile.Delete(ArchBack);
+      TFile.Move(ArchLocl,ArchBack);
+    end;
+    ConexFTP.BajarArchivo(FtpRutaAplicacion,ArchivoEjecutable,RutaDestino );
+    ConexFTP.DesconectarFTP;
+    ConexFTP.Free;
+  except
+    on e:exception do
+      raise Exception.Create('No es posible Descargar el Archivo Ejecutable en el equipo local.'
+                              + #10#13 + '* ' + e.Message);
+
+  end;
+end;
+
+
+{$REGION 'CREATE AND DESTRUCTOR'}
+constructor TFrmAplicacionCtrl.Create(p_NombModu: string; p_VersModu: string);
+begin
+  Modulo    := p_NombModu;
+  Version   := p_VersModu;
+end;
+
+destructor TFrmAplicacionCtrl.Destroy;
+begin
+  inherited;
+end;
+{$ENDREGION}
+end.

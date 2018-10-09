@@ -1,0 +1,22 @@
+object DMCorrecionFolios: TDMCorrecionFolios
+  OldCreateOrder = False
+  Height = 99
+  Width = 232
+  object ZQCarpeta: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 32
+    Top = 28
+  end
+  object dsCarpeta: TDataSource
+    DataSet = cdsCarpeta
+    Left = 158
+    Top = 29
+  end
+  object cdsCarpeta: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 97
+    Top = 28
+  end
+end

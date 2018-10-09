@@ -1,0 +1,151 @@
+unit UAplicacion;
+
+interface
+
+uses
+  Sysutils,strutils, DB, DBClient, UDAOParametro, UFtpGestor;
+
+type
+
+  TAplicacion = class
+    private
+      FVersion              : string;   {VERSION DEL MODULO}
+      FFtpHost              : string;   {DIRECCION FTP DESCARGA DEL MODULO}
+      FFtpPuerto            : word;     {PUERTO DEL FTP}
+      FFtpUsuario           : string;   {USUARIO DEL FTP}
+      FFtpPassword          : string;   {PASSWORD DEL USUARIO FTP}
+      FFtpRutaAplicacion    : string;   {RUTA CARPETA DESCARGA DEL MODULO}
+      FRutaDestino          : string;   {RUTA LOCAL DONDE SE DESCARGA EL MODULO}
+      FArchivoEjecutable    : string;   {NOMBRE DEL ARCHIVO EJECUTABLE}
+
+      {GETTERS AND SETTERS}
+
+    public
+      {CONSTRUCTORES}
+      constructor Create;
+      destructor  Destroy;
+      {PROPIEDADES}
+      property Version          : string    read FVersion           write FVersion;
+      property FtpHost          : string    read FFtpHost           write FFtpHost;
+      property FtpPuerto        : Word      read FFtpPuerto         write FFtpPuerto;
+      property FtpUsuario       : string    read FFtpUsuario        write FFtpUsuario;
+      property FtpPassword      : string    read FFtpPassword       write FFtpPassword;
+      property FtpRutaAplicacion: string    read FFtpRutaAplicacion write FFtpRutaAplicacion;
+      property RutaDestino      : string    read FRutaDestino       write FRutaDestino;
+      property ArchivoEjecutable: string    read FArchivoEjecutable write FArchivoEjecutable;
+
+     {METODOS}
+      procedure ConfigurarAplicacion(p_NombModu: string);
+      Procedure DescargarAplicacion;
+
+  end;
+
+
+implementation
+
+procedure TAplicacion.ConfigurarAplicacion(p_NombModu: string);
+var
+  CodiErro  : Integer;
+  y: Integer;
+  DatoPara  : TDAOParametro;
+  NumePuer  : string;
+  ParaApli  : TClientDataSet;
+begin
+  try
+    DatoPara := TDAOParametro.create;
+    ParaApli := TclientDataSet.create(nil);
+    ParaApli := DatoPara.BuscarParametros(p_NombModu);
+    ParaApli.First;
+    if ParaApli.RecordCount > 0 then
+    begin
+      ParaApli.Locate('PROPIEDAD','VERSION',[]);
+      FVersion           := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','FTPHOST',[]);
+      FFtpHost           := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','FTPPUERTO',[]);
+      NumePuer          := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','FTPUSUARIO',[]);
+      FFtpUsuario        := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','FTPPASSWORD',[]);
+      FFtpPassword       := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','FTPRUTAAPLICACION',[]);
+      FFtpRutaAplicacion := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','RUTADESTINO',[]);
+      FRutaDestino       := ParaApli.Fields[2].value;
+      ParaApli.Locate('PROPIEDAD','ARCHIVOEJECUTABLE',[]);
+      FArchivoEjecutable := ParaApli.Fields[2].value;
+      DatoPara.Free;
+      ParaApli.Free;
+      if (Trim(FVersion) = '') or (Trim(FFtpHost) = '') or (Trim(NumePuer) = '') or
+          (Trim(FFtpUsuario) = '') or (Trim(FFtpPassword) = '') or
+          (Trim(FFtpRutaAplicacion) = '') or (Trim(FRutaDestino) = '') or
+          (Trim(FArchivoEjecutable) = '') then
+        raise Exception.Create('La información de Parámetros sobre la Aplicación está incompleta.')
+      else
+      begin
+        val(NumePuer,FFtpPuerto,CodiErro);
+        if CodiErro = 0 then
+        begin
+          FFtpRutaAplicacion := ifThen(AnsiRightStr(FFtpRutaAplicacion,1) = '\',
+                                      FFtpRutaAplicacion,FFtpRutaAplicacion + '\');
+          FRutaDestino       := ifThen(AnsiRightStr(FRutaDestino,1) = '\',
+                                                    FRutaDestino,FRutaDestino + '\');
+        end
+        else
+          raise Exception.Create('Valor incorrecto en el Puerto del FTP: [' + NumePuer + '].')
+      end;
+    end
+    else
+      raise Exception.Create('No hay Información de Parámetros para el Módulo: ['
+                              + p_NombModu + ']');
+  except
+    on e : exception do
+      raise Exception.Create('Error configurando Parámetros de la Aplicación. ' + #10#13 + '* '
+                              + e.Message);
+  end;
+
+end;
+
+Procedure TAplicacion.DescargarAplicacion;
+var
+  ConexFTP : TFtpGestor;
+  CarpFtpp : string;
+  CarpLoca : string;
+
+begin
+  try
+    ConexFTP:= TFtpGestor.Create(FFtpHost, FFtpUsuario, FFtpPassword, FFtpPuerto);
+    ConexFTP.ConectarFTP;
+    CarpLoca:= FRutaDestino + FArchivoEjecutable;
+    if not TDirectory.Exists(CarpLoca) then
+      TDirectory.CreateDirectory(CarpLoca);
+    ConexFTP.BajarArchivo(FFtpRutaAplicacion,FArchivoEjecutable,FRutaDestino );
+    ConexFTP.DesconectarFTP;
+    ConexFTP.Free;
+  except
+    on e:exception do
+      raise Exception.Create('No es posible Descargar el Archivo Ejecutable en el equipo local.'
+                              + #10#13 + '* ' + e.Message);
+
+  end;
+end;
+}
+
+{$REGION 'CONSTRUTOR AND DESTRUCTOR'}
+constructor TAplicacion.Create;
+begin
+  inherited;
+end;
+
+destructor TAplicacion.Destroy;
+begin
+  inherited;
+
+end;
+{$ENDREGION}
+
+{$REGION 'GETTERS AND SETTERS'}
+
+{$ENDREGION}
+
+end.

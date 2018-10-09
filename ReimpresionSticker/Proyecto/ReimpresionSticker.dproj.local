@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2015/11/18 11:35:24.000.426,D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Presentacion\UReimpresionSticker.dfm=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2015/11/18 11:35:37.000.021,D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Proyecto\ReimpresionSticker.dproj=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2015/11/18 11:42:46.000.054,D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Persistencia\UDAOImpresionSticker.dfm=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\ReimpresionSticker\Proyecto\Unit1.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

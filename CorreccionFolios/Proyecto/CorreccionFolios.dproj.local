@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2017/08/03 11:16:06.000.870,D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\CorreccionFolios\Persistencia\DAOCorreccionFolios.pas=</Transaction>
+    <Transaction>2017/08/03 11:18:37.000.540,=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\CorreccionFolios\Persistencia\DAOCorreccionFolios.pas</Transaction>
+    <Transaction>2017/08/03 12:15:34.000.972,=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\CorreccionFolios\Logica\UProcesoCorreccionFolios.pas</Transaction>
+  </Transactions>
+</BorlandProject>

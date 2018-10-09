@@ -1,0 +1,195 @@
+unit UFolio;
+
+interface
+
+uses
+  Sysutils,strutils,DB, DBClient, UDAOParametro;
+
+type
+
+  TCliente = class
+    private
+      FIdCarpetaAleta     : Int64;   {RUTA LOCAL DONDE SE DEJAN LOS ARCHIVOS DIGITALIZADOS}
+      FSecuenciaFolio     : Integer;   {RUTA LOCAL DONDE EL PUBLICADOR DEJA LAS IMAGENES QUE NO SE PROCESARON}
+      FTipoFolio          : string;   {RUTA DE PROCESAMIENTO PARA RENOMBRADO Y PUBLICACION}
+      FCodigoFolio        : string;   {RUTA DONDE SE DEJAN LAS IMAGENES PUBLICADAS}
+      FIdDatoPlanilla     : Int64;   {EXPRESION REGULAR PARA EL NOMBRE DEL ARCHIVO DE IMAGEN}
+      FChequeoPublicacion : boolean;   {EXPRESION REGULAR PARA EL NOMBRE DE LA CARPETA DE IMAGEN}
+      FChequeoCalidad     : boolean;   {EXPRESION REGULAR PARA EL NOMBRE DE LA ALETA DE IMAGEN}
+
+      {GETTERS AND SETTERS}
+      function  GetIdCarpetaAleta():Int64;
+      procedure SetIdCarpetaAleta(Valor:Int64);
+
+      function  GetSecuenciaFolio():integer;
+      procedure SetSecuenciaFolio(Valor:integer);
+
+      function  GetTipoFolio():string;
+      procedure SetTipoFolio(Valor:string);
+
+      function  GetCodigoFolio():string;
+      procedure SetCodigoFolio(valor:string);
+
+      function  GetIdDatoPlanilla():int64;
+      procedure SetIdDatoPlanilla(valor:int64);
+
+      function  GetChequeoPublicacion():Boolean;
+      procedure SetChequeoPublicacion(valor:Boolean);
+
+      function  GetChequeoCalidad():Boolean;
+      procedure SetChequeoCalidad(valor:Boolean);
+
+    public
+      {CONSTRUCTORES}
+      constructor Create;
+      destructor  Destroy;
+      {PROPIEDADES}
+      property RutaScanner      : string    read GetRutaScanner        write SetRutaScanner;
+      property RutaNovedad      : string    read GetRutaNovedad        write SetRutaNovedad;
+      property RutaProceso      : string    read GetRutaProceso        write SetRutaProceso;
+      property RutaPublicado    : string    read GetRutaPublicado      write SetRutaPublicado;
+      property EstructuraArchivo: string    read GetEstructuraArchivo  write SetEstructuraArchivo;
+      property EstructuraCarpeta: string    read GetEstructuraCarpeta  write SetEstructuraCarpeta;
+      property EstructuraAleta  : string    read GetEstructuraAleta    write SetEstructuraAleta;
+
+      {METODOS}
+      procedure ConfigurarCliente;
+
+  end;
+
+
+implementation
+
+procedure TCliente.ConfigurarCliente;
+var
+  DatoPara  : TDAOParametro;
+  ParaClie  : TClientDataSet;
+begin
+  try
+    DatoPara := TDAOParametro.create;
+    ParaClie := TclientDataSet.create(nil);
+    ParaClie := DatoPara.BuscarParametros('IMAGENCLIENTE');
+    ParaClie.Locate('PROPIEDAD','RUTASCANNER',[]);
+    RutaScanner := ParaClie.Fields[2].value;
+    ParaClie.Locate('PROPIEDAD','RUTANOVEDAD',[]);
+    RutaNovedad := ParaClie.Fields[2].value;
+    ParaClie.Locate('PROPIEDAD','RUTAPROCESO',[]);
+    RutaProceso := ParaClie.Fields[2].value;
+    ParaClie.Locate('PROPIEDAD','RUTAPUBLICADO',[]);
+    RutaPublicado := ParaClie.Fields[2].value;
+    ParaClie.Locate('PROPIEDAD','ESTRUCTURAARCHIVO',[]);
+    EstructuraArchivo := ParaClie.Fields[2].value;
+    ParaClie.Locate('PROPIEDAD','ESTRUCTURCARPETA',[]);
+    EstructuraCarpeta := ParaClie.Fields[2].value;
+    ParaClie.Locate('PROPIEDAD','ESTRUCTURALETA',[]);
+    EstructuraAleta:= ParaClie.Fields[2].value;
+    DatoPara.Free;
+    ParaClie.Free;
+    if (Trim(RutaScanner) <> '') and (Trim(RutaNovedad) <> '') and (trim(RutaProceso) <> '')
+          and (Trim(RutaPublicado) <> '') and (Trim(EstructuraArchivo) <> '')
+          and (Trim(EstructuraCarpeta) <> '') and (Trim(EstructuraCarpeta) <> '') then
+      begin
+        RutaScanner   := ifThen(AnsiRightStr(RutaScanner,1) = '\',RutaScanner,RutaScanner + '\');
+        RutaNovedad   := ifThen(AnsiRightStr(RutaNovedad,1) = '\',RutaNovedad,RutaNovedad + '\');
+        RutaProceso   := ifThen(AnsiRightStr(RutaProceso,1) = '\',RutaProceso,RutaProceso + '\');
+        RutaPublicado := ifThen(AnsiRightStr(RutaPublicado,1) = '\',RutaPublicado,RutaPublicado + '\');
+
+      end
+    else
+      raise Exception.Create('La información de Parámetros sobre las carpetas está incompleta.');
+  except
+    on e : exception do
+      raise Exception.Create('Error configurando Carpetas Locales. ' + #10#13 + '* '
+                              + e.Message);
+  end;
+
+end;
+
+
+{$REGION 'CONSTRUTOR AND DESTRUCTOR'}
+constructor TCliente.Create;
+begin
+  inherited;
+end;
+
+destructor TCliente.Destroy;
+begin
+  inherited;
+
+end;
+{$ENDREGION}
+
+{$REGION 'GETTERS AND SETTERS'}
+function  TCliente.GetRutaScanner():string;
+begin
+  Result := FIdCarpetaAleta;
+end;
+
+procedure TCliente.SetRutaScanner(valor:string);
+begin
+  FIdCarpetaAleta := valor;
+end;
+
+function  TCliente.GetRutaNovedad():string;
+begin
+  Result := FSecuenciaFolio;
+end;
+
+procedure TCliente.SetRutaNovedad(Valor:string);
+begin
+  FSecuenciaFolio := Valor;
+end;
+
+function  TCliente.GetRutaProceso():string;
+begin
+  Result := FTipoFolio;
+end;
+
+procedure TCliente.SetRutaProceso(Valor:string);
+begin
+  FTipoFolio := Valor;
+end;
+
+function  TCliente.GetRutaPublicado():string;
+begin
+  Result := FRutaPublicado;
+end;
+
+procedure TCliente.SetRutaPublicado(Valor:string);
+begin
+  FRutaPublicado := Valor;
+end;
+
+function  TCliente.GetEstructuraArchivo():string;
+begin
+  Result := FEstucturaArchivo;
+end;
+
+procedure TCliente.SetEstructuraArchivo(Valor:string);
+begin
+  FEstucturaArchivo := Valor;
+end;
+
+function  TCliente.GetEstructuraCarpeta():string;
+begin
+  Result := FEstucturaCarpeta;
+end;
+
+procedure TCliente.SetEstructuraCarpeta(Valor:string);
+begin
+  FEstucturaCarpeta := Valor;
+end;
+
+function  TCliente.GetEstructuraAleta():string;
+begin
+  Result := FEstucturaAleta;
+end;
+
+procedure TCliente.SetEstructuraAleta(Valor:string);
+begin
+  FEstucturaAleta := Valor;
+end;
+
+{$ENDREGION}
+
+end.

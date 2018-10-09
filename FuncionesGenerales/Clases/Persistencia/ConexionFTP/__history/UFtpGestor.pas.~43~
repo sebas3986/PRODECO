@@ -1,0 +1,369 @@
+unit UFtpGestor;
+
+interface
+
+uses
+  SysUtils,  strutils,  Classes,  IOUtils,  IdFTP,  IdAllFTPListParsers,
+  IdFTPList;
+
+type
+
+  TFtpGestor = class
+  protected
+    FTP : TIdFTP;
+
+  public
+    constructor Create(P_DiipServ,P_NombUsua,P_PassUsua: string;P_NumePuer: word);
+    destructor  Destroy;
+    {PROPERTIES}
+
+    {METODOS}
+    procedure BajarArchivo(P_RutaOrig, P_ArchOrig, P_RutaDest : string);
+    function BorrarArchivo(P_RutaDire, P_NombArch: string): int32;
+    function BorrarCarpeta(P_RutaBase, P_RutaDire,P_TipoBorr:string) : string;
+    procedure ConectarFTP;
+    procedure CrearCarpeta(P_CarpFtpp,P_CarpCrea: string);
+    procedure DesconectarFTP;
+    function ExisteCarpeta(P_RutaCarp:string): Boolean;
+    function ListarArchivo(P_RutaDire, P_NombArch: string): TStringList;
+    function MoverCarpeta(P_RutaOrig, P_RutaDest:string): string;
+    procedure SubirArchivo(P_CarpOrig, P_ArchOrig, P_CarpFtpp, P_CarpDest,
+                           P_ArchDest: string);
+    function  TestConexion():Boolean;
+  end;
+
+implementation
+
+{ TFTP }
+
+{$REGION 'METODOS'}
+
+
+procedure TFtpGestor.BajarArchivo(P_RutaOrig, P_ArchOrig, P_RutaDest : string);
+var
+  RutaFTP : string;
+begin
+  RutaFTP :=  P_RutaOrig + P_ArchOrig;
+  try
+    with FTP do
+    begin
+      Get(RutaFTP , P_RutaDest + P_ArchOrig, True);
+    end;
+  except
+    on E : Exception do
+    begin
+      if TFile.exists(P_RutaDest + P_ArchOrig) then
+        TFile.delete(P_RutaDest + P_ArchOrig);
+      raise Exception.Create('No es posible descargar el archivo [' + P_ArchOrig
+                            + '] desde el FTP.' + #10#13 + '* ' + e.Message);
+    end;
+  end;
+end;
+
+function TFtpGestor.BorrarArchivo(P_RutaDire, P_NombArch:string): Int32;
+var
+  I         : Int32;
+  ListArch  : TStringList;
+  DireOkok  : boolean;
+
+begin
+  try
+    ListArch:= TStringList.Create;
+    DireOkok:= False;
+    try
+      FTP.ChangeDir(P_RutaDire);
+      DireOkok := True;
+    except
+    end;
+    if DireOkok then
+    begin
+      FTP.List(ListArch,P_NombArch,false);
+      for I := 0 to FTP.DirectoryListing.Count -1 do
+      begin
+        FTP.Delete(FTP.DirectoryListing[I].FileName);
+      end;
+      Result := I;
+    end
+    else
+      Result := 0;
+  except
+      on E : Exception do
+        raise Exception.Create('No es posible eliminar archivo(s) de la carpeta ['
+                                + P_RutaDire + '].'
+                                + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+
+function TFtpGestor.BorrarCarpeta(P_RutaBase,P_RutaDire,P_TipoBorr:string) : string;
+var
+  NombDire : string;
+  NiveDire : int32;
+  I        : Int32;
+begin
+  try
+    {SE VERIFICAN LOS PARAMETROS PARA QUE NO SE REALICEN BORRADOS RECURSIVOS DEL
+     DIRECTORIO RAIZ}
+    if (Trim(P_RutaBase) <> '') and (Trim(P_RutaDire) <> '') and (Trim(P_RutaDire) <> '\') then
+    begin
+      Result := '';
+      NombDire:= P_RutaBase + P_RutaDire;
+      try
+        FTP.ChangeDir(NombDire);
+      except
+        Result := 'E';    {ERROR SI NO EXISTE LA CARPETA}
+      end;
+      if Result = '' then
+      begin
+        if P_TipoBorr = 'RECURSIVO' then
+        begin
+          try
+            NiveDire:=0;
+            repeat
+              NombDire:= StringReplace(FTP.RetrieveCurrentDir,'/','\',[rfReplaceAll]);
+              NombDire:= IfThen(RightStr(NombDire,1) = '\',NombDire,NombDire+ '\');
+              FTP.List('',true);
+              I := 0;
+
+              while (I < FTP.DirectoryListing.Count)
+                      and (FTP.DirectoryListing[I].ItemType = ditFile) do
+              begin
+                FTP.Delete(NombDire + FTP.DirectoryListing[I].FileName);
+                inc(I);
+              end;
+              if I < FTP.DirectoryListing.Count then
+              begin
+                NombDire:= NombDire + FTP.DirectoryListing[I].FileName;
+                FTP.ChangeDir(NombDire);
+                inc(NiveDire);
+              end
+              else
+              begin
+                FTP.ChangeDirUp;
+                FTP.RemoveDir(NombDire);
+                Dec(NiveDire);
+              end;
+            until NiveDire < 0;
+          except
+            Result:= 'R'; {ERROR SI AL ELIMINAR RECURSIVAMENTE LA CARPETA}
+          end;
+        end
+        else
+        begin
+          FTP.ChangeDirUp;
+          try
+            FTP.RemoveDir(NombDire);
+          except
+            Result := 'B';  {ERROR SI NO SE PUEDE REMOVER LA CARPETA POR PERMISOS}
+          end;
+        end;
+
+      end;
+
+    end
+    else
+      Result := 'P';  {ERROR SI LOS PARÁMETROS DE ENTRADA TIENEN VALORES INCORRECTOS}
+  except
+    on E : Exception do
+        raise Exception.Create('No es posible eliminar la carpeta ['
+                                + P_RutaBase + P_RutaDire + '].'
+                                + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+procedure TFtpGestor.ConectarFTP;
+begin
+  try
+    if not FTP.Connected then
+      FTP.Connect;
+  except
+    on E: Exception do
+      raise Exception.Create('No es posible establecer la conexión con el FTP.' + #10#13
+                              + '* '+ e.Message);
+  end;
+end;
+
+procedure TFtpGestor.CrearCarpeta(P_CarpFtpp,P_CarpCrea: string);
+var
+  ListDire: TStringList;
+  I       : Integer;
+begin
+  ListDire:= TStringList.Create;
+  with ListDire do
+  begin
+    StrictDelimiter:=True;
+    Delimiter:='\';
+    {SE ELIMINAN LOS '\' DE LOS EXTREMOS DE LA RUTA}
+    DelimitedText:= IfThen(AnsiLeftStr(P_CarpFtpp,1) = '\', StuffString(P_CarpFtpp,1,1,''),
+                            P_CarpFtpp)
+                    + IfThen(AnsiRightStr(P_CarpCrea,1) = '\',
+                                          StuffString(P_CarpCrea,Length(P_CarpCrea),1,''),
+                            P_CarpCrea);
+
+    {SE VERIFICA QUE LOS NOMBRES DE LA CARPETA Y SUBCARPETAS SEAN VALIDOS}
+    I := 0;
+    while (I < count) and (ListDire[I] <> '') and (AnsiLeftStr(ListDire[I],1) <> ' ')
+                      and (AnsiRightStr(ListDire[I],1) <> ' ' ) do
+      inc(I);
+
+    if I >= count then
+    begin
+      {SE UBICA EN LA CARPETA RAIZ PARA COMENZAR DESDE ALLI}
+      FTP.ChangeDir('\');
+      {SE CREAN UNA A UNA LAS SUBCARPETAS}
+      for I := 0 to ListDire.Count - 1 do
+      begin
+        try
+          FTP.ChangeDir(ListDire[I]);
+        except
+          begin
+            try
+              FTP.MakeDir(ListDire[I]);
+              FTP.ChangeDir(ListDire[I]);
+            except
+              on E : Exception do
+                raise Exception.Create('No es posible crear la carpeta [' + P_CarpCrea + '] en el FTP.'
+                                    + #10#13 + '* '+ e.Message);
+            end;
+          end;
+
+        end;
+      end;
+    end
+    else
+    begin
+      raise Exception.Create('No es posible crear la carpeta [' + P_CarpCrea + '] en el FTP.'
+                             + #10#13 + '* ' + 'La ruta tiene caracteres icorrectos.');
+    end;
+  end;
+end;
+
+procedure TFtpGestor.DesconectarFTP;
+begin
+  try
+    if FTP.Connected then
+      FTP.Disconnect;
+  except
+    on E: Exception do
+      raise Exception.Create('No es posible terminar la conexión con el FTP.' + #10#13
+                              + '* '+ e.Message);
+  end;
+end;
+
+function TFtpGestor.ExisteCarpeta(P_RutaCarp:string): Boolean;
+begin
+  Result:= false;
+  try
+    FTP.ChangeDir(P_RutaCarp);
+    Result:= True;
+  except
+  end;
+end;
+
+function TFtpGestor.ListarArchivo(P_RutaDire, P_NombArch: string): TStringList;
+var
+  I         : Int32;
+  ListArch  : TStringList;
+
+begin
+  try
+    Result:= TStringList.Create;
+    ListArch:= TStringList.Create;
+    try
+      FTP.ChangeDir(P_RutaDire);
+    except
+    end;
+    FTP.List(P_NombArch,true);
+    for I := 0 to FTP.DirectoryListing.Count -1 do
+    begin
+      Result.Add(FTP.DirectoryListing[I].FileName);
+    end;
+  except
+      on E : Exception do
+        raise Exception.Create('No es posible listar archivo(s) de la carpeta ['
+                                + P_RutaDire + '].'
+                                + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TFtpGestor.MoverCarpeta(P_RutaOrig,P_RutaDest:string): string;
+var
+  I         : Int32;
+begin
+  Result:= '' ;
+  try
+    try
+      FTP.ChangeDir(P_RutaDest);
+      Result:= 'D';
+    except
+    end;
+    if Result = '' then
+    begin
+      try
+        FTP.ChangeDir(P_RutaOrig);
+      except
+        Result:= 'O';
+      end;
+      if Result = '' then
+      begin
+        FTP.ChangeDirUp;
+        FTP.Rename(P_RutaOrig,P_RutaDest);
+      end;
+    end;
+  except
+    on E : Exception do
+      raise Exception.Create('No es posible Mover la Carpeta ['
+                              + P_RutaOrig + '].'
+                              + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+procedure TFtpGestor.SubirArchivo(P_CarpOrig, P_ArchOrig, P_CarpFtpp, P_CarpDest,
+                                  P_ArchDest: string);
+begin
+  try
+    FTP.Put(P_CarpOrig + P_ArchOrig, P_CarpFtpp + P_CarpDest + P_ArchDest,False);
+  except
+      on E : Exception do
+        raise Exception.Create('No es posible copiar el archivo [' + P_ArchDest + '] al FTP.'
+                                + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+function TFtpGestor.TestConexion:Boolean;
+begin
+  try
+    try
+      Result := False;
+      FTP.Connect;
+      Result := True;
+    except
+    end;
+  finally
+    FTP.Disconnect;
+  end;
+end;
+
+{$ENDREGION}
+
+{$REGION 'CREATE AND DESTRUCTOR'}
+constructor TFtpGestor.Create(P_DiipServ,P_NombUsua,P_PassUsua: string;P_NumePuer: word);
+begin
+  FTP           :=  TIdFTP.Create;
+  FTP.Host      :=  P_DiipServ;
+  FTP.Username  :=  P_NombUsua;
+  FTP.Password  :=  P_PassUsua;
+  FTP.Port      :=  P_NumePuer;
+end;
+
+destructor TFtpGestor.Destroy;
+begin
+  inherited;
+  FTP.Disconnect;
+  FTP.FreeOnRelease;
+end;
+{$ENDREGION}
+
+{$REGION 'GETTERS Y SETTERS'}
+{$ENDREGION}
+end.

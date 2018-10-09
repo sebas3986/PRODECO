@@ -1,0 +1,335 @@
+object FrmVisor: TFrmVisor
+  Left = 0
+  Top = 0
+  Caption = 'Visor de Im'#225'genes'
+  ClientHeight = 654
+  ClientWidth = 1202
+  Color = clBtnFace
+  DefaultMonitor = dmMainForm
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnClose = FormClose
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object RpnVisor: TRxPanel
+    Left = 0
+    Top = 0
+    Width = 1202
+    Height = 654
+    Align = alClient
+    Alignment = taLeftJustify
+    BevelKind = bkSoft
+    BevelOuter = bvNone
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 0
+    Gradient.Direction = fdTopToBottom
+    Gradient.EndColor = 12885363
+    Gradient.StartColor = 16315117
+    Gradient.Visible = True
+    TileImage = False
+    object RpnVisorFolio: TRxPanel
+      Left = 401
+      Top = 96
+      Width = 797
+      Height = 554
+      Align = alClient
+      BevelOuter = bvNone
+      FullRepaint = False
+      TabOrder = 0
+      TileImage = False
+      DesignSize = (
+        797
+        554)
+      object apdVisorPDF: TAcroPDF
+        Left = 0
+        Top = 0
+        Width = 797
+        Height = 554
+        Align = alClient
+        TabOrder = 0
+        ExplicitLeft = 6
+        ExplicitTop = 6
+        ControlData = {000A00005F52000042390000}
+      end
+      object imsVisorTif: TImageScrollBox
+        Left = 0
+        Top = 0
+        Width = 797
+        Height = 554
+        HorzScrollBar.Tracking = True
+        HorzScrollBar.Visible = False
+        VertScrollBar.Tracking = True
+        VertScrollBar.Visible = False
+        ZoomPercent = 100.000000000000000000
+        MouseHandlerOwnership = True
+        Align = alClient
+        TabOrder = 2
+        ExplicitLeft = 176
+        ExplicitTop = 368
+        ExplicitWidth = 100
+        ExplicitHeight = 100
+      end
+      object RpnMensajeImagen: TRxPanel
+        Left = 288
+        Top = 219
+        Width = 297
+        Height = 138
+        Anchors = [akLeft, akRight]
+        BevelInner = bvRaised
+        BevelOuter = bvNone
+        BevelWidth = 6
+        BorderStyle = bsSingle
+        Color = 1514433
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 1
+        Visible = False
+        Gradient.Direction = fdRightToLeft
+        Gradient.EndColor = clBlack
+        Gradient.StartColor = clMoneyGreen
+        Gradient.StepCount = 63
+        TileImage = False
+        object rxlMensajeImagen: TRxLabel
+          Left = 6
+          Top = 6
+          Width = 281
+          Height = 122
+          Align = alClient
+          Alignment = taCenter
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -13
+          Font.Name = 'Arial Rounded MT Bold'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentFont = False
+          ShadowColor = clNone
+          WordWrap = True
+          ExplicitWidth = 6
+          ExplicitHeight = 15
+        end
+      end
+    end
+    object RpnInformacionImagen: TRxPanel
+      Left = 0
+      Top = 96
+      Width = 401
+      Height = 554
+      Align = alLeft
+      Alignment = taLeftJustify
+      BevelOuter = bvNone
+      Color = clWhite
+      ParentBackground = False
+      TabOrder = 1
+      Gradient.Direction = fdTopToBottom
+      Gradient.EndColor = 12885363
+      Gradient.StartColor = 15192512
+      Gradient.Visible = True
+      TileImage = False
+      DesignSize = (
+        401
+        554)
+      object GrpInformacionImagen: TGroupBox
+        Left = 9
+        Top = 15
+        Width = 381
+        Height = 534
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Caption = 'Selecci'#243'n de Im'#225'genes'
+        Color = clWhite
+        DoubleBuffered = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentColor = False
+        ParentDoubleBuffered = False
+        ParentFont = False
+        TabOrder = 0
+        DesignSize = (
+          381
+          534)
+        object TrvSeleccionImagen: TTreeView
+          Left = 9
+          Top = 33
+          Width = 362
+          Height = 496
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          AutoExpand = True
+          Color = 50319311
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Consolas'
+          Font.Style = [fsBold]
+          Indent = 19
+          ParentFont = False
+          ReadOnly = True
+          RowSelect = True
+          TabOrder = 1
+          OnChange = TrvSeleccionImagenChange
+        end
+        object RpnMensajeArbol: TRxPanel
+          Left = 5
+          Top = 183
+          Width = 367
+          Height = 165
+          Anchors = []
+          BevelInner = bvRaised
+          BevelOuter = bvNone
+          BevelWidth = 6
+          BorderStyle = bsSingle
+          Color = 5382781
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentBackground = False
+          ParentFont = False
+          TabOrder = 0
+          Visible = False
+          Gradient.Direction = fdRightToLeft
+          Gradient.EndColor = clBlack
+          Gradient.StartColor = clMoneyGreen
+          Gradient.StepCount = 63
+          TileImage = False
+          object rxlMensajeArbol: TRxLabel
+            Left = 6
+            Top = 6
+            Width = 351
+            Height = 149
+            Align = alClient
+            Alignment = taCenter
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWhite
+            Font.Height = -15
+            Font.Name = 'Arial Rounded MT Bold'
+            Font.Style = [fsBold]
+            Layout = tlCenter
+            ParentFont = False
+            ShadowColor = clNone
+            WordWrap = True
+            ExplicitLeft = 78
+            ExplicitTop = 54
+          end
+        end
+      end
+    end
+    object RpnTitulo: TRxPanel
+      Left = 0
+      Top = 0
+      Width = 1198
+      Height = 96
+      Align = alTop
+      Alignment = taLeftJustify
+      BevelOuter = bvNone
+      Color = clWhite
+      ParentBackground = False
+      TabOrder = 2
+      Gradient.Direction = fdTopToBottom
+      Gradient.EndColor = 12885363
+      Gradient.StartColor = 15192512
+      Gradient.Visible = True
+      TileImage = False
+      object LblEncabezado: TLabel
+        Left = 0
+        Top = 33
+        Width = 699
+        Height = 63
+        Align = alLeft
+        AutoSize = False
+        Color = 10907648
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -19
+        Font.Name = 'Consolas'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+        Layout = tlCenter
+        WordWrap = True
+      end
+      object LblImagen: TLabel
+        Left = 763
+        Top = 33
+        Width = 435
+        Height = 63
+        Align = alClient
+        Alignment = taRightJustify
+        AutoSize = False
+        Color = 10907648
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -19
+        Font.Name = 'Consolas'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+        Layout = tlCenter
+        WordWrap = True
+        ExplicitLeft = 792
+        ExplicitWidth = 405
+      end
+      object LblTitulo: TLabel
+        Left = 0
+        Top = 0
+        Width = 1198
+        Height = 33
+        Align = alTop
+        Alignment = taCenter
+        AutoSize = False
+        Color = 13010432
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -19
+        Font.Name = 'Arial Rounded MT Bold'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+        Layout = tlCenter
+        WordWrap = True
+      end
+      object rgrVisor: TRadioGroup
+        Left = 699
+        Top = 33
+        Width = 64
+        Height = 63
+        Align = alLeft
+        Caption = 'Visor'
+        Color = clWhite
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial Rounded MT Bold'
+        Font.Style = []
+        Items.Strings = (
+          'TIF'
+          'PDF')
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 0
+        Visible = False
+        OnClick = rgrVisorClick
+        ExplicitLeft = 705
+      end
+    end
+  end
+end

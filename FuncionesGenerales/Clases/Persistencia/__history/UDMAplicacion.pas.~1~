@@ -1,0 +1,55 @@
+unit UDMAplicacion;
+
+interface
+
+uses
+  windows,Sysutils,strutils, Classes,DB, DBClient, UDAOParametro, UFtpGestor,
+  UActualizaModulo;
+
+type
+
+  TDMAplicacion = class(TDataModule)
+    private
+    FVersion              : string;   {VERSION DEL MODULO}
+    FFtpHost              : string;   {DIRECCION FTP DESCARGA DEL MODULO}
+    FFtpPuerto            : word;     {PUERTO DEL FTP}
+    FFtpUsuario           : string;   {USUARIO DEL FTP}
+    FFtpPassword          : string;   {PASSWORD DEL USUARIO FTP}
+    FFtpRutaAplicacion    : string;   {RUTA CARPETA DESCARGA DEL MODULO}
+    FRutaDestino          : string;   {RUTA LOCAL DONDE SE DESCARGA EL MODULO}
+    FArchivoEjecutable    : string;   {NOMBRE DEL ARCHIVO EJECUTABLE}
+
+      {GETTERS AND SETTERS}
+
+    public
+      {CONSTRUCTORES}
+      constructor Create(p_ObjeProp: Tobject);
+      destructor  Destroy;
+      {PROPIEDADES}
+      property Version          : string    read FVersion           write FVersion;
+      property FtpHost          : string    read FFtpHost           write FFtpHost;
+      property FtpPuerto        : Word      read FFtpPuerto         write FFtpPuerto;
+      property FtpUsuario       : string    read FFtpUsuario        write FFtpUsuario;
+      property FtpPassword      : string    read FFtpPassword       write FFtpPassword;
+      property FtpRutaAplicacion: string    read FFtpRutaAplicacion write FFtpRutaAplicacion;
+      property RutaDestino      : string    read FRutaDestino       write FRutaDestino;
+      property ArchivoEjecutable: string    read FArchivoEjecutable write FArchivoEjecutable;
+
+     {METODOS}
+      procedure ConfigurarAplicacion(p_NombModu: string; p_VersModu: string;
+                                      p_DescModu: string);
+      Procedure DescargarEjecutable;
+
+  end;
+
+var
+  FrmActualizaModulo: TFrmActualizaModulo;
+  DMAplicacion      : TDMAplicacion;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

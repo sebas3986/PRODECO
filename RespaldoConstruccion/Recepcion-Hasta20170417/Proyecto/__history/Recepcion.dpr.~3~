@@ -1,0 +1,18 @@
+program Recepcion;
+
+uses
+  Vcl.Forms,
+  URecepcion in '..\Presentacion\URecepcion.pas' {FRecepcion},
+  UDMConexion in '..\Persistencia\UDMConexion.pas' {DMConexion: TDataModule},
+  UDMRecepcion in '..\Persistencia\UDMRecepcion.pas' {DMRecepcion: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFRecepcion, FRecepcion);
+  Application.CreateForm(TDMConexion, DMConexion);
+  Application.CreateForm(TDMRecepcion, DMRecepcion);
+  Application.Run;
+end.

@@ -1,0 +1,57 @@
+unit UProcesoLoginDevo;
+
+interface
+
+uses
+  Sysutils, StrUtils, IOUtils,
+  UUsuarioDevolucionEsta, UDAOLogin;
+
+type
+
+  TProcesoLogin = class
+    private
+      FDatosUsuarioDevolucionEsta : TUsuarioDevolucionEsta;
+
+    public
+      constructor Create;
+      destructor  Destroy;
+
+      {CONSTRUCTORES Y DESTRUCTORES}
+
+      {PROPIEDADES}
+      property DatosUsuarioDevolucionEsta : TUsuarioDevolucionEsta        read FDatosUsuarioDevolucionEsta;
+      {METODOS PROPIOS}
+      function ObtenerDatosUsuario(p_CodiUsua: string; p_ClavAcce:string): TUsuarioDevolucionEsta;
+
+  end;
+
+
+implementation
+
+var
+  DAOLogin: TDAOLogin;
+
+function TProcesoLoginDevo.ObtenerDatosUsuario(p_CodiUsua: string; p_ClavAcce:string):TUsuarioDevolucionEsta;
+begin
+  FDatosUsuarioDevolucionEsta:=DAOLogin.ConsultarDatosUsuario(p_CodiUsua, p_ClavAcce);
+end;
+
+{$REGION 'CONSTRUTOR AND DESTRUCTOR'}
+constructor TProcesoLoginDevo.Create;
+begin
+  DAOLogin:=TDAOLogin.Create;
+  FDatosUsuarioDevolucionEsta:= TUsuarioDevolucionEsta.create;
+end;
+destructor TProcesoLoginDevo.Destroy;
+begin
+  DAOLogin.free;
+  FDatosUsuarioDevolucionEsta.free;
+end;
+
+{$ENDREGION}
+
+{$REGION 'GETTERS AND SETTERS'}
+
+{$ENDREGION}
+
+end.

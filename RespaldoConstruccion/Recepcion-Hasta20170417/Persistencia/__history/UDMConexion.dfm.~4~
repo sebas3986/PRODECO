@@ -1,0 +1,18 @@
+object DMConexion: TDMConexion
+  OldCreateOrder = False
+  Height = 150
+  Width = 215
+  object ZConexion: TZConnection
+    ControlsCodePage = cCP_UTF16
+    UTF8StringsAsWideField = True
+    Catalog = ''
+    HostName = ''
+    Port = 0
+    Database = ''
+    User = ''
+    Password = ''
+    Protocol = ''
+    Left = 93
+    Top = 52
+  end
+end

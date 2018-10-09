@@ -1,0 +1,230 @@
+unit UFrm_Administrador;
+
+interface
+
+uses
+  System.Actions, System.Classes, System.SysUtils,
+  Vcl.ActnCtrls, Vcl.ActnList, Vcl.ActnMan, Vcl.ActnMenus, Vcl.ComCtrls, Vcl.Controls,
+  Vcl.ExtCtrls, Vcl.Forms, Vcl.Graphics, Vcl.ImgList, Vcl.Imaging.jpeg,
+  Vcl.PlatformDefaultStyleActnCtrls, Vcl.ToolWin,
+  Winapi.ShellAPI, Winapi.Windows,
+  IdIPWatch,
+  UProcesoAdministrador,  UDMConexion, UModulo, FPGenerales, UGlobales, EnJpgGr;
+type
+  TFrm_FabricaUNIANDES = class(TForm)
+    AmgOpcionesMenu: TActionManager;
+    ilImageList: TImageList;
+    AmbMenuPrincipal: TActionMainMenuBar;
+    AtbBarraHerramientas: TActionToolBar;
+    actRecepcion: TAction;
+    actReimpresionSticker: TAction;
+    actPublicacion: TAction;
+    actControlCalidad: TAction;
+    actCaptura: TAction;
+    actGeneradorXML: TAction;
+    actCapturaDemanda: TAction;
+    actDevolucionEstado: TAction;
+    actReportes: TAction;
+    actCarpetaDigital: TAction;
+    actSalir: TAction;
+    stbBarraEstado: TStatusBar;
+    imgThomasMti: TImage;
+    imgUniandes: TImage;
+    PnlThomasMti: TPanel;
+    PnlUniandes: TPanel;
+    PnlPruebas: TPanel;
+    procedure FormShow(Sender: TObject);
+    procedure actRecepcionExecute(Sender: TObject);
+    procedure actReimpresionStickerExecute(Sender: TObject);
+    procedure actPublicacionExecute(Sender: TObject);
+    procedure actControlCalidadExecute(Sender: TObject);
+    procedure actCapturaExecute(Sender: TObject);
+    procedure actGeneradorXMLExecute(Sender: TObject);
+    procedure actCapturaDemandaExecute(Sender: TObject);
+    procedure actDevolucionEstadoExecute(Sender: TObject);
+    procedure actSalirExecute(Sender: TObject);
+    procedure actReportesExecute(Sender: TObject);
+    procedure actCarpetaDigitalExecute(Sender: TObject);
+    procedure ConfigurarAmbiente;
+    function  ObtenerEjecutableModulo(P_NombModu: string; P_NombOpci : string;
+                                      P_VeriRuta: Boolean): string;
+    procedure EjecutarModulo(P_NombModu: string; P_NombOpci : string );
+    procedure FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer;
+      var Resize: Boolean);
+  private
+    { Private declarations }
+  public
+    DatoModu  : TModulo;
+    DireccIP  : String;
+    constructor Create;
+    destructor  Destroy;
+
+  end;
+
+var
+  Frm_FabricaUNIANDES : TFrm_FabricaUNIANDES;
+  ProcAdmi            : TProcesoAdministrador;
+  NombModu            : string;
+  VersModu            : string;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrm_FabricaUNIANDES.actCapturaDemandaExecute(Sender: TObject);
+begin
+  EjecutarModulo('MODULOCAPTURADEMANDA', (Sender AS TAction).Caption);
+end;
+
+procedure TFrm_FabricaUNIANDES.actCapturaExecute(Sender: TObject);
+begin
+  EjecutarModulo('MODULOCAPTURA', (Sender AS TAction).Caption);
+end;
+
+procedure TFrm_FabricaUNIANDES.actCarpetaDigitalExecute(Sender: TObject);
+begin
+  EjecutarModulo('MODULOCARPETADIGITAL', (Sender AS TAction).Caption);
+end;
+
+procedure TFrm_FabricaUNIANDES.actControlCalidadExecute(Sender: TObject);
+begin
+  EjecutarModulo('MODULOCONTROLCALIDAD', (Sender AS TAction).Caption);
+end;
+
+procedure TFrm_FabricaUNIANDES.actDevolucionEstadoExecute(Sender: TObject);
+begin
+  EjecutarModulo('MODULODEVOLUCIONESTADO', (Sender AS TAction).Caption);
+end;
+
+procedure TFrm_FabricaUNIANDES.actGeneradorXMLExecute(Sender: TObject);
+begin
+  EjecutarModulo('MODULOGENERADORXML', (Sender AS TAction).Caption);
+end;
+
+procedure TFrm_FabricaUNIANDES.actPublicacionExecute(Sender: TObject);
+begin
+  EjecutarModulo('MODULOPUBLICACION', (Sender AS TAction).Caption);
+end;
+
+procedure TFrm_FabricaUNIANDES.actRecepcionExecute(Sender: TObject);
+begin
+  EjecutarModulo('MODULORECEPCION', (Sender AS TAction).Caption);
+end;
+
+procedure TFrm_FabricaUNIANDES.actReimpresionStickerExecute(Sender: TObject);
+begin
+  EjecutarModulo('MODULOREIMPRESIONSTICKER', (Sender AS TAction).Caption);
+end;
+
+procedure TFrm_FabricaUNIANDES.actReportesExecute(Sender: TObject);
+begin
+  EjecutarModulo('MODULOREPORTES', (Sender AS TAction).Caption);
+end;
+
+procedure TFrm_FabricaUNIANDES.actSalirExecute(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+
+procedure TFrm_FabricaUNIANDES.FormCanResize(Sender: TObject; var NewWidth,
+  NewHeight: Integer; var Resize: Boolean);
+begin
+  if NewWidth < 800 then
+    NewWidth := 800;
+  if NewHeight < 500 then
+    NewHeight := 500;
+  Resize := true;
+end;
+
+procedure TFrm_FabricaUNIANDES.FormShow(Sender: TObject);
+begin
+  ConfigurarAmbiente;
+  DMConexion.BloquearOpcionesMenu(AmgOpcionesMenu,'MenuPrincipal');
+  OcultarOpcionesPrincipales(AmbMenuPrincipal);
+end;
+
+procedure TFrm_FabricaUNIANDES.ConfigurarAmbiente;
+begin
+  {SE CREA EL OBJETO DE LA CAPA LOGICA }
+  NombModu:= 'MODULOADMINISTRADOR';
+  VersModu:= '20170706.M01';
+  ProcAdmi:= TProcesoAdministrador.Create;
+  DatoModu:= TModulo.Create;
+
+  {SE VERIFICA LA LA VERSION DEL MÓDULO)}
+  ProcAdmi.VerificarVersion(NombModu,VersModu,VeriRuta);
+  Frm_FabricaUNIANDES.Caption:= 'Fábrica PRODECO - Administrador del Sistema - [ Versión ' + VersModu + ' ]';
+  with TIdIPWatch.Create() do
+  begin
+    DireccIP  := LocalIP;
+    Free;
+  end;
+  if AmbiEjecApli <> 'DESA' then
+    PnlUniandes.Height:=  PnlUniandes.Height + PnlPruebas.Height;
+
+  stbBarraEstado.Panels[0].Text:='Usuario: ' + DMConexion.LoginUser + ' - '
+                                  + DMConexion.NameUser;
+  stbBarraEstado.Panels[1].Text:='IP: ' + DireccIP;
+
+end;
+
+procedure TFrm_FabricaUNIANDES.EjecutarModulo(P_NombModu: string; P_NombOpci: string);
+begin
+  ShellExecute(Handle, 'open', PChar(ObtenerEjecutableModulo(P_NombModu, P_NombOpci,VeriRuta)),
+               PChar('"' + DMConexion.LoginUser  +'" "' + DMConexion.NameUser + '" "UaNnIdVeEs"'),
+               nil, SW_SHOW);
+end;
+
+function  TFrm_FabricaUNIANDES.ObtenerEjecutableModulo(P_NombModu: string; P_NombOpci : string;
+                                                       P_VeriRuta: Boolean): string;
+var
+  RutaApli : string;
+  EjecPara : string;
+
+begin
+  DatoModu:=ProcAdmi.ObtenerDatosModulo(P_NombModu, P_NombOpci );
+  RutaApli := ExtractFilePath(Application.ExeName);
+  EjecPara := DatoModu.RutaDestino + DatoModu.ArchivoEjecutable;
+
+  if P_VeriRuta then
+  begin
+    if (Pos(LowerCase(RutaApli),LowerCase(EjecPara)) <> 1) or (not FileExists(EjecPara)) then
+      raise Exception.Create('Imposible ejecutar la Opción [' + P_NombOpci + '].'
+                       + #13#10
+                       + 'Módulo ejecutable no se encuentra instalado en la Carpeta de la Aplicación.'
+                       + #13#10
+                       + 'Revisar Parámetros de la Aplicación.')
+    else
+      Result:= EjecPara;
+  end
+  else
+  begin
+    if Not FileExists(EjecPara) then
+      raise Exception.Create('Imposible ejecutar la Opción [' + P_NombOpci + '].'
+                       + #13#10
+                       + 'Módulo ejecutable no se encuentra instalado en la Carpeta de la Aplicación.'
+                       + #13#10
+                       + 'Revisar Parámetros de la Aplicación.')
+    else
+      Result:= EjecPara;
+  end;
+
+end;
+
+{$REGION 'CONSTRUTOR AND DESTRUCTOR'}
+constructor TFrm_FabricaUNIANDES.Create;
+begin
+  DatoModu:= TModulo.Create;
+end;
+
+destructor TFrm_FabricaUNIANDES.Destroy;
+begin
+  DatoModu.Free;
+end;
+
+{$ENDREGION}
+
+
+end.
+

@@ -1,0 +1,8 @@
+unit UGlobalesPrograma;
+
+interface
+var
+  TipoUsuaConeProg : string;
+implementation
+
+end.

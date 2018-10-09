@@ -1,0 +1,309 @@
+unit UDAOPublicacion;
+
+interface
+uses
+  SysUtils,StrUtils,Classes,DB,DBClient, zdataset,  ZDbcIntfs, UDMConexion, UFolio, UImagen;
+
+type
+  TDAOPublicacion = class
+    private
+      FQuery : TZquery;
+    public
+      constructor create;
+      destructor  destroy;
+      Function  AgregarFolio(P_DatoFolio: TFolio; P_CodPreimpreso: string): TClientDataSet;
+      Procedure AgregarImagen(P_DatoImag: TImagen);
+      Procedure CambiarEstadoCarpeta(P_IdenCarp: integer);
+      procedure CancelarTransaccion;
+      procedure FinalizarTransaccion;
+      procedure InicarTransaccion;
+      function  ObtenerCantidadesCarpeta(P_IdenCarp: Integer; P_CodiCarp: string): TClientDataSet;
+      function  ObtenerDatosEstado(P_CodiCarp: string): TClientDataSet;
+      //Sebastian Camacho 02/10/2018
+      function  GetCodigoFolio(P_CodPreimpreso :string) :string;
+  end;
+
+implementation
+
+
+{$REGION 'METODOS PROPIOS'}
+
+
+Function TDAOPublicacion.AgregarFolio(P_DatoFolio: TFolio; P_CodPreimpreso: string): TClientDataSet;
+begin
+  try
+    Result := TClientDataSet.Create(nil);
+    with Result do
+    begin
+      FieldDefs.Add('IDFOLIO',ftLargeint, 0);
+      FieldDefs.Add('CODIGOFOLIO',ftString, 15);
+      CreateDataSet;
+    end;
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      //Sebastian Camacho 03/10/2018
+      P_CodPreimpreso := ansileftstr(P_CodPreimpreso,Length(P_CodPreimpreso) - Length(ExtractFileExt(P_CodPreimpreso)));
+      SQL.Add(Format('UPDATE %s.FOLIO SET TIPOFOLIO = :TIPOFOLIO WHERE CODPREIMPRESO = '+QuotedStr(P_CodPreimpreso),
+                      [DMConexion.esquema]));
+      SQL.Add('         RETURNING idfolio, codigofolio');
+      ParamByName('TIPOFOLIO').AsString   := P_DatoFolio.TipoFolio;
+      Open;
+      if not IsEmpty then
+      begin
+        First;
+        while not Eof do
+        begin
+          Result.Append;
+          Result.FieldByName('IDFOLIO').Value     := FieldByName('IDFOLIO').Value;
+          Result.FieldByName('CODIGOFOLIO').value := FieldByName('CODIGOFOLIO').AsString;
+          Next
+        end;
+      end;
+    end;
+
+  except
+    on E:exception do
+      raise Exception.Create('No es posible indexar el Folio [' + P_DatoFolio.CodigoFolio + ']. '
+                              + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+
+Procedure TDAOPublicacion.AgregarImagen(P_DatoImag: TImagen);
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+
+      SQL.Add(Format('INSERT INTO %s.IMAGEN  (idfolio, version, rutalocal, rutaftp, nombreimagen, '
+                      + 'servidorftp, ippublicacion, tamanobytes, ancho, alto, densidad, '
+                      + 'usuario)',[DMConexion.esquema]));
+      SQL.Add(Format('  VALUES (%d,%d,''%s'',''%s'',''%s'',''%s'', ''%s'', %d, %d, %d, %d, ''%s'' )',
+                              [P_DatoImag.IdFolio, P_DatoImag.Version, P_DatoImag.RutaLocal,
+                               P_DatoImag.RutaFTP, P_DatoImag.NombreImagen, P_DatoImag.ServidorFTP,
+                               P_DatoImag.IpPublicacion, P_DatoImag.TamanoBytes, P_DatoImag.Ancho,
+                               P_DatoImag.Alto, P_DatoImag.Densidad, Paramstr(1)]));
+      ExecSQL;
+    end;
+
+  except
+    on E:exception do
+      raise Exception.Create('No es posible insertar la Imagen [' + P_DatoImag.NombreImagen
+                             + ']. ' + #10#13 + '* ' + e.Message);
+
+  end;
+end;
+
+function TDAOPublicacion.GetCodigoFolio(P_CodPreimpreso :string):string;
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add(Format('SELECT CODIGOFOLIO FROM %S.FOLIO WHERE CODPREIMPRESO = '+QuotedStr(P_CodPreimpreso),[DMConexion.esquema]));
+      Open;
+      First;
+      Result := FieldByName('CODIGOFOLIO').AsString
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar el codigo del folio [' + P_CodPreimpreso
+                             + ']. ' + #10#13 + '* ' + e.Message);
+  end;
+end;
+
+Procedure TDAOPublicacion.CambiarEstadoCarpeta(P_IdenCarp: integer);
+begin
+  try
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT p_idenflujnuev ');
+      SQL.Add(Format('FROM %s.FNC_ASIGNARFLUJOCARPETA (%d,''%s'')',
+                      [DMConexion.esquema, p_IdenCarp, 'GUARDADO SATISFACTORIO']));
+      Open;
+    end;
+
+  except
+    on E:exception do
+      raise Exception.Create('No es posible actualizar el estado de la Carpeta ID ['
+                              + IntToStr(P_IdenCarp) + ']. ' + #10#13 + '* ' + e.Message);
+
+  end;
+end;
+
+function TDAOPublicacion.ObtenerCantidadesCarpeta(P_IdenCarp: Integer; P_CodiCarp: string): TClientDataSet;
+var
+  CarpCodi : string;
+begin
+  try
+
+    Result:= TClientDataSet.Create(nil);
+    with Result do
+    begin
+      FieldDefs.Add('CODIGOCARPETA',ftString, 30);
+      FieldDefs.Add('CLASECARPETA',ftString, 1);
+      FieldDefs.Add('IDCARPETAALETA',ftLargeint, 0);
+      FieldDefs.Add('CODIGOCARPETAALETA',ftString, 30);
+      FieldDefs.Add('CANTIDADFOLIOS',ftInteger, 0);
+      FieldDefs.Add('RUTAFTP',ftString, 150);
+      CreateDataSet;
+    end;
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT CARP.CODIGOCARPETA, CARP.CLASECARPETA, CAAL.IDCARPETAALETA, ');
+      SQL.Add('       CAAL.CODIGOCARPETAALETA, CAAL.CANTIDADFOLIOS,');
+      SQL.Add('       (SELECT IMAG1.RUTAFTP ');
+      SQL.Add(Format('    FROM %s.CARPETAALETA CAAL1',[DMConexion.esquema]));
+      SQL.Add(Format('    INNER JOIN %s.FOLIO FOLI1 ON (FOLI1.IDCARPETAALETA = CAAL1.IDCARPETAALETA)',
+                                     [DMConexion.esquema]));
+      SQL.Add(Format('    INNER JOIN %s.IMAGEN IMAG1 ON (IMAG1.IDFOLIO = FOLI1.IDFOLIO)',
+                                     [DMConexion.esquema]));
+      SQL.Add('           WHERE CAAL1.IDCARPETA = CARP.IDCARPETACREA' );
+      SQL.Add('           LIMIT 1) AS RUTAFTP' );
+      SQL.Add(Format('FROM %s.CARPETA CARP',[DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.CARPETAALETA CAAL ON CAAL.IDCARPETA=CARP.IDCARPETA',[DMConexion.esquema]));
+      SQL.Add('       WHERE CARP.IDCARPETA = ' + IntToStr(P_IdenCarp));
+      SQL.Add('         AND CARP.HABILITADO AND CAAL.HABILITADO');
+      SQL.Add('       ORDER BY 1,4');
+      open;
+      first;
+      while (not Eof) do
+      begin
+        Result.Append;
+        Result.FieldByName('CODIGOCARPETA').Value       := FieldByName('CODIGOCARPETA').AsString;
+        Result.FieldByName('CLASECARPETA').Value        := FieldByName('CLASECARPETA').AsString;
+        Result.FieldByName('IDCARPETAALETA').Value      := FieldByName('IDCARPETAALETA').AsString;
+        Result.FieldByName('CODIGOCARPETAALETA').Value  := FieldByName('CODIGOCARPETAALETA').AsString;
+        Result.FieldByName('CANTIDADFOLIOS').Value      := FieldByName('CANTIDADFOLIOS').AsString;
+        Result.FieldByName('RUTAFTP').Value             := FieldByName('RUTAFTP').AsString;
+        next;
+      end;
+    end;
+
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar cantidad de folios de la Carpeta (' + P_CodiCarp + ') ['
+                              + ParamStr(2) + '].' + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+
+function TDAOPublicacion.ObtenerDatosEstado(P_CodiCarp: string): TClientDataSet;
+begin
+  try
+    Result:= TClientDataSet.Create(nil);
+    with Result do
+    begin
+      FieldDefs.Add('DESCRIPCIONTAREA',ftString, 50);
+      FieldDefs.Add('IDCARPETA',ftInteger, 0);
+      CreateDataSet;
+    end;
+    with FQuery do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT DISTINCT CASE WHEN TARE.DESCRIPCIONTAREA NOT IN (''PUBLICACIÓN'',''FIRMA Y ESTAMPA'') ');
+      SQL.Add('                     THEN ''OTRO'' ELSE TARE.DESCRIPCIONTAREA END AS DESCRIPCIONTAREA, ');
+      SQL.Add('                CASE WHEN TARE.DESCRIPCIONTAREA = ''PUBLICACIÓN'' AND COUNT(*) = 1 ');
+      SQL.Add('                     THEN MAX(CARP.IDCARPETA) ELSE NULL END AS IDCARPETA ');
+      SQL.Add(Format('FROM %s.CARPETA CARP',[DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.FLUJO FLUJ ON FLUJ.IDFLUJO = CARP.IDFLUJO',[DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.TAREA TARE ON TARE.IDTAREA = FLUJ.IDTAREAPROXIMA',[DMConexion.esquema]));
+      SQL.Add('       WHERE CARP.CODIGOCARPETA = ' + QuotedStr(CarpCodi));
+      SQL.Add('             AND CARP.HABILITADO AND FLUJ.HABILITADO AND TARE.HABILITADO');
+      SQL.Add('       GROUP BY TARE.DESCRIPCIONTAREA');
+      open;
+      first;
+      while (not Eof) do
+      begin
+        Result.Append;
+        Result.FieldByName('DESCRIPCIONTAREA').Value    := FieldByName('DESCRIPCIONTAREA').AsString;
+        Result.FieldByName('IDCARPETA').Value           := FieldByName('IDCARPETA').value;
+        next;
+      end;
+    end;
+
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar Estados de Carpetas de Creación e Inseciones del '
+                              + 'código [' + P_CodiCarp + '] ['
+                              + ParamStr(2) + '].' + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+
+
+
+{$ENDREGION}
+
+{$REGION 'CONTROL DE TRANSACCIONES'}
+
+procedure TDAOPublicacion.CancelarTransaccion;
+begin
+  try
+    with FQuery do
+    begin
+      if Connection.InTransaction then
+        Connection.Rollback;
+      Connection.TransactIsolationLevel:= TZTransactIsolationLevel.tinone;
+    end;
+  finally
+  end;
+end;
+
+procedure TDAOPublicacion.InicarTransaccion;
+begin
+  try
+    with FQuery do
+    begin
+      Connection.TransactIsolationLevel := TZTransactIsolationLevel.tiReadCommitted;
+      Connection.StartTransaction;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible inicializar Administrador de Transacciones. '
+                              + #10#13 + '* ' + e.Message);
+  end;
+end;
+
+procedure TDAOPublicacion.FinalizarTransaccion;
+begin
+  try
+    with FQuery do
+    begin
+      Connection.commit;
+      Connection.TransactIsolationLevel:= TZTransactIsolationLevel.tinone;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible finalizar el Administrador de Transacciones. '
+                              + #10#13 + '* ' + e.Message);
+  end;
+end;
+
+{$ENDREGION}
+
+{$REGION 'CONSTRUCTOR Y DESTRUCTOR'}
+constructor TDAOPublicacion.create;
+begin
+  FQuery:= TZQuery.create(nil);
+  FQuery.Connection:= DMConexion.ZConexion;
+end;
+
+destructor TDAOPublicacion.destroy;
+begin
+  FQuery.Close;
+  FQuery.Connection.Disconnect;
+  FQuery.free;
+end;
+{$ENDREGION}
+end.

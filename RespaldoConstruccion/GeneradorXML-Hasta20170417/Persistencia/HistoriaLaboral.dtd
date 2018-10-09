@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT HISTORIA_LABORAL (contenido+,estructura+,contexto+,indices+)>
+<!ELEMENT contenido (nombreimagen, tipoidentificacion, identificacion, folio_es_tipoidentificacion, identificacion_adicional, tipo_documental, titulo_documento,autor_emisorresponsable,clasificacion_acceso,fecha_creacion,folio_electronico,tema_asunto,palabras_clave)>
+<!ELEMENT nombreimagen (#PCDATA)>
+<!ELEMENT tipoidentificacion (#PCDATA)>
+<!ELEMENT identificacion (#PCDATA)>
+<!ELEMENT identificacion_adicional (tipoidentificacionadicional, identificacionadicional)>
+<!ELEMENT tipoidentificacionadicional (#PCDATA)>
+<!ELEMENT identificacionadicional (#PCDATA)>
+<!ELEMENT tipo_documental (tipodocumental)>
+<!ELEMENT tipodocumental (#PCDATA)>
+<!ELEMENT titulo_documento (titulodocumento, Seccion_1, Seccion_2, Seccion_3, Seccion_4, Seccion_5, Seccion_6, ContratoCivil)>
+<!ELEMENT titulodocumento (#PCDATA)>
+<!ELEMENT Seccion_1 (#PCDATA)>
+<!ELEMENT Seccion_2 (#PCDATA)>
+<!ELEMENT Seccion_3 (#PCDATA)>
+<!ELEMENT Seccion_4 (#PCDATA)>
+<!ELEMENT Seccion_5 (#PCDATA)>
+<!ELEMENT Seccion_6 (#PCDATA)>
+<!ELEMENT ContratoCivil (#PCDATA)>
+<!ELEMENT autor_emisorresponsable (fondo,unidad_responsable)>
+<!ELEMENT fondo (#PCDATA)>
+<!ELEMENT unidad_responsable (#PCDATA)>
+<!ELEMENT clasificacion_acceso (nivel_acceso)>
+<!ELEMENT nivel_acceso (#PCDATA)>
+<!ELEMENT fecha_creacion (fechacreacion)>
+<!ELEMENT folio_electronico (folios_totales, folio_actual)>
+<!ELEMENT folios_totales (#PCDATA)>
+<!ELEMENT folio_actual (#PCDATA)>
+<!ELEMENT tema_asunto (tema)>
+<!ELEMENT tema (#PCDATA)>
+<!ELEMENT palabras_clave (Nombres_Apellidos, Secciones, num_id)>
+<!ELEMENT Nombres_Apellidos (#PCDATA)>
+<!ELEMENT Secciones (Seccion_1, Seccion_2, Seccion_3, Seccion_4, Seccion_5, Seccion_6)>
+<!ELEMENT Seccion_1 (#PCDATA)>
+<!ELEMENT Seccion_2 (#PCDATA)>
+<!ELEMENT Seccion_3 (#PCDATA)>
+<!ELEMENT Seccion_4 (#PCDATA)>
+<!ELEMENT Seccion_5 (#PCDATA)>
+<!ELEMENT Seccion_6 (#PCDATA)>
+<!ELEMENT num_id (#PCDATA)>
+<!ELEMENT estructura (descripcion,formato,estado,proceso_administrativo,unidad_administrativa_resp,perfil_autorizado?,ubicacion,serie)>
+<!ELEMENT descripcion (descripcion_)>
+<!ELEMENT descripcion_ (#PCDATA)>
+<!ELEMENT formato (formato_)>
+<!ELEMENT formato_ (#PCDATA)>
+<!ELEMENT estado (estado_elaboracion)>
+<!ELEMENT estado_elaboracion (#PCDATA)>
+<!ELEMENT proceso_administrativo (macroproceso, procesonivel1, procesonivel2)>
+<!ELEMENT unidad_administrativa_resp (unidadadministrativaresp)>
+<!ELEMENT unidadadministrativaresp (#PCDATA)>
+<!ELEMENT perfil_autorizado (#PCDATA)>
+<!ELEMENT ubicacion (#PCDATA)>
+<!ELEMENT serie (serie_, subserie, Serie_1, Serie_2)>
+<!ELEMENT serie_ (#PCDATA)>
+<!ELEMENT subserie (#PCDATA)>
+<!ELEMENT Serie_1 (#PCDATA)>
+<!ELEMENT Serie_2 (#PCDATA)>
+<!ELEMENT contexto (juridico_administrativo, documental, procedencia, procedimental, tecnologico, autenticidad, digitalizacion, indices)>
+<!ELEMENT juridico_administrativo (valores_primarios, valores_secundarios)>
+<!ELEMENT tecnologico (tecnologico_1, tipodefirma)>
+<!ELEMENT autenticidad (dominio_red, ip_usuario, MAC_usuario)>
+<!ELEMENT dominio_red (#PCDATA)>
+<!ELEMENT ip_usuario (#PCDATA)>
+<!ELEMENT MAC_usuario (#PCDATA)>
+<!ELEMENT digitalizacion (procesado_por, fecha_digitalizacion, fecha_indexacion, resolucion, tamano, software_captura, color, compresion, folio_inicial, folio_final)>
+<!ELEMENT procesado_por (#PCDATA)>
+<!ELEMENT fecha_digitalizacion (#PCDATA)>
+<!ELEMENT fecha_indexacion (#PCDATA)>
+<!ELEMENT resolucion (#PCDATA)>
+<!ELEMENT tamano (#PCDATA)>
+<!ELEMENT software_captura (#PCDATA)>
+<!ELEMENT color (#PCDATA)>
+<!ELEMENT compresion (#PCDATA)>
+<!ELEMENT folio_inicial (#PCDATA)>
+<!ELEMENT folio_final (#PCDATA)>
+<!ELEMENT indices (num_id, prim_nomb, seg_nomb, prim_apll, seg_apll)>
+<!ELEMENT num_id (#PCDATA)>
+<!ELEMENT prim_nomb (#PCDATA)>
+<!ELEMENT seg_nomb (#PCDATA)>
+<!ELEMENT prim_apll (#PCDATA)>
+<!ELEMENT seg_apll (#PCDATA)>

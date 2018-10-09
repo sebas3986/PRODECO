@@ -1,0 +1,252 @@
+unit UFTP;
+
+interface
+
+uses
+  SysUtils,  strutils,  DBClient,  Classes, IOUtils, IdFTP,  UDAOParametro;
+
+type
+
+  TFTP = class
+  protected
+    FTP : TIdFTP;
+
+  private
+    FIPServidor   : string;
+    FCarpetaRaiz  : string;
+    FFechaAcceso  : TDateTime;
+    {GETTERS Y SETTERS}
+    procedure SetIPServidor(valor:string);
+    function  GetIPServidor(): string;
+    procedure SetCarpetaRaiz(valor:string);
+    function  GetCarpetaRaiz(): string;
+    procedure SetFechaAcceso(valor:TDateTime);
+    function  GetFechaAcceso(): TDateTime;
+
+  public
+    constructor Create;
+    destructor  Destroy;
+    {PROPERTIES}
+    Property IPServidor: string     read GetIPServidor  write SetIPServidor;
+    Property CarpetaRaiz: string    read GetCarpetaRaiz write SetCarpetaRaiz;
+    Property FechaAcceso: TDateTime read GetFechaAcceso write SetFechaAcceso;
+    {METODOS}
+    procedure ConfigurarFTP;
+    procedure ConectarFTP;
+    procedure DesconectarFTP;
+    procedure CrearCarpeta(P_NombCarp: string);
+    function  TestConexion():Boolean;
+    procedure SubirArchivo(P_CarpOrig, P_ArchOrig, P_CarpDest, P_ArchDest: string);
+    procedure BajarArchivo (P_RutaOrig, P_ArchOrig, P_RutaDest:string);
+  end;
+
+implementation
+
+{ TFTP }
+
+{$REGION 'METODOS'}
+
+procedure TFTP.ConfigurarFTP;
+var
+  ParaCone : TClientDataSet;
+  DatoPara : TDAOParametro;
+begin
+  try
+    DatoPara := TDAOParametro.create;
+    ParaCone := TclientDataSet.create(nil);
+    ParaCone := DatoPara.BuscarParametros('FTP');
+    with FTP do
+    begin
+      ParaCone.Locate('PROPIEDAD','HOST',[]);
+      IPServidor:= ParaCone.Fields[2].value;
+      Host      := IPServidor;
+      FechaAcceso:= ParaCone.Fields[3].value;
+      ParaCone.Locate('PROPIEDAD','PUERTO',[]);
+      Port := ParaCone.Fields[2].value;
+      ParaCone.Locate('PROPIEDAD','USUARIO',[]);
+      Username := ParaCone.Fields[2].value;
+      ParaCone.Locate('PROPIEDAD','PASSWORD',[]);
+      Password := ParaCone.Fields[2].value;
+      ParaCone.Locate('PROPIEDAD','CARPETARAIZ',[]);
+      CarpetaRaiz := ifThen(AnsiRightStr(ParaCone.Fields[2].value,1) = '\',
+                            ParaCone.Fields[2].value,ParaCone.Fields[2].value + '\');
+    end;
+  except
+    on e:exception do
+      raise Exception.Create('Error configurando FTP. ' + #10#13 + '* '
+                              + e.Message);
+  end;
+end;
+
+function TFTP.TestConexion:Boolean;
+begin
+  try
+    try
+      Result := False;
+      FTP.Connect;
+      Result := True;
+    except
+    end;
+  finally
+    FTP.Disconnect;
+  end;
+end;
+
+procedure TFTP.ConectarFTP;
+begin
+  try
+    if NOT FTP.Connected then
+      FTP.Connect;
+  except
+    on E: Exception do
+      raise Exception.Create('Imposible establecer conexión con el FTP.' + #10#13
+                              + '* '+ e.Message);
+  end;
+end;
+
+procedure TFTP.DesconectarFTP;
+begin
+  try
+    if FTP.Connected then
+      FTP.Disconnect;
+  except
+    on E: Exception do
+      raise Exception.Create('Imposible terminar la conexión con el FTP.' + #10#13
+                              + '* '+ e.Message);
+  end;
+end;
+
+procedure TFTP.CrearCarpeta(P_NombCarp: string);
+var
+  ListDire: TStringList;
+  I       : Integer;
+begin
+  ListDire:= TStringList.Create;
+  with ListDire do
+  begin
+    StrictDelimiter:=True;
+    Delimiter:='\';
+    {SE ELIMINAN LOS '\' DE LOS EXTREMOS DE LA RUTA}
+    DelimitedText:= IfThen(AnsiLeftStr(CarpetaRaiz,1) = '\', StuffString(CarpetaRaiz,1,1,''),
+                            CarpetaRaiz)
+                    + IfThen(AnsiRightStr(P_NombCarp,1) = '\',
+                                          StuffString(P_NombCarp,Length(P_NombCarp),1,''),
+                            P_NombCarp);
+    {SE VERIFICA QUE LOS NOMBRES DE LA CARPETA Y SUBCARPETAS SEAN VALIDOS}
+    I := 0;
+    while (I < count) and (ListDire[I] <> '') and (AnsiLeftStr(ListDire[I],1) <> ' ')
+                      and (AnsiRightStr(ListDire[I],1) <> ' ' ) do
+      inc(I);
+
+    if I >= count then
+    begin
+      {SE CREAN UNA A UNA LAS SUBCARPETAS}
+      for I := 0 to ListDire.Count - 1 do
+      begin
+        try
+          FTP.ChangeDir(ListDire[I]);
+        except
+          begin
+            try
+              FTP.MakeDir(ListDire[I]);
+              FTP.ChangeDir(ListDire[I]);
+            except
+              on E : Exception do
+                raise Exception.Create('Imposible crear la carpeta [' + P_NombCarp + '] en el FTP.'
+                                    + #10#13 + '* '+ e.Message);
+            end;
+          end;
+
+        end;
+      end;
+    end
+    else
+    begin
+      raise Exception.Create('Imposible crear la carpeta [' + P_NombCarp + '] en el FTP.'
+                             + #10#13 + '* ' + 'La ruta tiene caracteres icorrectos.');
+    end;
+  end;
+end;
+
+procedure TFTP.SubirArchivo(P_CarpOrig, P_ArchOrig, P_CarpDest, P_ArchDest: string);
+begin
+  try
+    FTP.Put(P_CarpOrig + P_ArchOrig, CarpetaRaiz + P_CarpDest + P_ArchDest,False);
+  except
+      on E : Exception do
+        raise Exception.Create('Imposible copiar el archivo [' + P_ArchDest + '] al FTP.'
+                                + #10#13 + '* '+ e.Message);
+  end;
+end;
+
+procedure TFTP.BajarArchivo(P_RutaOrig, P_ArchOrig, P_RutaDest : string);
+var
+  RutaFTP : string;
+begin
+  RutaFTP := CarpetaRaiz + P_RutaOrig + P_ArchOrig;
+  try
+    with FTP do
+    begin
+      Get(RutaFTP , P_RutaDest + P_ArchOrig, True);
+    end;
+  except
+    on E : Exception do
+    begin
+      if TFile.exists(P_RutaDest) then
+        TFile.delete(P_RutaDest);
+      raise Exception.Create('Imposible descargar el archivo [' + P_ArchOrig
+                            + '] desde el FTP.' + #10#13 + '* ' + e.Message);
+    end;
+  end;
+end;
+
+{$ENDREGION}
+
+{$REGION 'CREATE AND DESTRUCTOR'}
+constructor TFTP.Create;
+begin
+  inherited;
+  FTP :=TIdFTP.Create;
+end;
+
+destructor TFTP.Destroy;
+begin
+  inherited;
+  FTP.Disconnect;
+  FTP.FreeOnRelease;
+end;
+{$ENDREGION}
+
+{$REGION 'GETTERS Y SETTERS'}
+
+procedure TFTP.SetIPServidor(valor:string);
+begin
+  FIPServidor:= Valor;
+end;
+
+function  TFTP.GetIPServidor(): string;
+begin
+  Result:= FIPServidor;
+end;
+
+procedure TFTP.SetCarpetaRaiz(valor:string);
+begin
+  FCarpetaRaiz:= Valor;
+end;
+
+function  TFTP.GetCarpetaRaiz(): string;
+begin
+  Result:= FCarpetaRaiz;
+end;
+
+procedure TFTP.SetFechaAcceso(valor:TDateTime);
+begin
+  FFechaAcceso:= Valor;
+end;
+
+function  TFTP.GetFechaAcceso(): TDateTime;
+begin
+  Result:= FFechaAcceso;
+end;
+{$ENDREGION}
+end.

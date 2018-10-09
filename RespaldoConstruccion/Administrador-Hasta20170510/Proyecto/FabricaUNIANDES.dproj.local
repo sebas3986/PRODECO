@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2013/11/28 08:38:19.000.094,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\FormUnit1.pas</Transaction>
+    <Transaction>2015/03/02 08:23:17.000.687,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\GroupedItems1.pas</Transaction>
+    <Transaction>2015/11/24 16:11:18.000.541,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.dfm=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Presentacion\UFrm_Administrador.dfm</Transaction>
+    <Transaction>2015/11/24 16:11:24.000.780,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Project1.dproj=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Presentacion\FabricaUNIANDES.dproj</Transaction>
+    <Transaction>2015/11/24 16:33:44.000.536,=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Persistencia\dm_Login.pas</Transaction>
+    <Transaction>2015/12/04 07:37:21.000.529,D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Presentacion\FabricaUNIANDES.dproj=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Proyecto\FabricaUNIANDES.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

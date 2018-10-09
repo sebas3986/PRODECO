@@ -1,0 +1,92 @@
+unit UCarpetaDevolucionEsta;
+
+interface
+
+uses
+  Classes;
+
+type
+
+  TCarpetaDevolucionEsta = class
+    private
+      FIdCarpeta          : Int32;        {ID DE LA CARPETA}
+      FCodigoCarpeta      : string;       {CODIGO DE LA CARPETA}
+      FCodiCompCarpeta    : string;       {CODIGO DE LA CARPETA COMPLETO INDICANDO SI ES INSERCION Y SECUENCIA}
+      FCodiResuCarpeta    : string;       {CODIGO DE LA CARPETA RESUMIDO INDICANDO SI ES INSERCION Y SECUENCIA}
+      FClaseCarpeta       : char;         {CLASE DE LA CARPETA. 'C' CREACION  'I' INSERCION}
+      FSecuenciaClase     : int16;        {CONSECUTIVO DE LA CARPETA DE CREACION O INSERCION}
+      FCerrada            : Boolean;      {ESTADO DE REDICACION DE LA CARPETA}
+      FIdFlujo            : Int32;        {ID DEL FLUJO QUE TIENE LA CARPETA}
+      FIdTarea            : Int32;        {ID DE LA TAREA EN LA QUE SE ENCUENTRA LA CARPETA}
+      FDescTareCarpeta    : string;       {DESCRIPCION DE LA TAREA EN LA QUE SE ENCUENTRA LA CARPETA}
+      FIdFlujoNuevo       : Int32;        {ID DEL FLUJO AL QUE SE DEVUELVE LA CARPETA}
+      FDescTareFlujNuev   : string;       {DESCRIPCION DE LA TAREA DEL NUEVO FLUJO}
+      FIdCaja             : Int32;        {ID DE LA CAJA EN LA QUE SE ENCUENTRA LA CARPETA}
+      FCodigoCaja         : string;       {CODIGO DE LA CAJA EN LA QUE SE ENCUENTRA LA CARPETA}
+      FIdSerieDocumental  : Int32;        {ID DE LA SERIE DOCUMENTAL}
+      FDescSeriDocumental : string;       {DESCRIPCION SERIE DOCUMENTAL}
+      FCantidadAletas     : Int32;        {CANTIDAD DE ALETAS QUE POSEE LA CARPETA}
+      FCantidadFolios     : Int32;        {CANTIDAD DE FOLIOS QUE POSEE LA CARPETA}
+      FCantRegiPersonas   : Int32;        {CANTIDAD DE PERSONAS CAPTURADAS PARA LA CARPETA INCLUYE IDENTIFICACIONES REPETIDAS}
+      FCantFoliFirmados   : Int32;        {CANTIDAD DE FOLIOS FIRMADOS DE LA CARPETA}
+      FRutaImagenes       : string;       {RUTA DEL LAS IMAGENES TIF}
+      FRutaBackImagTiff   : string;       {RUTA BACKUP DE LAS IMAGENES TIF}
+      FRutaBackImagPdff   : string;       {RUTA BACKUP DE LAS IMAGENES PDF}
+      FCantImagTiff       : Int32;        {CANTIDAD DE IMAGENES TIF ELIMINADAS}
+      FCantImagPdff       : Int32;        {CANTIDAD DE IMAGENES PDF ELIMINADAS}
+      FIpProceso          : string;       {DIRECCION IP DEL PROCESO DE DEVOLUCION}
+      FUsuarioAplicativo  : string;       {USUARIO QUE REALIZA EL  PROCESO DE DEVOLUCION}
+      FUsuarioProceso     : string;       {USUARIO QUE REALIZA EL  PROCESO DE DEVOLUCION}
+    public
+      property IdCarpeta          : Int32    read FIdCarpeta          write FIdCarpeta;
+      property CodigoCarpeta      : string   read FCodigoCarpeta      write FCodigoCarpeta;
+      property CodiCompCarpeta    : string   read FCodiCompCarpeta    write FCodiCompCarpeta;
+      property CodiResuCarpeta    : string   read FCodiResuCarpeta    write FCodiResuCarpeta;
+      property ClaseCarpeta       : Char     read FClaseCarpeta       write FClaseCarpeta;
+      property SecuenciaClase     : int16    read FSecuenciaClase     write FSecuenciaClase;
+      property Cerrada            : Boolean  read FCerrada            write FCerrada;
+      property IdFlujo            : Int32    read FIdFlujo            write FIdFlujo;
+      property IdTarea            : Int32    read FIdTarea            write FIdTarea;
+      property DescTareCarpeta    : string   read FDescTareCarpeta    write FDescTareCarpeta;
+      property IdFlujoNuevo       : Int32    read FIdFlujoNuevo       write FIdFlujoNuevo;
+      property DescTareFlujNuev   : string   read FDescTareFlujNuev   write FDescTareFlujNuev;
+      property IdCaja             : Int32    read FIdCaja             write FIdCaja;
+      property CodigoCaja         : string   read FCodigoCaja         write FCodigoCaja;
+      property IdSerieDocumental  : Int32    read FIdSerieDocumental  write FIdSerieDocumental;
+      property DescSeriDocumental : string   read FDescSeriDocumental write FDescSeriDocumental;
+      property CantidadAletas     : Int32    read FCantidadAletas     write FCantidadAletas;
+      property CantidadFolios     : Int32    read FCantidadFolios     write FCantidadFolios;
+      property CantRegiPersonas   : Int32    read FCantRegiPersonas   write FCantRegiPersonas;
+      property CantFoliFirmados   : Int32    read FCantFoliFirmados   write FCantFoliFirmados;
+      property RutaImagenes       : string   read FRutaImagenes       write FRutaImagenes;
+      property RutaBackImagTiff   : string   read FRutaBackImagTiff   write FRutaBackImagTiff;
+      //property RutaBackImagPdff   : string   read FRutaBackImagPdff   write FRutaBackImagPdff;
+      property CantImagTiff       : Int32    read FCantImagTiff       write FCantImagTiff;
+      property CantImagPdff       : Int32    read FCantImagPdff       write FCantImagPdff;
+      property IpProceso          : string   read FIpProceso          write FIpProceso;
+      property UsuarioAplicativo  : string   read FUsuarioAplicativo  write FUsuarioAplicativo;
+      property UsuarioProceso     : string   read FUsuarioProceso     write FUsuarioProceso;
+
+      {CONSTRUCTOR - DESTRUCTOR}
+      constructor Create;
+      destructor  Destroy;
+
+
+ end;
+
+
+implementation
+
+{$REGION 'CONSTRUTOR AND DESTRUCTOR'}
+constructor TCarpetaDevolucionEsta.Create;
+begin
+end;
+
+destructor TCarpetaDevolucionEsta.Destroy;
+begin
+end;
+
+{$ENDREGION}
+
+
+end.

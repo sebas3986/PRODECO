@@ -1,0 +1,269 @@
+unit UPublicacion;
+
+interface
+
+uses
+  Windows, Messages, SysUtils,  StdCtrls, Controls, Classes, Graphics, Forms,
+  Dialogs,   ExtCtrls, ComCtrls, RxCtrls,   RxSplit, Buttons, IdIPWatch,
+  UFTP, UCliente, UCarpetaArchivo, UDMConexion;
+
+type
+  TfrmPublicacion = class(TForm)
+    stbBarraEstado: TStatusBar;
+    GrpNovedades: TGroupBox;
+    PnlTitulo: TPanel;
+    GrpDatosGenerales: TGroupBox;
+    RpnDatosGenerales: TRxPanel;
+    GrpDatosProcesar: TGroupBox;
+    LblCantidadCarpetas: TLabel;
+    LblCantidadFolios: TLabel;
+    LblProceso: TLabel;
+    PnlCantidadCarpetas: TPanel;
+    PnlCantidadFolios: TPanel;
+    RprProceso: TRxProgress;
+    GrpCarpetaProceso: TGroupBox;
+    LblCarpetaProceso: TLabel;
+    LblAletasCarpeta: TLabel;
+    LblFoliosCarpeta: TLabel;
+    PnlCarpetaProceso: TPanel;
+    PnlAletasCarpeta: TPanel;
+    PnlFoliosCarpeta: TPanel;
+    GrpPie: TGroupBox;
+    GrpPublicados: TGroupBox;
+    GrpRenombre: TGroupBox;
+    lstNovedades: TTextListBox;
+    lstRenombre: TTextListBox;
+    lstPublicados: TTextListBox;
+    LblNovedades: TLabel;
+    LblRenombre: TLabel;
+    LblPublicados: TLabel;
+    btnPublicar: TSpeedButton;
+    btnSalir: TSpeedButton;
+    RpnMensaje: TRxPanel;
+    tmrMensaje: TTimer;
+    procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnPublicarClick(Sender: TObject);
+    procedure RprProcesoGetText(Position, Percent: Integer; var Text: string);
+    procedure tmrMensajeTimer(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure btnSalirClick(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    DireccIP  : String;
+    procedure ConfigurarAmbiente;
+    procedure ConfigurarFTP;
+    procedure ConfigurarDirectorios;
+    procedure LimpiarControles;
+  end;
+
+var
+  frmPublicacion: TfrmPublicacion;
+  CarpImag  : TCliente;     {DATOS DE LAS CARPETAS PARA LAS IMAGENES}
+  CantCarp  : Integer;      {CANTIDAD DE CARPETAS A PROCESAR}
+  CantFoli  : Integer;      {CANTIDAD DE FOLIOS A PROCESAR}
+  MensPubl  : string;
+
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TfrmPublicacion.FormCloseQuery(Sender: TObject;
+  var CanClose: Boolean);
+begin
+begin
+  if Application.MessageBox('Desea Salir del Módulo de Publicación?', 'Advertencia', MB_ICONINFORMATION + MB_YESNO) = IDYES then
+    CanClose := True
+  else
+    CanClose := False;
+end;
+
+end;
+
+procedure TfrmPublicacion.FormResize(Sender: TObject);
+var
+  Ancho : integer;
+begin
+  Ancho:=  Trunc(Self.Width/3);
+  GrpNovedades.Width:= Ancho;
+  GrpRenombre.Width:= Ancho;
+  RpnMensaje.Left := Trunc((GrpPie.Width-RpnMensaje.Width)/2);
+end;
+
+
+
+procedure TfrmPublicacion.FormShow(Sender: TObject);
+begin
+  ConfigurarAmbiente;
+  ConfigurarFtp;
+  ConfigurarDirectorios;
+end;
+
+procedure TfrmPublicacion.RprProcesoGetText(Position, Percent: Integer;
+  var Text: string);
+begin
+  if Position > 0 then
+  begin
+    Text:= IntToStr(Position) + ' de ' + inttostr(RprProceso.Max);
+  end;
+end;
+
+procedure TfrmPublicacion.tmrMensajeTimer(Sender: TObject);
+begin
+  if RpnMensaje.Caption = '' then
+    RpnMensaje.Caption:= MensPubl
+  else
+    RpnMensaje.Caption:= '';
+end;
+
+procedure TfrmPublicacion.btnSalirClick(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+{$REGION 'METODOS PROPIOS}
+procedure TfrmPublicacion.btnPublicarClick(Sender: TObject);
+var
+  CarpFoli: TCarpetaArchivo;
+  I:Integer;
+begin
+  LimpiarControles;
+  CarpFoli:= TCarpetaArchivo.Create(CarpImag);
+  CantCarp:= CarpFoli.ListaCarpetas.Count;
+  CarpFoli.ListaFolios.Last;
+  CantFoli:= CarpFoli.ListaFolios.RecordCount;
+  CarpFoli.ListaFolios.First;
+  if CantCarp > 0  then
+    begin
+      try
+        PnlCantidadCarpetas.Caption:= IntToStr(CantCarp);
+        PnlCantidadCarpetas.Refresh;
+        PnlCantidadFolios.Caption:=   IntToStr(CantFoli);
+        PnlCantidadFolios.Refresh;
+        RprProceso.Position := 0;
+        RprProceso.Max := CantFoli;
+        RpnMensaje.Visible:=True;
+        btnPublicar.Enabled:= False;
+        btnSalir.Enabled:= False;
+        MensPubl:='P U B L I C A N D O';
+        {APAGA TEMPORIZADOR PARA HACER PARPADEAR MENSAJE}
+        tmrMensaje.Enabled:= false;
+        CarpFoli.ProcesarPublicacion;
+        MensPubl:='P U B L I C I Ó N    F I N A L I Z A D A';
+        {ENCIENDE TEMPORIZADOR PARA HACER PARPADEAR MENSAJE}
+        tmrMensaje.Enabled:=True;
+        btnPublicar.Enabled:= True;
+        btnSalir.Enabled:= true;
+        CarpFoli.Free;
+      except
+        on E: Exception do
+          begin
+            Application.MessageBox(PChar('PUBLICACIÓN DETENIDA' + #10#13 + e.Message),
+                                    'Publicación de Imágenes', MB_OK OR MB_ICONERROR);
+            Application.Terminate;
+          end;
+      end;
+    end
+  else
+  begin
+    CarpFoli.Free;
+    Application.MessageBox('No existen Carpetas para Procesar','Publicación de Imágenes',
+                            MB_OK OR MB_ICONERROR);
+    Application.Terminate;
+  end;
+end;
+
+procedure TfrmPublicacion.ConfigurarAmbiente;
+begin
+  with TIdIPWatch.Create() do
+  begin
+    DireccIP  := LocalIP;
+    Free;
+  end;
+  stbBarraEstado.Panels[0].Text:='Usuario: ' + ParamStr(1);
+  stbBarraEstado.Panels[1].Text:='IP: ' + DireccIP;
+  if DMConexion.Ambiente <> 'PRODUCCIÓN' then
+  begin
+    if DMConexion.Ambiente = 'DESARROLLO' then
+      PnlTitulo.Font.Color   := clPurple
+    else
+      if DMConexion.Ambiente = 'PRUEBAS' then
+        PnlTitulo.Font.Color   := clMaroon;
+    PnlTitulo.Caption := PnlTitulo.Caption + '   [' + DMConexion.Ambiente + ']';
+  end;
+end;
+
+procedure TfrmPublicacion.ConfigurarFTP;
+var
+  FTP: TFtp;
+begin
+  try
+    FTP  := TFTP.Create;
+    FTP.ConfigurarFTP;
+    if not FTP.TestConexion then
+    begin
+      Application.MessageBox('Error, no se estableció conexión con el FTP. Favor Verificar. ',
+                              'Publicación de Imágenes',MB_OK OR MB_ICONERROR);
+      Application.Terminate;
+    end;
+  except
+    on e:exception do
+    begin
+      Application.MessageBox(PChar(e.Message), 'Publicación de Imágenes',MB_OK OR MB_ICONERROR);
+      Application.Terminate;
+    end;
+  end;
+end;
+
+procedure TfrmPublicacion.ConfigurarDirectorios;
+
+begin
+  {DIRECTORIOS A VALIDAR}
+  try
+    CarpImag := TCliente.create;
+    CarpImag.ConfigurarCliente;
+    if not DirectoryExists(CarpImag.RutaScanner) then
+      ForceDirectories(CarpImag.RutaScanner);
+    if not DirectoryExists(CarpImag.RutaNovedad) then
+      ForceDirectories(CarpImag.RutaNovedad);
+    if not DirectoryExists(CarpImag.RutaProceso) then
+      ForceDirectories(CarpImag.RutaProceso);
+    if not DirectoryExists(CarpImag.RutaPublicado) then
+      ForceDirectories(CarpImag.RutaPublicado);
+  except
+    on e:exception do
+    begin
+      Application.MessageBox(PChar(e.Message), 'Publicación de Imágenes',MB_OK OR MB_ICONERROR);
+      Application.Terminate;
+    end;
+  end;
+  end;
+
+procedure TfrmPublicacion.LimpiarControles;
+begin
+  pnlCantidadCarpetas.caption:= '';
+  pnlCantidadCarpetas.Refresh;
+  PnlCantidadFolios.Caption :='';
+  PnlCantidadFolios.Refresh;
+  RprProceso.Position:=0;
+  PnlCarpetaProceso.Caption:= '';
+  PnlCarpetaProceso.Refresh;
+  PnlAletasCarpeta.Caption:= '';
+  PnlAletasCarpeta.Refresh;
+  PnlFoliosCarpeta.Caption:= '';
+  PnlFoliosCarpeta.Refresh;
+  lstNovedades.Clear;
+  lstNovedades.Refresh;
+  lstRenombre.Clear;
+  lstRenombre.Refresh;
+  lstPublicados.Clear;
+  lstPublicados.Refresh;
+  RpnMensaje.Visible:=False;
+end;
+{$ENDREGION}
+end.

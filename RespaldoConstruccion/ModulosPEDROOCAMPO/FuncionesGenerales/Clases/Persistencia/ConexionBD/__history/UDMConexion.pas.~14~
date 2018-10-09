@@ -1,0 +1,157 @@
+unit UDMConexion;
+
+interface
+
+uses
+  windows,forms, SysUtils, Classes, ZAbstractConnection, ZConnection, ActiveX,
+  UGlobales;
+
+type
+  TDMConexion = class(TDataModule)
+    ZConexion: TZConnection;
+    conBDANI: TZConnection;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    FHost     : string;
+    FUsuario  : string;
+    FPassword : string;
+    FBaseDatos: string;
+    FEsquema  : string;
+    FPuerto   : Integer;
+    FAmbiente : string;
+
+
+  public
+    Property Esquema: string read FEsquema write FEsquema;
+    property Ambiente: string read FAmbiente write FAmbiente;
+
+    procedure Conectar;
+    procedure ConectarANI;
+
+  end;
+
+var
+  DMConexion : TDMConexion;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{$REGION 'METODOS PROPIOS'}
+
+procedure TDMConexion.DataModuleCreate(Sender: TObject);
+var
+  ErroTipo : Boolean;
+begin
+  try
+    {aqui se debe leer el .INI para cargar los parametros de conexión a la Base de Datos}
+    CoInitialize(nil);
+    ErroTipo:= True;
+    if TipoUsuaConeProg = 'DESA' then
+      begin
+        FHost     := '172.17.3.17';
+        {FUsuario  := 'Andes.Aplicacion';
+        FPassword := 'AndZOISApl';
+        FBaseDatos:= 'UNIANDES';
+        FEsquema  := 'andes_desa';
+        FPuerto   := 5432;
+        FAmbiente := 'DESARROLLO';
+        ErroTipo  := False;}
+        FUsuario  := 'Andes.Aplicacion';
+        FPassword := 'AndZOISApl';
+        FBaseDatos:= 'UNIANDES';
+        FEsquema  := 'andes_desa';
+        FPuerto   := 5432;
+        FAmbiente := 'DESARROLLO';
+        ErroTipo  := False;
+    end else
+        if TipoUsuaConeProg = 'PROD' then
+          begin
+            FHost     := '172.17.4.22';
+            FUsuario  := 'produniandes';
+            FPassword := 'Pr0dUn12015d';
+            FBaseDatos:= 'UNIANDES';
+            FEsquema  := 'andes_prod';
+            FPuerto   := 5432;
+            FAmbiente := 'PRODUCCIÓN';
+            ErroTipo  := False;
+        end else
+            if TipoUsuaConeProg = 'OPER' then
+              begin
+                FHost     := '172.17.4.22';
+                FUsuario  := 'dsroperacion';
+                FPassword := 'Mt1bp02016';
+                FBaseDatos:= 'UNIANDES';
+                FEsquema  := 'andes_prod';
+                FPuerto   := 5432;
+                FAmbiente := 'PRODUCCIÓN';
+                ErroTipo  := False;
+            end;
+    if ErroTipo then
+          raise Exception.Create('Error en el parámetro de Tipo de Conexión de la Base de Datos.')
+    else
+      begin
+        conectar;
+        ConectarANI;
+      end;
+  except
+    on e:Exception do
+      begin
+        Application.MessageBox(PChar('No se permite la ejecución de la Aplicacion.' + #10#13 + '* ' + e.Message),'Información', MB_ICONINFORMATION + MB_OK);
+        ExitProcess(0);
+      end;
+  end;
+end;
+
+procedure TDMConexion.Conectar;
+begin
+  try
+    with ZConexion do
+    begin
+      User     := FUsuario;
+      Password := FPassword;
+      HostName := FHost;
+      Port     := FPuerto;
+      Database := FBaseDatos;
+      Connect;
+      Disconnect;
+    end;
+  except
+    on E:Exception do
+      raise Exception.Create('Error al conectarse a la Base de Datos.'+ #10#13 + '* '+ e.Message);
+  end;
+end;
+
+procedure TDMConexion.ConectarANI;
+begin
+  try
+    with conBDANI do
+    begin
+      {User     := 'Andes.Aplicacion';
+      Password := 'AndZOISApl';
+      HostName := '172.17.3.17'; }
+
+      User     := 'produniandes';
+      Password := 'Pr0dUn12015d';
+      HostName := '172.17.4.22';
+      Port     := 5432;
+      Database := 'UNIANDES';
+      Connect;
+      Disconnect;
+    end;
+  except
+    on E:Exception do
+      raise Exception.Create('Error al conectarse a la Base de Datos ANI.'+ #10#13 + '* ' + e.Message);
+  end;
+end;
+{$ENDREGION}
+
+{$REGION 'GETTERS Y SETTERS'}
+
+{$ENDREGION}
+
+{$REGION 'CONSTRUCTOR Y DESTRUCTOR'}
+{$ENDREGION}
+end.

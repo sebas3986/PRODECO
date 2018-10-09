@@ -1,0 +1,156 @@
+unit UDMConexion;
+
+interface
+
+uses
+  windows,StrUtils,SysUtils,Vcl.Forms, Classes, ZAbstractConnection, ZConnection,ActiveX,
+  FPGenerales;
+
+type
+  TDMConexion = class(TDataModule)
+    ZConexion: TZConnection;
+    function Iniciar: Boolean;
+    function Conectar: Boolean;
+    function ConectarFTP : Boolean;
+  private
+    FHost         : string;
+    FUsuario      : string;
+    FPassword     : string;
+    FBaseDatos    : string;
+    FEsquema      : string;
+    FPuerto       : Integer;
+    FAmbiente     : string;
+    FTipoConeFtpp : string;
+
+
+  public
+    Property Esquema      : string read FEsquema      write FEsquema;
+    property Ambiente     : string read FAmbiente     write FAmbiente;
+    property TipoConeFtpp : string read FTipoConeFtpp write FTipoConeFtpp;
+
+    constructor create;
+
+
+  end;
+
+var
+  DMConexion : TDMConexion;
+
+implementation
+uses
+   UFTP;
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{$REGION 'METODOS PROPIOS'}
+
+function TDMConexion.iniciar: Boolean;
+var
+  ArchInii: string;
+begin
+  Result:=False;
+  ArchInii:= StuffString(Application.ExeName, Length(Application.ExeName) - 3, 4, '.INI');
+  if FileExists(ArchInii) then
+  begin
+    CoInitialize(nil);
+    FHost     := LeeVariableIni('CONFIGURACION','CONEXION',ArchInii)[0];
+    FAmbiente := LeeVariableIni('CONFIGURACION','INSTALACION',ArchInii)[0];
+
+    if (FAmbiente = 'CLIENTE') OR (FAmbiente = 'PRODUCCION') then
+    begin
+      {produccion: DIRECCIONES 172.17.4.22(LOCAL) Y 10.10.134.22 (REMOTA)}
+      FUsuario      := 'produniandes';
+      FPassword     := 'Pr0dUn12015d';
+      FBaseDatos    := 'UNIANDES';
+      FEsquema      := 'andes_prod';
+      FPuerto       := 5432;
+      FTipoConeFtpp := IfThen(FAmbiente='CLIENTE','REMOTO','LOCAL');
+      Result:= conectar;
+      if Result then
+        Result:= ConectarFTP;
+
+    end
+    else
+      if (FAmbiente = 'DESARROLLO') then
+      begin
+        {desarrollo: DIRECCION 172.17.3.17}
+        FUsuario      := 'Andes.Aplicacion';
+        FPassword     := 'AndZOISApl';
+        FBaseDatos    := 'UNIANDES';
+        FEsquema      := 'andes_desa';
+        FPuerto       := 5432;
+        FTipoConeFtpp := 'LOCAL';
+        Result:= Conectar;
+        if Result then
+          Result:= ConectarFTP;
+      end
+      else
+      begin
+        raise Exception.Create('Error. Información incorrecta en el Archivo de Configuración'
+                                + ' de la Aplicación.');
+
+      end
+  end
+  else
+     raise Exception.Create('Error. No existe el Archivo de Configuración de la Aplicación.');
+end;
+
+
+function TDMConexion.Conectar : Boolean;
+begin
+
+  try
+    with ZConexion do
+    begin
+      User     := FUsuario ;
+      Password := FPassword;
+      HostName := FHost;
+      Port     := FPuerto;
+      Database := FBaseDatos;
+      Connect;
+      Disconnect;
+      Result:=True;
+    end;
+  except
+     raise Exception.Create('Error al autenticarse en la Base de Datos.'+ #10#13
+                            + '* Host: ' + FHost + #10#13 + '* Conexión: ' + FAmbiente
+                            + '.');
+  end;
+end;
+
+
+function TDMConexion.ConectarFTP : Boolean;
+var
+  FTPtest: TFtp;
+begin
+  Result:=False;
+  FTPtest  := TFTP.Create;
+  try
+    FTPtest.ConfigurarFTP(FTipoConeFtpp);
+    if not FTPtest.TestConexion then
+       raise Exception.Create('Imposible establecer conexión con el FTP.')
+    else
+      Result:= True;
+  except
+    on E: Exception do
+      raise Exception.Create(E.message);
+
+  end;
+end;
+
+{$ENDREGION}
+
+{$REGION 'GETTERS Y SETTERS'}
+
+{$ENDREGION}
+
+{$REGION 'CONSTRUCTOR Y DESTRUCTOR'}
+constructor TDMConexion.create;
+begin
+  DMConexion:= TDMConexion.Create();
+
+end;
+
+{$ENDREGION}
+end.

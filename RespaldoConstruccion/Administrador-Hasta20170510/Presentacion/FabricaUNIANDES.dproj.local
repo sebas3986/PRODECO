@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2013/05/02 15:20:40.000.628,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2013/05/15 18:13:13.000.842,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2013/10/17 14:24:51.000.311,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2013/11/28 08:38:19.000.203,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\WebModuleUnit1.pas</Transaction>
+    <Transaction>2013/11/28 08:38:19.000.094,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\FormUnit1.pas</Transaction>
+    <Transaction>2013/11/28 08:57:46.000.434,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2013/11/28 08:59:27.000.912,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/08/04 17:06:15.000.788,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/10/28 17:06:19.000.371,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/10/29 15:40:13.000.417,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/11/24 17:19:27.000.092,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/12/17 16:36:49.000.945,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/12/17 16:48:51.000.110,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/01/05 08:13:00.000.644,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/01/05 08:13:27.000.706,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/03/02 08:23:17.000.687,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\GroupedItems1.pas</Transaction>
+    <Transaction>2015/03/02 08:23:18.000.164,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\ItemDetail1.pas</Transaction>
+    <Transaction>2015/03/02 08:24:12.000.569,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\DetailView1.pas</Transaction>
+    <Transaction>2015/03/02 08:24:12.000.354,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\GridView1.pas</Transaction>
+    <Transaction>2015/08/25 10:35:22.000.494,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/09/29 11:41:28.000.708,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/10/23 09:13:34.000.799,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/10/23 09:40:24.000.908,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/10/23 09:42:05.000.512,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/10/23 09:53:17.000.051,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/10/28 10:40:49.000.082,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/11/24 10:12:10.000.207,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/11/24 16:10:42.000.880,=C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2015/11/24 16:11:18.000.541,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.dfm=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Presentacion\UFrm_Administrador.dfm</Transaction>
+    <Transaction>2015/11/24 16:11:18.000.541,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.pas=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Presentacion\UFrm_Administrador.pas</Transaction>
+    <Transaction>2015/11/24 16:11:24.000.780,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Project1.dproj=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Presentacion\FabricaUNIANDES.dproj</Transaction>
+    <Transaction>2015/11/24 16:32:51.000.240,=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Persistencia\frm_Login.pas</Transaction>
+    <Transaction>2015/11/24 16:33:33.000.280,=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Persistencia\RegExpr.pas</Transaction>
+    <Transaction>2015/11/24 16:33:44.000.536,=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Persistencia\dm_Login.pas</Transaction>
+    <Transaction>2015/11/24 16:34:00.000.879,=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Persistencia\UToolsStrings.pas</Transaction>
+    <Transaction>2015/11/24 16:34:27.000.322,=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\Administrador\Persistencia\UDMConexion.pas</Transaction>
+  </Transactions>
+</BorlandProject>

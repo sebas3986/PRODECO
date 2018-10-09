@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2016/04/11 17:17:17.000.264,D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\CarpetaDigital\Presentacion\UVisor.dfm=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\CarpetaDigital\Proyecto\Unit1.dfm</Transaction>
+    <Transaction>2016/06/22 12:35:05.000.013,D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\DevolucionEstado\Presentacion\UDevolucionEstado.dfm=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\DevolucionEstado\Presentacion\UCarpetaDigital.dfm</Transaction>
+    <Transaction>2016/06/22 12:36:18.000.389,D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\DevolucionEstado\Proyecto\DevolucionEstado.dproj=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\DevolucionEstado\Proyecto\CarpetaDigital.dproj</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="..\..\DevolucionEstado"/>
+    <File Path="..\Logica"/>
+    <File Path="..\Logica\UProcesoDevolucionEsta.pas"/>
+    <File Path="..\Logica\UCarpetaDevolucionEsta.pas"/>
+    <File Path="..\Persistencia"/>
+    <File Path="..\Persistencia\DAO"/>
+    <File Path="..\Persistencia\DAO\UDAODevolucionEstado.pas"/>
+    <File Path="..\Presentacion"/>
+    <File Path="..\Presentacion\UDevolucionEstado.pas"/>
+    <File Path="..\Presentacion\UDevolucionEstado.dfm"/>
+    <File Path="..\..\..\UNIANDES"/>
+    <File Path="..\..\FuncionesGenerales"/>
+    <File Path="..\..\FuncionesGenerales\Clases"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Logica"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Logica\UCliente.pas"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Logica\UGlobales.pas"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Logica\UFtpImagen.pas"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Persistencia"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Persistencia\AplicacionVersion"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Persistencia\AplicacionVersion\UDMAplicacion.pas"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Persistencia\AplicacionVersion\UDMAplicacion.dfm"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Persistencia\ConexionBD"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Persistencia\ConexionBD\UDMConexion.pas"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Persistencia\ConexionBD\UDMConexion.dfm"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Persistencia\ConexionFTP"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Persistencia\ConexionFTP\UFtpGestor.pas"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Persistencia\DAO"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Persistencia\DAO\UDAOParametro.pas"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Presentacion"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Presentacion\UActualizaModulo.pas"/>
+    <File Path="..\..\FuncionesGenerales\Clases\Presentacion\UActualizaModulo.dfm"/>
+    <File Path="..\..\FuncionesGenerales\Funciones"/>
+    <File Path="..\..\FuncionesGenerales\Funciones\FPGenerales.pas"/>
+  </ProjectSortOrder>
+</BorlandProject>

@@ -1,0 +1,1189 @@
+object frmCarpetaDigital: TfrmCarpetaDigital
+  Left = 0
+  Top = 0
+  Caption = 'Carpeta Digital - [ Versi'#243'n 20160310 ]'
+  ClientHeight = 961
+  ClientWidth = 1916
+  Color = clWhite
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clBlack
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poDefault
+  Visible = True
+  WindowState = wsMaximized
+  OnCloseQuery = FormCloseQuery
+  OnKeyUp = FormKeyUp
+  OnPaint = FormPaint
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object PnlTitulo: TPanel
+    Left = 0
+    Top = 0
+    Width = 1916
+    Height = 73
+    Align = alTop
+    Caption = 'CARPETA DIGITAL '
+    Color = 15259846
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -24
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+  end
+  object stbBarraEstado: TStatusBar
+    Left = 0
+    Top = 935
+    Width = 1916
+    Height = 26
+    Panels = <
+      item
+        Bevel = pbRaised
+        BiDiMode = bdLeftToRight
+        ParentBiDiMode = False
+        Width = 200
+      end
+      item
+        Bevel = pbRaised
+        BiDiMode = bdLeftToRight
+        ParentBiDiMode = False
+        Width = 150
+      end>
+  end
+  object GrpPie: TGroupBox
+    Left = 0
+    Top = 874
+    Width = 1916
+    Height = 61
+    Align = alBottom
+    Color = 14995646
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 4
+    DesignSize = (
+      1916
+      61)
+    object spbSalir: TSpeedButton
+      Left = 1789
+      Top = 11
+      Width = 113
+      Height = 44
+      Anchors = [akRight, akBottom]
+      Caption = '&Salir'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      OnClick = spbSalirClick
+      ExplicitLeft = 1556
+    end
+    object spbCancelar: TSpeedButton
+      Left = 1509
+      Top = 12
+      Width = 178
+      Height = 41
+      Anchors = [akRight, akBottom]
+      Caption = '&Cancelar Captura Folio'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ExplicitLeft = 1276
+    end
+    object RpnMensajeGrabar: TRxPanel
+      Left = 758
+      Top = 14
+      Width = 289
+      Height = 41
+      Anchors = []
+      BevelInner = bvRaised
+      BevelKind = bkFlat
+      BevelOuter = bvNone
+      Caption = 'FOLIO  GUARDADO'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -27
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      Visible = False
+      Gradient.Direction = fdTopToBottom
+      Gradient.EndColor = clSilver
+      Gradient.StartColor = 16754856
+      Gradient.Visible = True
+      TileImage = False
+    end
+  end
+  object RpnVisor: TRxPanel
+    Left = 419
+    Top = 291
+    Width = 1497
+    Height = 583
+    Align = alClient
+    Alignment = taLeftJustify
+    BevelKind = bkSoft
+    BevelOuter = bvNone
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 1
+    Gradient.Direction = fdTopToBottom
+    Gradient.EndColor = 12885363
+    Gradient.StartColor = 16315117
+    Gradient.Visible = True
+    TileImage = False
+    DesignSize = (
+      1493
+      579)
+    object LblDatosImagen: TLabel
+      Left = 18
+      Top = 7
+      Width = 1447
+      Height = 34
+      Alignment = taCenter
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Color = 10907648
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+      Layout = tlCenter
+      WordWrap = True
+      ExplicitWidth = 1459
+    end
+    object RpnVisorFolio: TRxPanel
+      Left = 18
+      Top = 45
+      Width = 1447
+      Height = 500
+      Anchors = [akLeft, akTop, akRight, akBottom]
+      BevelOuter = bvNone
+      FullRepaint = False
+      TabOrder = 0
+      TileImage = False
+      object apdVisorImagen: TAcroPDF
+        Left = 0
+        Top = 0
+        Width = 1447
+        Height = 500
+        Align = alClient
+        TabOrder = 0
+        ExplicitWidth = 1451
+        ExplicitHeight = 504
+        ControlData = {000A00008D950000AD330000}
+      end
+      object imsVisorImagen: TImageScrollBox
+        Left = 0
+        Top = 0
+        Width = 1447
+        Height = 500
+        HorzScrollBar.Tracking = True
+        HorzScrollBar.Visible = False
+        VertScrollBar.Tracking = True
+        VertScrollBar.Visible = False
+        ZoomMode = zmFitWidth
+        ZoomPercent = 100.000000000000000000
+        MouseHandlerOwnership = True
+        Align = alClient
+        TabOrder = 1
+        Visible = False
+      end
+    end
+    object RpnMensajeImagen: TRxPanel
+      Left = 488
+      Top = 238
+      Width = 497
+      Height = 93
+      Anchors = [akLeft, akRight]
+      BevelInner = bvRaised
+      BevelOuter = bvNone
+      BevelWidth = 6
+      BorderStyle = bsSingle
+      Color = 1514433
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 1
+      Visible = False
+      Gradient.Direction = fdRightToLeft
+      Gradient.EndColor = clBlack
+      Gradient.StartColor = clMoneyGreen
+      Gradient.StepCount = 63
+      TileImage = False
+      object rxlMensajeImagen: TRxLabel
+        Left = 6
+        Top = 6
+        Width = 481
+        Height = 77
+        Align = alClient
+        Alignment = taCenter
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Arial Rounded MT Bold'
+        Font.Style = [fsBold]
+        Layout = tlCenter
+        ParentFont = False
+        ShadowColor = clNone
+        WordWrap = True
+        ExplicitWidth = 7
+        ExplicitHeight = 18
+      end
+    end
+  end
+  object RpnInformacionImagen: TRxPanel
+    Left = 0
+    Top = 291
+    Width = 419
+    Height = 583
+    Align = alLeft
+    Alignment = taLeftJustify
+    BevelKind = bkSoft
+    BevelOuter = bvNone
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 2
+    Gradient.Direction = fdTopToBottom
+    Gradient.EndColor = 12885363
+    Gradient.StartColor = 16315117
+    Gradient.Visible = True
+    TileImage = False
+    DesignSize = (
+      415
+      579)
+    object GrpInformacionImagen: TGroupBox
+      Left = 11
+      Top = 24
+      Width = 395
+      Height = 533
+      Anchors = [akLeft, akTop, akBottom]
+      Caption = 'Selecci'#243'n de Im'#225'genes'
+      Color = clWhite
+      DoubleBuffered = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentDoubleBuffered = False
+      ParentFont = False
+      TabOrder = 0
+      DesignSize = (
+        395
+        533)
+      object TrvSeleccionImagen: TTreeView
+        Left = 11
+        Top = 28
+        Width = 372
+        Height = 496
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        AutoExpand = True
+        Color = 50319311
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -16
+        Font.Name = 'Consolas'
+        Font.Style = [fsBold]
+        Indent = 19
+        ParentFont = False
+        ReadOnly = True
+        RowSelect = True
+        TabOrder = 1
+        OnChange = TrvSeleccionImagenChange
+      end
+      object RpnMensajeArbol: TRxPanel
+        Left = 46
+        Top = 180
+        Width = 299
+        Height = 189
+        Anchors = [akLeft, akRight]
+        BevelInner = bvRaised
+        BevelOuter = bvNone
+        BevelWidth = 6
+        BorderStyle = bsSingle
+        Color = 5382781
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 0
+        Visible = False
+        Gradient.Direction = fdRightToLeft
+        Gradient.EndColor = clBlack
+        Gradient.StartColor = clMoneyGreen
+        Gradient.StepCount = 63
+        TileImage = False
+        object rxlMensajeArbol: TRxLabel
+          Left = 6
+          Top = 6
+          Width = 283
+          Height = 173
+          Align = alClient
+          Alignment = taCenter
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -15
+          Font.Name = 'Arial Rounded MT Bold'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentFont = False
+          ShadowColor = clNone
+          WordWrap = True
+          ExplicitWidth = 7
+          ExplicitHeight = 17
+        end
+      end
+    end
+  end
+  object RpnCaptura: TRxPanel
+    Left = 0
+    Top = 73
+    Width = 1916
+    Height = 218
+    Align = alTop
+    BevelOuter = bvNone
+    TabOrder = 3
+    Gradient.Direction = fdBottomToTop
+    Gradient.EndColor = 12885363
+    Gradient.StartColor = 16315117
+    Gradient.Visible = True
+    TileImage = False
+    object RpnCriteriosBusqueda: TRxPanel
+      Left = 0
+      Top = 0
+      Width = 1033
+      Height = 218
+      Align = alLeft
+      BevelOuter = bvNone
+      Color = 15655895
+      ParentBackground = False
+      TabOrder = 0
+      Gradient.Direction = fdBottomToTop
+      Gradient.EndColor = 12885363
+      Gradient.StartColor = 15786969
+      Gradient.Visible = True
+      TileImage = False
+      object GrpCriteriosGenerales: TGroupBox
+        Left = 0
+        Top = 0
+        Width = 1033
+        Height = 65
+        Align = alClient
+        Caption = 'Criterios de B'#250'squeda Generales '
+        DoubleBuffered = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentDoubleBuffered = False
+        ParentFont = False
+        TabOrder = 0
+        DesignSize = (
+          1033
+          65)
+        object LblTipoBusqueda: TLabel
+          Left = 18
+          Top = 27
+          Width = 159
+          Height = 23
+          Anchors = []
+          Caption = 'Tipo de B'#250'squeda:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -19
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+        end
+        object PnlSeleccionSerieDocu: TPanel
+          Left = 499
+          Top = 20
+          Width = 532
+          Height = 43
+          BevelOuter = bvNone
+          TabOrder = 1
+          Visible = False
+          DesignSize = (
+            532
+            43)
+          object LblSerieDocumental: TLabel
+            Left = 10
+            Top = 7
+            Width = 161
+            Height = 23
+            Anchors = []
+            Caption = 'Serie Documental: '
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -19
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object dblSerieDocumental: TDBLookupComboBox
+            Left = 177
+            Top = 6
+            Width = 338
+            Height = 26
+            Color = 50319311
+            DropDownRows = 3
+            DropDownWidth = 400
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Arial Rounded MT Bold'
+            Font.Style = []
+            ParentFont = False
+            ParentShowHint = False
+            ShowHint = False
+            TabOrder = 0
+            TabStop = False
+          end
+        end
+        object cbxTipoBusqueda: TComboBox
+          Left = 188
+          Top = 25
+          Width = 279
+          Height = 28
+          Style = csOwnerDrawVariable
+          CharCase = ecUpperCase
+          Color = 50319311
+          Ctl3D = True
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -19
+          Font.Name = 'Arial Rounded MT Bold'
+          Font.Style = []
+          ItemHeight = 22
+          ParentCtl3D = False
+          ParentFont = False
+          Sorted = True
+          TabOrder = 0
+          OnChange = cbxTipoBusquedaChange
+          OnEnter = cbxTipoBusquedaEnter
+          Items.Strings = (
+            'CARPETA'
+            'EMPLEADO'
+            'SERIE DOCUMENTAL')
+        end
+        object PnlSeleccionCarpeta: TPanel
+          Left = 499
+          Top = 20
+          Width = 532
+          Height = 43
+          Align = alRight
+          BevelOuter = bvNone
+          TabOrder = 2
+          Visible = False
+          DesignSize = (
+            532
+            43)
+          object LblCodigoCarpeta: TLabel
+            Left = 17
+            Top = 7
+            Width = 182
+            Height = 23
+            Anchors = []
+            Caption = 'C'#243'digo de la Carpeta:'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -19
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object spbConsultarCarpeta: TSpeedButton
+            Left = 375
+            Top = -2
+            Width = 134
+            Height = 38
+            Anchors = []
+            Caption = 'Consultar Car&peta'
+            Enabled = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Glyph.Data = {
+              9E0D0000424D9E0D000000000000360000002800000033000000160000000100
+              180000000000680D000000000000000000000000000000000000FFFFFFFDFFFE
+              FDFDFDFDFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFDFFFFFFFFFFFFFFFFFFFFFFFFFFFFD2C8B2A69F74B1A579B1A379B1A479
+              B1A479B1A479B1A479B1A479B1A479B1A479B1A479B1A479B1A479B1A479B1A4
+              79B1A479B2A478A89D75CAC4AAFFFFFFFDFEFF000000FFFFFFFFFFFFFFFFFFFF
+              FFFFD2C8B2A69F74B1A579B1A379B1A479B1A479B1A479B1A479B1A479B1A479
+              B1A479B1A479B1A479B1A479B1A479B1A479B1A479B2A478A89D75CAC4AAFFFF
+              FFFFFFFFFFFFFFC9CACF8B7A46664F0076520073540174550074550074550074
+              5500745500745500745500745500745500745500745500745500745500745500
+              735500795500674C00A3965EFFFFFF000000FFFFFFFFFFFFC9CACF8B7A46664F
+              0076520073540174550074550074550074550074550074550074550074550074
+              5500745500745500745500745500745500735500795500674C00A3965EFFFFFF
+              D5D6D6C6C7D07C65157B62098265127F66117F66107F66117F66117F66117F66
+              117F66117F66117F66117F66117F66117F66117F66117F66117F66117E661182
+              66107D5F0B846C24F1EFEC000000FFFFFFD5D6D6C6C7D07C65157B6209826512
+              7F66117F66107F66117F66117F66117F66117F66117F66117F66117F66117F66
+              117F66117F66117F66117F66117E66118266107D5F0B846C24FFFFFFC1C1C1DE
+              E0E4765C0C866B0D896713866A14866A12866A12866A12866A12866A12866A12
+              866A12866A12866A12866A12866A12866A12866A12866A12866A128868138467
+              0C836E1DF0EEEA000000FFFFFFC1C1C1DEE0E4765C0C866B0D896713866A1486
+              6A12866A12866A12866A12866A12866A12866A12866A12866A12866A12866A12
+              866A12866A12866A12866A1288681384670C836E1DFFFFFFC3C3C3DDDEE67E62
+              0C94740E92701491721491721391721391721391721391721391721391721391
+              72139172139172139172139172139172139172139172139372138E6E0E8E7220
+              EFEDE8000000FFFFFFC3C3C3DDDEE67E620C94740E9270149172149172139172
+              1391721391721391721391721391721391721391721391721391721391721391
+              72139172139172139372138E6E0E8E7220FFFFFFC2C2C2DEDFE78164109B7A10
+              9878159778149878149878149878149878149878149878149878149878149878
+              14987814987814987814987814987814987814977814967610917423F0EDE900
+              0000FFFFFFC2C2C2DEDFE78164109B7A10987815977814987814987814987814
+              9878149878149878149878149878149878149878149878149878149878149878
+              14987814977814967610917423FFFFFFC3C3C2E0E1E7846710A982139E811AA3
+              8118A18118A18118A18118A18118A18118A18118A18118A18118A18118A18118
+              A18118A18118A18118A18118A18118A18019A27F10937924EEECEA000000FFFF
+              FFC3C3C2E0E1E7846710A982139E811AA38118A18118A18118A18118A18118A1
+              8118A18118A18118A18118A18118A18118A18118A18118A18118A18118A18118
+              A18019A27F10937924FFFFFFC3C3C3E0E3EB886B0FB28B17A9871CAD881BAB88
+              1AAB881AAB881AAB881AAB881AAB881AAB881AAB881AAB881AAB881AAB881AAB
+              881AAB881AAB881AAB881AAB891CAE87149A7D25EEECE9000000FFFFFFC3C3C3
+              E0E3EB886B0FB28B17A9871CAD881BAB881AAB881AAB881AAB881AAB881AAB88
+              1AAB881AAB881AAB881AAB881AAB881AAB881AAB881AAB881AAB881AAB891CAE
+              87149A7D25FFFFFFC2C2C3E1E3ED8A6F0EBD9619B5901BB78F1BB68F1BB68F1B
+              B68F1BB68F1BB68F1BB68F1BB68F1BB68F1BB68F1BB68F1BB68F1BB68F1BB68F
+              1BB68F1BB68F1BB58F1DB69015A08226EDEBE8000000FFFFFFC2C2C3E1E3ED8A
+              6F0EBD9619B5901BB78F1BB68F1BB68F1BB68F1BB68F1BB68F1BB68F1BB68F1B
+              B68F1BB68F1BB68F1BB68F1BB68F1BB68F1BB68F1BB68F1BB58F1DB69015A082
+              26FFFFFFC2C2C2E2E3EF8E720FC39F1CBF9920C29921BF9820BF9820BF9820BF
+              9820BF9820BF9820BF9820C0981FC09821BF981FC09720C09820BF981FBF981F
+              BF981FC0981FC39919A38627ECEAE7000000FFFFFFC2C2C2E2E3EF8E720FC39F
+              1CBF9920C29921BF9820BF9820BF9820BF9820BF9820BF9820BF9820C0981FC0
+              9821BF981FC09720C09820BF981FBF981FBF981FC0981FC39919A38627FFFFFF
+              C2C2C2E5E7EE946E0FD3A51DC79E23CA9F23CC9F21CC9F21CC9F21CC9F21CC9F
+              21CC9F21CA9F21CE9F21C99F20C8A01FC89F23C89F21C89F20C89F20C89F20C6
+              9F22CBA01BA88929EAE9E8000000FFFFFFC2C2C2E5E7EE946E0FD3A51DC79E23
+              CA9F23CC9F21CC9F21CC9F21CC9F21CC9F21CC9F21CA9F21CE9F21C99F20C8A0
+              1FC89F23C89F21C89F20C89F20C89F20C69F22CBA01BA88929FFFFFFC2C2C2E5
+              E8EEA89545DBAD12D9AE16D2AC1DD5AC1CD5AC1CD5AC1CD5AC1CD5AC1CD5AC1C
+              D5AC1CD3AB21D2B11CDDAD22D8AB20D1A824D3A724D3A824D3A824D2A725D6A9
+              1FAD8C2AE9E9E8000000FFFFFFC2C2C2E5E8EEA89545DBAD12D9AE16D2AC1DD5
+              AC1CD5AC1CD5AC1CD5AC1CD5AC1CD5AC1CD5AC1CD3AB21D2B11CDDAD22D8AB20
+              D1A824D3A724D3A824D3A824D2A725D6A91FAD8C2AFFFFFFC1C1C1E5E5EDD6D6
+              C9B19E5EBCA83FBDA843BDA743BDA743BDA743BDA743BDA743BDA743BDA743BE
+              A742B8AA44C29A26DDB123DBAE2ADCAE25DCAE25DCAE26DDAF24E0AF21B3902A
+              EAE8E6000000FFFFFFC1C1C1E5E5EDD6D6C9B19E5EBCA83FBDA843BDA743BDA7
+              43BDA743BDA743BDA743BDA743BDA743BEA742B8AA44C29A26DDB123DBAE2ADC
+              AE25DCAE25DCAE26DDAF24E0AF21B3902AFFFFFFC1C1C1E2E5E2EFEDF2ECEAF4
+              E1E3EBE3E5EDE3E5ECE3E5ECE3E5ECE2E5ECE3E5ECE3E5ECE3E5ECE2E4EFE3E9
+              F6A38941E2B115E4AF2AE0AF27E1AF28E0AF28E0B026E8B422B6932AE7E7E400
+              0000FFFFFFC1C1C1E2E5E2EFEDF2ECEAF4E1E3EBE3E5EDE3E5ECE3E5ECE3E5EC
+              E2E5ECE3E5ECE3E5ECE3E5ECE2E4EFE3E9F6A38941E2B115E4AF2AE0AF27E1AF
+              28E0AF28E0B026E8B422B6932AFFFFFFC1C1C1E5E4E5EBEBEBEBEBEBEBEBEBEC
+              ECEDECECECECECEDECEBEDEBECECEDEDEDEBEBEBEBECECEEEBEDF2F0FCA89C61
+              E8B711FCD92DFCD52CFCD52CFBD329F6D72FF9C814AB9442F7F8FA000000FFFF
+              FFC1C1C1E5E4E5EBEBEBEBEBEBEBEBEBECECEDECECECECECEDECEBEDEBECECED
+              EDEDEBEBEBEBECECEEEBEDF2F0FCA89C61E8B711FCD92DFCD52CFCD52CFBD329
+              F6D72FF9C814AB9442FFFFFFC1C1C1E6E6E6ECECECECECECEBEBEBEBEBEBEBEB
+              EBECECECEAEAEAEAEAEAEAEAEAECECECEBEBEBEBEFE9EEEFF1DADCDAB09A4C94
+              84109585129383109A8916938512A59538E8DFD7FFFFFF000000FFFFFFC1C1C1
+              E6E6E6ECECECECECECEBEBEBEBEBEBEBEBEBECECECEAEAEAEAEAEAEAEAEAECEC
+              ECEBEBEBEBEFE9EEEFF1DADCDAB09A4C9484109585129383109A8916938512A5
+              9538E8DFD7FFFFFFC0C0C0EAEAEAEEEEEEEDEDEDEEEEEEEEEEEEEEEEEEEEEEEE
+              F4F4F4E9E9E9E8E8E8E7E7E7E8E8E8E7E6E8E7E6E7EBE9ECE9ECF6EBEDF8ECED
+              F8ECEDF8F0F1FCCECFDCFAFDFFFFFFFFFBFBFB000000FFFFFFC0C0C0EAEAEAEE
+              EEEEEDEDEDEEEEEEEEEEEEEEEEEEEEEEEEF4F4F4E9E9E9E8E8E8E7E7E7E8E8E8
+              E7E6E8E7E6E7EBE9ECE9ECF6EBEDF8ECEDF8ECEDF8F0F1FCCECFDCFAFDFFFFFF
+              FFFFFFFFC2C2C2EFEFEFF3F3F3ECECECEDEDEDEDEDEDEDEDEDF7F7F7D7D7D7C6
+              C6C6CECECECDCDCDCFCECECECDCECCCCCBCFCDD0CACCD1CECECFCFCECFCFCDCF
+              D0CFD0EDEDEDFFFFFFFCFEFDFBFDFC000000FFFFFFC2C2C2EFEFEFF3F3F3ECEC
+              ECEDEDEDEDEDEDEDEDEDF7F7F7D7D7D7C6C6C6CECECECDCDCDCFCECECECDCECC
+              CCCBCFCDD0CACCD1CECECFCFCECFCFCDCFD0CFD0EDEDEDFFFFFFFCFEFDFFFFFF
+              E9E9E9BDBDBDF9F9F9F5F5F5F5F5F5F5F5F5F6F6F6EDEDEDBBBBBBFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFEFFFFFEFFFF000000FFFFFFE9E9E9BDBDBDF9F9F9F5F5F5F5F5F5
+              F5F5F5F6F6F6EDEDEDBBBBBBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFEFEFEFFFFFFEF
+              EFEFBEBEBEBDBDBDBDBDBDBDBDBDBCBCBCC2C2C2F5F5F5FFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFF000000FEFEFEFFFFFFEFEFEFBEBEBEBDBDBDBDBDBDBDBDBDBC
+              BCBCC2C2C2F5F5F5FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDFDFDFEFEFEFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFF000000FDFDFDFEFEFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00
+              0000}
+            NumGlyphs = 2
+            ParentFont = False
+            Spacing = 3
+            Transparent = False
+            OnClick = spbConsultarCarpetaClick
+          end
+          object LblEme: TLabel
+            Left = 216
+            Top = 6
+            Width = 19
+            Height = 25
+            Anchors = []
+            Caption = 'M'
+            Color = clBlue
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clNavy
+            Font.Height = -21
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            ParentColor = False
+            ParentFont = False
+          end
+          object EdtCodigoCarpeta: TEdit
+            Left = 238
+            Top = 4
+            Width = 117
+            Height = 30
+            Color = 50319311
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -19
+            Font.Name = 'Arial Rounded MT Bold'
+            Font.Style = []
+            MaxLength = 8
+            ParentFont = False
+            TabOrder = 0
+            OnChange = EdtCodigoCarpetaChange
+            OnKeyPress = EdtCodigoCarpetaKeyPress
+          end
+        end
+      end
+      object GrpCriteriosPersona: TGroupBox
+        Left = 0
+        Top = 65
+        Width = 1033
+        Height = 153
+        Align = alBottom
+        BiDiMode = bdLeftToRight
+        Caption = 'Criterios de B'#250'squeda Persona '
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBiDiMode = False
+        ParentFont = False
+        TabOrder = 1
+        object LblNUmeroIdentificacion: TLabel
+          Left = 507
+          Top = 36
+          Width = 158
+          Height = 18
+          Caption = 'N'#250'mero de Documento:'
+        end
+        object LblPrimerApellido: TLabel
+          Left = 23
+          Top = 113
+          Width = 98
+          Height = 18
+          Caption = 'Primer Apellido:'
+        end
+        object LblPrimerNombre: TLabel
+          Left = 23
+          Top = 76
+          Width = 103
+          Height = 18
+          Caption = 'Primer Nombre:'
+        end
+        object LblSegundoApellido: TLabel
+          Left = 547
+          Top = 113
+          Width = 113
+          Height = 18
+          Caption = 'Segundo Apellido:'
+        end
+        object LblSegundoNombre: TLabel
+          Left = 547
+          Top = 76
+          Width = 118
+          Height = 18
+          Caption = 'Segundo Nombre:'
+        end
+        object LblTipoIdentificacion: TLabel
+          Left = 23
+          Top = 36
+          Width = 143
+          Height = 18
+          Caption = 'Tipo de Identificaci'#243'n:'
+        end
+        object EdtNumeroDocumento: TEdit
+          Left = 672
+          Top = 31
+          Width = 163
+          Height = 26
+          Color = 9882571
+          MaxLength = 20
+          TabOrder = 1
+          OnChange = EdtNumeroDocumentoChange
+          OnKeyPress = EdtNumeroDocumentoKeyPress
+        end
+        object EdtPrimerApellido: TEdit
+          Left = 172
+          Top = 110
+          Width = 332
+          Height = 26
+          Color = 9882571
+          MaxLength = 40
+          TabOrder = 4
+          OnChange = EdtPrimerApellidoChange
+          OnExit = EdtPrimerApellidoExit
+          OnKeyPress = EdtPrimerApellidoKeyPress
+        end
+        object EdtPrimerNombre: TEdit
+          Left = 172
+          Top = 73
+          Width = 332
+          Height = 26
+          Color = 9882571
+          MaxLength = 40
+          TabOrder = 2
+          OnChange = EdtPrimerNombreChange
+          OnExit = EdtPrimerNombreExit
+          OnKeyPress = EdtPrimerNombreKeyPress
+        end
+        object EdtSegundoApellido: TEdit
+          Left = 672
+          Top = 110
+          Width = 332
+          Height = 26
+          MaxLength = 40
+          TabOrder = 5
+          OnChange = EdtSegundoApellidoChange
+          OnExit = EdtSegundoApellidoExit
+        end
+        object EdtSegundoNombre: TEdit
+          Left = 672
+          Top = 73
+          Width = 332
+          Height = 26
+          MaxLength = 40
+          TabOrder = 3
+          OnChange = EdtSegundoApellidoChange
+          OnExit = EdtSegundoApellidoExit
+        end
+        object dblTipoIdentificacion: TDBLookupComboBox
+          Left = 172
+          Top = 31
+          Width = 313
+          Height = 26
+          Color = 9882571
+          DropDownRows = 8
+          DropDownWidth = 400
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -15
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = False
+          TabOrder = 0
+          OnCloseUp = dblTipoIdentificacionCloseUp
+          OnEnter = dblTipoIdentificacionEnter
+        end
+      end
+      object GrpOpcionesBusqueda: TGroupBox
+        Left = 853
+        Top = 83
+        Width = 155
+        Height = 49
+        TabOrder = 2
+        DesignSize = (
+          155
+          49)
+        object spbConsultarBD: TSpeedButton
+          Left = 4
+          Top = 2
+          Width = 147
+          Height = 46
+          Anchors = []
+          Caption = 'Consultar &Base de Datos'
+          Enabled = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          Glyph.Data = {
+            4E070000424D4E07000000000000360400002800000024000000160000000100
+            08000000000018030000C40E0000C40E00000001000000000000000000000000
+            80000080000000808000800000008000800080800000C0C0C000C0DCC000F0CA
+            A6000020400000206000002080000020A0000020C0000020E000004000000040
+            20000040400000406000004080000040A0000040C0000040E000006000000060
+            20000060400000606000006080000060A0000060C0000060E000008000000080
+            20000080400000806000008080000080A0000080C0000080E00000A0000000A0
+            200000A0400000A0600000A0800000A0A00000A0C00000A0E00000C0000000C0
+            200000C0400000C0600000C0800000C0A00000C0C00000C0E00000E0000000E0
+            200000E0400000E0600000E0800000E0A00000E0C00000E0E000400000004000
+            20004000400040006000400080004000A0004000C0004000E000402000004020
+            20004020400040206000402080004020A0004020C0004020E000404000004040
+            20004040400040406000404080004040A0004040C0004040E000406000004060
+            20004060400040606000406080004060A0004060C0004060E000408000004080
+            20004080400040806000408080004080A0004080C0004080E00040A0000040A0
+            200040A0400040A0600040A0800040A0A00040A0C00040A0E00040C0000040C0
+            200040C0400040C0600040C0800040C0A00040C0C00040C0E00040E0000040E0
+            200040E0400040E0600040E0800040E0A00040E0C00040E0E000800000008000
+            20008000400080006000800080008000A0008000C0008000E000802000008020
+            20008020400080206000802080008020A0008020C0008020E000804000008040
+            20008040400080406000804080008040A0008040C0008040E000806000008060
+            20008060400080606000806080008060A0008060C0008060E000808000008080
+            20008080400080806000808080008080A0008080C0008080E00080A0000080A0
+            200080A0400080A0600080A0800080A0A00080A0C00080A0E00080C0000080C0
+            200080C0400080C0600080C0800080C0A00080C0C00080C0E00080E0000080E0
+            200080E0400080E0600080E0800080E0A00080E0C00080E0E000C0000000C000
+            2000C0004000C0006000C0008000C000A000C000C000C000E000C0200000C020
+            2000C0204000C0206000C0208000C020A000C020C000C020E000C0400000C040
+            2000C0404000C0406000C0408000C040A000C040C000C040E000C0600000C060
+            2000C0604000C0606000C0608000C060A000C060C000C060E000C0800000C080
+            2000C0804000C0806000C0808000C080A000C080C000C080E000C0A00000C0A0
+            2000C0A04000C0A06000C0A08000C0A0A000C0A0C000C0A0E000C0C00000C0C0
+            2000C0C04000C0C06000C0C08000C0C0A000F0FBFF00A4A0A000808080000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00FFFFFFFFFFFF
+            08BFBFADA407FFFFFFFFFFFFFFFFFFFFFFFF08BFBFADED07FFFFFFFFFFFFFFFF
+            F6BF7FFBFBFBFB003F3F130AEDF6FFFFFFFFF6083FFBFBFBFB00FB2D125207FF
+            FFFFFF075BFBFBFBFBFBFB1B37FBFBFB1240EEFFFF071BFBFBFBFBFBFB13FBFB
+            FB3F124907FF080025FBFBFBFBFBFBFB0AFBFBFBFB2500AC070036FBFBFBFBFB
+            FBFB12FBFBFBFB1B00075B4037FBFBFBFBFBFBFB5B03FBFBFBFB495249407FFB
+            FBFBFBFBFBFB4936FBFBFB3F40525B4077FBFBFBFBFBFBFB1203FBFBFBFB4952
+            52407FFBFBFBFBFBFBFB402DFBFBFB3F40525B4076FBFBFB3FFBFBFB1264FBFB
+            FBFB495252407FFBFBFB3FFBFBFB406DFBFBFB3F40525B4076FBFBFB3F3FFBFB
+            0A1CFBFBFBFB495152407FFBFBFB36FBFBFB406DFBFBFB3F40525B4076FBFBFB
+            3F76FBFB491CFBFBFBFB495252407FFBFBFB763FFBFB4065FBFBFB3F40525B40
+            76FBFBFBFB2DFBFB4103FBFBFBFB495252407FFBFBFB7636FBFB406DFBFBFB3F
+            40525B4076FBFBFBFB03FBFB402DFBFBFBFB495252407FFBFBFB3F65FBFB4037
+            FBFBFB3F40525B4076FBFBFBFB1BFBFB4136FBFBFBFB495252407FFBFBFBFB1B
+            FBFB00FBFBFBFB3F40525B4076FBFBFBFB52FB7F00FBFBFBFBFB495252407FFB
+            FBFBFB13FB3700FBFBFBFB3F40525B4076FBFBFBFB12FB3600FBFBFBFBFB4952
+            52407FFBFBFBFB11FB2513FBFBFBFB3F40525B4076FBFBFBFB0AFB6413FBFBFB
+            FBFB495252407FFBFBFBFB0AFB1B1CFBFBFBFB3F40525B4076FBFBFBFB1BFB0A
+            6CFBFBFBFBFB495252407FFBFBFBFB13FB0A75FBFBFBFB3F40525B4076FBFBFB
+            FB037E0A3FFBFBFBFBFB495252407FFBFBFBFB137F00FBFBFBFBFB3F40525B40
+            76FBFBFBFB365C0AFBFBFBFBFBFB4A5252407FFBFBFBFB1C6C0AFBFBFBFBFB3F
+            40525B407FFBFBFBFBFB0053FBFBFBFBFBFB495252497FFBFBFBFB3F0065FBFB
+            FBFBFB3F40525B48253FFBFBFBFB0A3FFBFBFBFBFB2E4951494925FBFBFBFBFB
+            00FBFBFBFBFB3F2549529B000000000A0336767F2E03130A0000405252000000
+            0A132537767F2D030A000000409BFFFFFFF6EDF7A49B93939BA4F7EDF6FFFFFF
+            FFFFF608EEA4A49B93939BA4EDEDF6FFFFFF}
+          Layout = blGlyphTop
+          NumGlyphs = 2
+          ParentFont = False
+          Spacing = 0
+          Transparent = False
+          OnClick = spbConsultarBDClick
+          ExplicitLeft = 14
+        end
+      end
+    end
+    object RpnBusqueda: TRxPanel
+      Left = 1294
+      Top = 0
+      Width = 622
+      Height = 218
+      Align = alClient
+      BevelOuter = bvNone
+      TabOrder = 1
+      TileImage = False
+      DesignSize = (
+        622
+        218)
+      object GrpBusquedaPersonas: TGroupBox
+        Left = 7
+        Top = 10
+        Width = 612
+        Height = 203
+        Enabled = False
+        TabOrder = 0
+        DesignSize = (
+          612
+          203)
+        object LblPersonas: TLabel
+          Left = 139
+          Top = 7
+          Width = 341
+          Height = 21
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Alignment = taCenter
+          Anchors = []
+          AutoSize = False
+          Caption = 'BASE DE DATOS PERSONAS'
+          Color = clSilver
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+        end
+        object dbgPersonas: TDBGrid
+          Left = 6
+          Top = 26
+          Width = 597
+          Height = 173
+          Color = clInactiveBorder
+          DrawingStyle = gdsGradient
+          FixedColor = clInactiveCaption
+          GradientEndColor = clBtnText
+          GradientStartColor = clBlue
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clBlack
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = [fsBold]
+          OnDblClick = dbgPersonasDblClick
+          Columns = <
+            item
+              ButtonStyle = cbsNone
+              Color = 13355926
+              DropDownRows = 6
+              Expanded = False
+              FieldName = 'nombres'
+              Title.Alignment = taCenter
+              Title.Caption = 'NOMBRES'
+              Title.Color = clRed
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -12
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
+              Width = 160
+              Visible = True
+            end
+            item
+              Color = 14671805
+              DropDownRows = 6
+              Expanded = False
+              FieldName = 'apellidos'
+              Title.Alignment = taCenter
+              Title.Caption = 'APELLIDOS'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -12
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
+              Width = 160
+              Visible = True
+            end
+            item
+              Color = 13355926
+              DropDownRows = 6
+              Expanded = False
+              FieldName = 'numerodocumento'
+              Title.Alignment = taCenter
+              Title.Caption = 'NRO. DOCUM.'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -12
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
+              Width = 100
+              Visible = True
+            end
+            item
+              Color = 14671805
+              DropDownRows = 6
+              Expanded = False
+              FieldName = 'descripciontipoidentificacion'
+              Title.Alignment = taCenter
+              Title.Caption = 'TIPO DOCUMENTO'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -12
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
+              Width = 161
+              Visible = True
+            end>
+        end
+      end
+      object RpnBuscando: TRxPanel
+        Left = 232
+        Top = 119
+        Width = 185
+        Height = 41
+        BevelOuter = bvNone
+        Caption = 'Buscando ......'
+        Color = clBlue
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 1
+        Visible = False
+        Gradient.Direction = fdRightToLeft
+        Gradient.EndColor = clBlack
+        Gradient.StartColor = clBlue
+        Gradient.Visible = True
+        TileImage = False
+      end
+      object RpnMensajePersonas: TRxPanel
+        Left = 185
+        Top = 101
+        Width = 280
+        Height = 78
+        Anchors = [akLeft, akRight]
+        BevelInner = bvRaised
+        BevelOuter = bvNone
+        BevelWidth = 4
+        BorderStyle = bsSingle
+        Color = 1514433
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 2
+        Visible = False
+        Gradient.Direction = fdRightToLeft
+        Gradient.EndColor = clBlack
+        Gradient.StartColor = clMoneyGreen
+        Gradient.StepCount = 63
+        TileImage = False
+        object rxlMensajePersonas: TRxLabel
+          Left = 4
+          Top = 4
+          Width = 268
+          Height = 66
+          Align = alClient
+          Alignment = taCenter
+          Caption = 'NO EXISTEN COINCIDENCIAS'#13#10'PARA LOS CRITERIOS SELECCIONADOS'
+          Color = 8289584
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -15
+          Font.Name = 'Arial Rounded MT Bold'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentColor = False
+          ParentFont = False
+          ShadowColor = clNone
+          WordWrap = True
+          ExplicitLeft = 6
+          ExplicitTop = 6
+          ExplicitWidth = 245
+          ExplicitHeight = 51
+        end
+      end
+    end
+    object RpnOtrosCriterios: TRxPanel
+      Left = 1033
+      Top = 0
+      Width = 261
+      Height = 218
+      Align = alLeft
+      BevelOuter = bvNone
+      TabOrder = 2
+      TileImage = False
+      object GrpCiteriosAdicionales: TGroupBox
+        Left = 7
+        Top = 0
+        Width = 248
+        Height = 212
+        Caption = 'Criterios Adicionales '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        object GrpOpcionesConsulta: TGroupBox
+          Left = 10
+          Top = 139
+          Width = 228
+          Height = 69
+          TabOrder = 0
+          DesignSize = (
+            228
+            69)
+          object spbCancelarLimpiar: TSpeedButton
+            Left = 12
+            Top = 35
+            Width = 202
+            Height = 29
+            Anchors = []
+            Caption = '&Limpiar Criterios/Consultar Otro'
+            Enabled = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00500005000555
+              555557777F777555F55500000000555055557777777755F75555005500055055
+              555577F5777F57555555005550055555555577FF577F5FF55555500550050055
+              5555577FF77577FF555555005050110555555577F757777FF555555505099910
+              555555FF75777777FF555005550999910555577F5F77777775F5500505509990
+              3055577F75F77777575F55005055090B030555775755777575755555555550B0
+              B03055555F555757575755550555550B0B335555755555757555555555555550
+              BBB35555F55555575F555550555555550BBB55575555555575F5555555555555
+              50BB555555555555575F555555555555550B5555555555555575}
+            NumGlyphs = 2
+            ParentFont = False
+            Spacing = 5
+            Transparent = False
+            OnClick = spbCancelarLimpiarClick
+          end
+        end
+      end
+    end
+  end
+end

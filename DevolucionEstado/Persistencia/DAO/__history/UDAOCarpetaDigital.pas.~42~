@@ -1,0 +1,673 @@
+unit UDAOCarpetaDigital;
+
+interface
+uses
+  SysUtils,StrUtils,Classes,DB,DBClient, zdataset,  ZDbcIntfs,
+  UDMConexion, Variants, FPGenerales;
+
+type
+  TDAOCarpetaDigital = class
+    private
+      FQuery : TZquery;
+    public
+      {CONSTRUCTORES Y DESTRUCTORES}
+      constructor create;
+      destructor  destroy;
+
+      { PROCEDIMIENTOS Y FUNCIONES }
+      function ConsultarCarpetas(p_CodiCarp: string): TClientDataSet;
+      function ConsultarDatosMtiAndes(p_identipo: variant; p_numedocu: string;
+                                      p_primnomb:string; p_primapel:string;
+                                      p_fechnoin: string; p_fechnofi: string;
+                                      p_FechPagoInic: string; p_FechPagoFina: string;
+                                      p_PeriInic: string; p_PeriFina: string;
+                                      p_IdenFond: variant): TDataSource;
+
+      //function ConsultarEmpleados(p_IdenPers: Int32; p_NombPers: string): TClientDataSet;
+      function ConsultarEmpleados(p_IdenPers: Int32; p_NombPers: string;
+                                  p_IdenSedo: Variant;
+                                  p_FechNoin: string; p_FechNofi: string;
+                                  p_FechPain: string; p_FechPafi: string;
+                                  p_PeriInic: string; p_PeriFina: string): TClientDataSet;
+      function ConsultarFondos: TDataSource;
+      function ConsultarSeriesDocumentales: TDataSource;
+      function ConsultarTiposIdentificacion: TDataSource;
+  end;
+
+implementation
+
+
+{$REGION 'METODOS PROPIOS'}
+
+
+function TDAOCarpetaDigital.ConsultarCarpetas(p_CodiCarp: string): TClientDataSet;
+{ FUNCION QUE BUSCA LAS IMAGENES QUE TIENE UNA CARPETA}
+
+var
+  NumeRegi    : Int32;
+  RegiPadrNiv1: Int32;
+  SubbSeriDocu: string;
+
+  QuerDatoCarp: TZQuery;
+begin
+  try
+    QuerDatoCarp := TZQuery.Create(nil);
+    QuerDatoCarp.Connection := DMConexion.ZConexion;
+    Result:= TClientDataSet.Create(nil);
+    with Result do
+    begin
+      FieldDefs.Add('REGISTRO',ftInteger,0);
+      FieldDefs.Add('NODO',ftString,200);
+      FieldDefs.Add('RUTAFTP',ftString,150);
+      FieldDefs.Add('NOMBREIMAGEN',ftString,100);
+      FieldDefs.Add('PADRE',ftInteger,0);
+      CreateDataSet;
+    end;
+
+    with QuerDatoCarp do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT SUBS.descripcionsubseriedocumental,');
+      SQL.Add('       FOLI.codigofolio, IMAG.rutaftp, IMAG.nombreimagen');
+      SQL.Add(Format('FROM %s.FOLIO FOLI ', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.CARPETAALETA CAAL ON '
+                     + 'CAAL.idcarpetaaleta = FOLI.idcarpetaaleta ', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.CARPETA CARP ON '
+                     + 'CARP.idcarpeta = CAAL.idcarpeta', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.SERIESUBSERIE SESU ON '
+                     + 'SESU.idseriesubserie = CAAL.idseriesubserie',[DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.SUBSERIEDOCUMENTAL SUBS ON '
+                     + 'SUBS.idsubseriedocumental = SESU.idsubseriedocumental',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.IMAGEN IMAG ON IMAG.idfolio = FOLI.idfolio',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('WHERE CARP.codigocarpeta= ''%s''' , [p_CodiCarp]));
+      SQL.Add('             AND IMAG.version = (SELECT MAX(version)');
+      SQL.Add(Format('                            FROM %s.IMAGEN', [DMConexion.esquema]));
+      SQL.Add('                                   WHERE idfolio = FOLI.idfolio)');
+      SQL.Add('       ORDER BY 1,2');
+      Open;
+      if NOT IsEmpty then
+      begin
+        First;
+        NumeRegi:=-1;
+        while not Eof do
+        begin
+          Inc(NumeRegi);
+          RegiPadrNiv1 := NumeRegi;
+          SubbSeriDocu := FieldByName('descripcionsubseriedocumental').AsString;
+          Result.Append;
+          Result.FieldByName('REGISTRO').Value := NumeRegi;
+          Result.FieldByName('NODO').Value:= SubbSeriDocu;
+          Result.FieldByName('PADRE').Value:= -1;
+          while (not eof)
+                  and (SubbSeriDocu = FieldByName('descripcionsubseriedocumental').AsString) do
+          begin
+            Inc(NumeRegi);
+            Result.Append;
+            Result.FieldByName('REGISTRO').Value := NumeRegi;
+            Result.FieldByName('NODO').Value:= 'M' + FieldByName('codigofolio').AsString;
+            Result.FieldByName('RUTAFTP').Value:= FieldByName('rutaftp').AsString;
+            Result.FieldByName('NOMBREIMAGEN').Value:= FieldByName('nombreimagen').asstring;
+            Result.FieldByName('PADRE').Value:= RegiPadrNiv1;
+            Next;
+          end;
+        end;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create(format('No es posible consultar las Imágenes para '
+                                    + 'la Carpeta [%s].',[p_CodiCarp]) + #10#13
+                                    + '* '+ e.Message);
+
+  end;
+end;
+
+function TDAOCarpetaDigital.ConsultarDatosMtiAndes(p_identipo: Variant;
+                    p_numedocu: string; p_primnomb:string; p_primapel:string;
+                    p_fechnoin: string; p_fechnofi: string;
+                    p_FechPagoInic: string; p_FechPagoFina: string;
+                    p_PeriInic: string; p_PeriFina: string;
+                    p_IdenFond: variant): TDataSource;
+{ FUNCION QUE BUSCA DATOS DE PERSONAS EN LA BASE DE DATOS DE MTI }
+var
+  QuerDatosMTAN: TZQuery;
+begin
+  try
+    QuerDatosMTAN:= TZQuery.Create(nil);
+    QuerDatosMTAN.Connection:= DMConexion.ZConexion;
+    Result:= TDataSource.Create(nil);
+    with QuerDatosMTAN do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT TIID.idtipoidentificacion, TIID.descripciontipoidentificacion, ');
+      SQL.Add('       IDEN.numerodocumento, PERS.idpersona,');
+      SQL.Add('       PERS.primernombre, PERS.segundonombre, ');
+      SQL.Add('       CAST(CASE WHEN TRIM(PERS.segundonombre) IS NULL ');
+      SQL.Add('               THEN TRIM(PERS.primernombre) ');
+      SQL.Add('               ELSE TRIM(PERS.primernombre) || '' '' || TRIM(PERS.segundonombre)');
+      SQL.Add('            END AS CHARACTER VARYING) AS nombres , ');
+      SQL.Add('       PERS.primerapellido, PERS.segundoapellido, ');
+      SQL.Add('       CAST(CASE WHEN TRIM(PERS.segundoapellido) IS NULL ');
+      SQL.Add('               THEN TRIM(PERS.primerapellido) ');
+      SQL.Add('               ELSE TRIM(PERS.primerapellido) || '' '' || TRIM(PERS.segundoapellido)');
+      SQL.Add('            END AS CHARACTER VARYING) AS apellidos ');
+      SQL.Add(Format('FROM %s.IDENTIFICACION IDEN ', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.PERSONA PERS ON PERS.idpersona = IDEN.idpersona',
+                        [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.TIPOIDENTIFICACION TIID ON '
+                        + 'TIID.idtipoidentificacion = IDEN.idtipoidentificacion',
+                        [DMConexion.esquema]));
+
+      SQL.Add('       WHERE 1=1');
+      if p_identipo <> -1 then
+        SQL.Add(Format('  AND IDEN.idtipoidentificacion = %s  ',[p_identipo]));
+
+      if p_numedocu <> '' then
+        SQL.Add(Format('  AND IDEN.numerodocumento LIKE ''%s''',['%' + p_numedocu + '%']));
+
+      if p_primnomb <> '' then
+        SQL.Add(Format('  AND PERS.primernombre LIKE ''%s''',['%' + p_primnomb + '%']));
+
+      if p_primapel <> '' then
+        SQL.Add(Format('  AND PERS.primerapellido LIKE ''%s''',['%' + p_primapel + '%']));
+
+      if (p_fechnoin <> '') or (p_FechPagoInic <> '') or (p_PeriInic <> '') then
+      begin
+        SQL.Add('         AND EXISTS (SELECT ididentificacion');
+        SQL.Add(Format('               FROM %s.FOLIOIDENTIFICACION FOID', [DMConexion.esquema]));
+        SQL.Add(Format('               INNER JOIN %s.FOLIO FOLI ON FOLI.idfolio = FOID.idfolio',
+                                        [DMConexion.esquema]));
+        SQL.Add(Format('               INNER JOIN %s.CARPETAALETA CAAL ON '
+                                       + 'CAAL.idcarpetaaleta = FOLI.idcarpetaaleta', [DMConexion.esquema]));
+        SQL.Add(Format('               INNER JOIN %s.CARPETA CARP ON '
+                                       + 'CARP.idcarpeta = CAAL.idcarpeta', [DMConexion.esquema]));
+        SQL.Add(Format('               INNER JOIN %s.SERIEDOCUMENTAL SEDO ON '
+                                       + 'SEDO.idseriedocumental = CARP.idseriedocumental', [DMConexion.esquema]));
+        SQL.Add(Format('               INNER JOIN %s.DATOPLANILLA DAPL ON '
+                                       + 'DAPL.iddatoplanilla = FOLI.iddatoplanilla',[DMConexion.esquema]));
+        SQL.Add('                      WHERE FOID.ididentificacion = IDEN.ididentificacion');
+
+        if (p_fechnoin <> '') then
+        begin
+          if p_fechnoin <= p_fechnofi then
+            SQL.Add(Format('                 AND DAPL.fechanomina BETWEEN ''%s'' AND ''%s'')  ',
+                                                    [p_fechnoin, p_fechnofi]))
+          else
+            raise Exception.Create('Error en los parámetros de Fecha de Nómina Inicial-Final.');
+        end
+        else
+          if (p_FechPagoInic <> '') then
+          begin
+            if p_FechPagoInic <= p_FechPagoFina then
+              SQL.Add(Format('               AND DAPL.fechapago BETWEEN ''%s'' AND ''%s'')  ',
+                                                      [p_FechPagoInic, p_FechPagoFina]))
+            else
+              raise Exception.Create('Error en los parámetros de Fecha de Pago Inicial-Final.');
+          end
+          else
+            if p_PeriInic <= p_PeriFina then
+              SQL.Add(Format('               AND DAPL.periodocotizacion BETWEEN ''%s'' AND ''%s'')  ',
+                                                      [p_PeriInic, p_PeriFina]))
+            else
+              raise Exception.Create('Error en los parámetros de Fecha de Pago Inicial-Final.');
+      end;
+      SQL.Add('       ORDER BY primernombre,segundonombre NULLS FIRST, primerapellido, '
+                     + 'segundoapellido NULLS FIRST');
+      open;
+      first;
+      result.DataSet:=QuerDatosMTAN;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar información de Base de Datos MTI-UNIANDES.'
+                              + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+{
+function TDAOCarpetaDigital.ConsultarEmpleados(p_IdenPers: Int32;
+                                               p_NombPers: string): TClientDataSet;
+//{ FUNCION QUE BUSCA LAS IMAGENES QUE TIENE UNA PERSONA
+
+var
+  CadeUnio    : string;
+  CarpAnioBase: string;
+  CarpAnioLeid: string;
+  MessBase    : string;
+  HistLabo    : Boolean;
+  NumeRegi    : Int32;
+  RegiPadrNiv1: Int32;
+  RegiPadrNiv2: Int32;
+  SeriDocu    : string;
+  QuerDatoImag: TZQuery;
+
+begin
+  try
+    QuerDatoImag := TZQuery.Create(nil);
+    QuerDatoImag.Connection := DMConexion.ZConexion;
+    Result:= TClientDataSet.Create(nil);
+    with Result do
+    begin
+      FieldDefs.Add('REGISTRO',ftInteger,0);
+      FieldDefs.Add('NODO',ftString,200);
+      FieldDefs.Add('RUTAFTP',ftString,150);
+      FieldDefs.Add('NOMBREIMAGEN',ftString,100);
+      FieldDefs.Add('PADRE',ftInteger,0);
+      CreateDataSet;
+    end;
+
+    with QuerDatoImag do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT TISD.descripciontiposeriedocumental,SEDO.descripcionseriedocumental,');
+      SQL.Add('       CASE WHEN TISD.descripciontiposeriedocumental = ''PLANILLAS DE NÓMINA''');
+      SQL.Add('             THEN CAST(DAPL.fechanomina AS CHARACTER VARYING)');
+      SQL.Add('            WHEN TISD.descripciontiposeriedocumental = ''HISTORIAS LABORALES''');
+      SQL.Add('             THEN SUDO.descripcionsubseriedocumental ');
+      SQL.Add('            ELSE CAST(DAPL.periodocotizacion AS CHARACTER VARYING)');
+      SQL.Add('       END AS carpetafecha,');
+      SQL.Add('       FOLI.codigofolio, IMAG.rutaftp,IMAG.nombreimagen');
+      SQL.Add(Format('FROM %s.IDENTIFICACION IDEN ', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.FOLIOIDENTIFICACION FOID ON '
+                     + 'FOID.ididentificacion = IDEN.ididentificacion',[DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.FOLIO FOLI ON '
+                     + 'FOLI.idfolio = FOID.idfolio', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.CARPETAALETA CAAL ON '
+                     + 'CAAL.idcarpetaaleta = FOLI.idcarpetaaleta ', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.CARPETA CARP ON '
+                     + 'CARP.idcarpeta = CAAL.idcarpeta', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.SERIEDOCUMENTAL SEDO ON '
+                     + 'SEDO.idseriedocumental = CARP.idseriedocumental',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.SERIESUBSERIE SESU ON '
+                     + 'SESU.idseriesubserie = CAAL.idseriesubserie',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.SUBSERIEDOCUMENTAL SUDO ON '
+                     + 'SUDO.idsubseriedocumental = SESU.idsubseriedocumental',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.TIPOSERIEDOCUMENTAL TISD ON '
+                     + 'TISD.idtiposeriedocumental = SEDO.idtiposeriedocumental',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.IMAGEN IMAG ON IMAG.idfolio = FOLI.idfolio',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('LEFT JOIN %s.DATOPLANILLA DAPL ON '
+                     + 'DAPL.iddatoplanilla = FOLI.iddatoplanilla', [DMConexion.esquema]));
+      SQL.Add(Format('WHERE IDEN.idpersona = %d' , [p_idenpers]));
+      SQL.Add('             AND IMAG.version = (SELECT MAX(version)');
+      SQL.Add(Format('                            FROM %s.IMAGEN', [DMConexion.esquema]));
+      SQL.Add('                                   WHERE idfolio = FOLI.idfolio)');
+      SQL.Add('       ORDER BY 1,2,3,4');
+      Open;
+      if NOT IsEmpty then
+      begin
+        First;
+        NumeRegi:=-1;
+        while not Eof do
+        begin
+          Inc(NumeRegi);
+          RegiPadrNiv1 := NumeRegi;
+          SeriDocu := FieldByName('descripcionseriedocumental').AsString;
+          if SeriDocu = 'HISTORIAS LABORALES' then
+            HistLabo:= True
+          else
+            HistLabo:= False;
+
+          Result.Append;
+          Result.FieldByName('REGISTRO').Value := NumeRegi;
+          Result.FieldByName('NODO').Value:= SeriDocu;
+          Result.FieldByName('PADRE').Value:= -1;
+          while (not eof) and (SeriDocu = FieldByName('descripcionseriedocumental').AsString) do
+          begin
+            Inc(NumeRegi);
+            RegiPadrNiv2 := NumeRegi;
+            if HistLabo then
+              CarpAnioBase := FieldByName('carpetafecha').AsString
+            else
+              CarpAnioBase := AnsiLeftStr(FieldByName('carpetafecha').AsString,4);
+
+            Result.Append;
+            Result.FieldByName('REGISTRO').Value := NumeRegi;
+            Result.FieldByName('NODO').Value:= CarpAnioBase;
+            Result.FieldByName('PADRE').Value:= RegiPadrNiv1;
+            CarpAnioLeid:= CarpAnioBase;
+            while (not eof) and (SeriDocu = FieldByName('descripcionseriedocumental').AsString)
+                            and (CarpAnioBase = CarpAnioLeid) do
+            begin
+              Inc(NumeRegi);
+              Result.Append;
+              Result.FieldByName('REGISTRO').Value := NumeRegi;
+              CadeUnio:= '';
+              if not HistLabo then
+              begin
+                MessBase:= AnsiMidStr(FieldByName('carpetafecha').AsString,6,2);
+                if MessBase <> '' then
+                  MessBase:= GeneraNombreMes(StrToInt(MessBase),3,'MY');
+                CadeUnio:= '[' + MessBase + ']-';
+              end;
+
+              Result.FieldByName('NODO').Value:= CadeUnio +'M'
+                                                  + FieldByName('codigofolio').AsString;
+              Result.FieldByName('RUTAFTP').Value:= FieldByName('rutaftp').AsString;
+              Result.FieldByName('NOMBREIMAGEN').Value:= FieldByName('nombreimagen').asstring;
+              Result.FieldByName('PADRE').Value:= RegiPadrNiv2;
+              Next;
+              if HistLabo then
+                CarpAnioLeid := FieldByName('carpetafecha').AsString
+              else
+                CarpAnioLeid := AnsiLeftStr(FieldByName('carpetafecha').AsString,4);
+            end;
+          end;
+        end;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create(format('No es posible consultar las Imágenes para '
+                                    + '[%s].',[p_NombPers]) + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+}
+
+function TDAOCarpetaDigital.ConsultarEmpleados(p_IdenPers: Int32; p_NombPers: string;
+                                 p_IdenSedo: variant;
+                                 p_FechNoin: string; p_FechNofi: string;
+                                 p_FechPain: string; p_FechPafi: string;
+                                 p_PeriInic: string; p_PeriFina: string): TClientDataSet;
+//{ FUNCION QUE BUSCA LAS IMAGENES QUE TIENE UNA PERSONA
+
+var
+  CadeUnio    : string;
+  CarpAnioBase: string;
+  CarpAnioLeid: string;
+  MessBase    : string;
+  HistLabo    : Boolean;
+  NumeRegi    : Int32;
+  RegiPadrNiv1: Int32;
+  RegiPadrNiv2: Int32;
+  SeriDocu    : string;
+  QuerDatoImag: TZQuery;
+
+begin
+  try
+    QuerDatoImag := TZQuery.Create(nil);
+    QuerDatoImag.Connection := DMConexion.ZConexion;
+    Result:= TClientDataSet.Create(nil);
+    with Result do
+    begin
+      FieldDefs.Add('REGISTRO',ftInteger,0);
+      FieldDefs.Add('NODO',ftString,200);
+      FieldDefs.Add('RUTAFTP',ftString,150);
+      FieldDefs.Add('NOMBREIMAGEN',ftString,100);
+      FieldDefs.Add('PADRE',ftInteger,0);
+      CreateDataSet;
+    end;
+
+    with QuerDatoImag do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT TISD.descripciontiposeriedocumental,SEDO.descripcionseriedocumental,');
+      SQL.Add('       CASE WHEN TISD.descripciontiposeriedocumental = ''PLANILLAS DE NÓMINA''');
+      SQL.Add('             THEN CAST(DAPL.fechanomina AS CHARACTER VARYING)');
+      SQL.Add('            WHEN TISD.descripciontiposeriedocumental = ''HISTORIAS LABORALES''');
+      SQL.Add('             THEN SUDO.descripcionsubseriedocumental ');
+      if (p_FechPain <> '') then
+        SQL.Add('          ELSE CAST(DAPL.fechapago AS CHARACTER VARYING)')
+      else
+        SQL.Add('          ELSE CAST(DAPL.periodocotizacion AS CHARACTER VARYING)');
+
+      SQL.Add('       END AS carpetafecha,');
+      SQL.Add('       FOLI.codigofolio, IMAG.rutaftp,IMAG.nombreimagen');
+      SQL.Add(Format('FROM %s.IDENTIFICACION IDEN ', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.FOLIOIDENTIFICACION FOID ON '
+                     + 'FOID.ididentificacion = IDEN.ididentificacion',[DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.FOLIO FOLI ON '
+                     + 'FOLI.idfolio = FOID.idfolio', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.CARPETAALETA CAAL ON '
+                     + 'CAAL.idcarpetaaleta = FOLI.idcarpetaaleta ', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.CARPETA CARP ON '
+                     + 'CARP.idcarpeta = CAAL.idcarpeta', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.SERIEDOCUMENTAL SEDO ON '
+                     + 'SEDO.idseriedocumental = CARP.idseriedocumental',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.SERIESUBSERIE SESU ON '
+                     + 'SESU.idseriesubserie = CAAL.idseriesubserie',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.SUBSERIEDOCUMENTAL SUDO ON '
+                     + 'SUDO.idsubseriedocumental = SESU.idsubseriedocumental',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.TIPOSERIEDOCUMENTAL TISD ON '
+                     + 'TISD.idtiposeriedocumental = SEDO.idtiposeriedocumental',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.IMAGEN IMAG ON IMAG.idfolio = FOLI.idfolio',
+                     [DMConexion.esquema]));
+      SQL.Add(Format('LEFT JOIN %s.DATOPLANILLA DAPL ON '
+                     + 'DAPL.iddatoplanilla = FOLI.iddatoplanilla', [DMConexion.esquema]));
+      SQL.Add(Format('WHERE IDEN.idpersona = %d' , [p_idenpers]));
+      SQL.Add('             AND IMAG.version = (SELECT MAX(version)');
+      SQL.Add(Format('                            FROM %s.IMAGEN', [DMConexion.esquema]));
+      SQL.Add('                                   WHERE idfolio = FOLI.idfolio)');
+      if (p_IdenSedo <> -1) and (p_IdenSedo <> null) then
+        SQL.Add(Format('   AND SEDO.idseriedocumental = %s ',[p_IdenSedo]));
+      if (p_fechnoin <> '') then
+      begin
+        if p_fechnoin <= p_fechnofi then
+          SQL.Add(Format('  AND DAPL.fechanomina BETWEEN ''%s'' AND ''%s''  ',
+                         [p_fechnoin, p_fechnofi]))
+        else
+          raise Exception.Create('Error en los parámetros de Fecha de Nómina Inicial-Final.');
+      end
+      else
+        if (p_FechPain <> '') then
+        begin
+          if p_FechPain <= p_FechPafi then
+            SQL.Add(Format('  AND DAPL.fechapago BETWEEN ''%s'' AND ''%s''  ',
+                           [p_FechPain, p_FechPafi]))
+          else
+            raise Exception.Create('Error en los parámetros de Fecha de Pago Inicial-Final.');
+        end
+        else
+          if (p_PeriInic <> '') then
+          begin
+            if p_PeriInic <= p_PeriFina then
+              SQL.Add(Format('  AND DAPL.periodocotizacion BETWEEN ''%s'' AND ''%s''  ',
+                             [p_PeriInic, p_PeriFina]))
+            else
+              raise Exception.Create('Error en los parámetros de Periodo Cotización '
+                                      + 'Inicial-Final.');
+          end;
+
+      SQL.Add('       ORDER BY 1,2,3,4');
+      Open;
+      if NOT IsEmpty then
+      begin
+        First;
+        NumeRegi:=-1;
+        while not Eof do
+        begin
+          Inc(NumeRegi);
+          RegiPadrNiv1 := NumeRegi;
+          SeriDocu := FieldByName('descripcionseriedocumental').AsString;
+          if SeriDocu = 'HISTORIAS LABORALES' then
+            HistLabo:= True
+          else
+            HistLabo:= False;
+
+          Result.Append;
+          Result.FieldByName('REGISTRO').Value := NumeRegi;
+          Result.FieldByName('NODO').Value:= SeriDocu;
+          Result.FieldByName('PADRE').Value:= -1;
+          while (not eof) and (SeriDocu = FieldByName('descripcionseriedocumental').AsString) do
+          begin
+            Inc(NumeRegi);
+            RegiPadrNiv2 := NumeRegi;
+            if HistLabo then
+              CarpAnioBase := FieldByName('carpetafecha').AsString
+            else
+              CarpAnioBase := AnsiLeftStr(FieldByName('carpetafecha').AsString,4);
+
+            Result.Append;
+            Result.FieldByName('REGISTRO').Value := NumeRegi;
+            Result.FieldByName('NODO').Value:= CarpAnioBase;
+            Result.FieldByName('PADRE').Value:= RegiPadrNiv1;
+            CarpAnioLeid:= CarpAnioBase;
+            while (not eof) and (SeriDocu = FieldByName('descripcionseriedocumental').AsString)
+                            and (CarpAnioBase = CarpAnioLeid) do
+            begin
+              Inc(NumeRegi);
+              Result.Append;
+              Result.FieldByName('REGISTRO').Value := NumeRegi;
+              CadeUnio:= '';
+              if not HistLabo then
+              begin
+                MessBase:= AnsiMidStr(FieldByName('carpetafecha').AsString,6,2);
+                if MessBase <> '' then
+                  MessBase:= GeneraNombreMes(StrToInt(MessBase),3,'MY')+'-'+ AnsiMidStr(FieldByName('carpetafecha').AsString,9,2);
+                CadeUnio:= '[' + MessBase + ']-';
+              end;
+
+              Result.FieldByName('NODO').Value:= CadeUnio +'M'
+                                                  + FieldByName('codigofolio').AsString;
+              Result.FieldByName('RUTAFTP').Value:= FieldByName('rutaftp').AsString;
+              Result.FieldByName('NOMBREIMAGEN').Value:= FieldByName('nombreimagen').asstring;
+              Result.FieldByName('PADRE').Value:= RegiPadrNiv2;
+              Next;
+              if HistLabo then
+                CarpAnioLeid := FieldByName('carpetafecha').AsString
+              else
+                CarpAnioLeid := AnsiLeftStr(FieldByName('carpetafecha').AsString,4);
+            end;
+          end;
+        end;
+      end;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create(format('No es posible consultar las Imágenes para '
+                                    + '[%s].',[p_NombPers]) + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+
+function TDAOCarpetaDigital.ConsultarFondos: TDataSource;
+{ FUNCION QUE BUSCA LOS FONDOS DE PENSIONES, SALUD Y RIESGOS }
+
+var
+  QuerDatoFond: TZQuery;
+begin
+  try
+    QuerDatoFond:= TZQuery.Create(nil);
+    QuerDatoFond.Connection:= DMConexion.ZConexion;
+    Result:= TDataSource.Create(nil);
+    with QuerDatoFond do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT idfondo, cast(descripcionfondo AS character varying)');
+      SQL.Add('   FROM (SELECT -1 idfondo, NULL descripcionfondo');
+      SQL.Add('         UNION');
+      SQL.Add('         SELECT idfondo, descripcionfondo ' );
+      SQL.Add(Format('    FROM %s.FONDO ) AS FOND', [DMConexion.esquema]));
+      SQL.Add('   ORDER BY descripcionfondo NULLS FIRST');
+      open;
+      first;
+      result.DataSet:=QuerDatoFond;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar los Fondos.'
+                              + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+
+function TDAOCarpetaDigital.ConsultarSeriesDocumentales: TDataSource;
+{ FUNCION QUE BUSCA LAS SERIES DOCUMENTALES }
+
+var
+  QuerDatoSedo: TZQuery;
+begin
+  try
+    QuerDatoSedo:= TZQuery.Create(nil);
+    QuerDatoSedo.Connection:= DMConexion.ZConexion;
+    Result:= TDataSource.Create(nil);
+    with QuerDatoSedo do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT idseriedocumental, descripcionseriedocumental, descripciontiposeriedocumental ');
+      SQL.Add(Format('FROM %s.SERIEDOCUMENTAL AS SEDO ', [DMConexion.esquema]));
+      SQL.Add(Format('INNER JOIN %s.TIPOSERIEDOCUMENTAL AS TIDO ON '
+                      + 'TIDO.idtiposeriedocumental = SEDO.idtiposeriedocumental',
+                      [DMConexion.esquema]));
+      SQL.Add('       ORDER BY descripcionseriedocumental NULLS FIRST');
+      open;
+      first;
+      result.DataSet:=QuerDatoSedo;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar las Series Documentales.'
+                              + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+
+
+function TDAOCarpetaDigital.ConsultarTiposIdentificacion: TDataSource;
+{ FUNCION QUE BUSCA LOS TIPOS DE IDENTIFICACION }
+
+var
+  QuerDatoTipi: TZQuery;
+begin
+  try
+    QuerDatoTipi:= TZQuery.Create(nil);
+    QuerDatoTipi.Connection:= DMConexion.ZConexion;
+    Result:= TDataSource.Create(nil);
+    with QuerDatoTipi do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT *');
+      SQL.Add('   FROM (SELECT -1 idtipoidentificacion, NULL descripciontipoidentificacion');
+      SQL.Add('         UNION');
+      SQL.Add('         SELECT idtipoidentificacion, descripciontipoidentificacion');
+      SQL.Add(Format('    FROM %s.TIPOIDENTIFICACION ) AS TIID ', [DMConexion.esquema]));
+      SQL.Add('   ORDER BY descripciontipoidentificacion NULLS FIRST');
+      open;
+      first;
+      result.DataSet:=QuerDatoTipi;
+    end;
+  except
+    on E:exception do
+      raise Exception.Create('No es posible consultar los Tipos de Identificacion.'
+                              + #10#13 + '* '+ e.Message);
+
+  end;
+end;
+
+
+{$ENDREGION}
+
+
+{$REGION 'CONSTRUCTOR Y DESTRUCTOR'}
+constructor TDAOCarpetaDigital.create;
+begin
+  FQuery:= TZQuery.create(nil);
+  FQuery.Connection:= DMConexion.ZConexion;
+end;
+
+destructor TDAOCarpetaDigital.destroy;
+begin
+  FQuery.Close;
+  FQuery.Connection.Disconnect;
+  FQuery.free;
+end;
+{$ENDREGION}
+end.

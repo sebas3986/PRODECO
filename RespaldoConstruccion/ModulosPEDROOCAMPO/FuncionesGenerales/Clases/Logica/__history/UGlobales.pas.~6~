@@ -1,0 +1,14 @@
+unit UGlobales;
+
+interface
+
+var
+
+  TipoUsuaConeProg : string;
+  CodigoCarpetaB   : string;
+  idTipoCarpetaB, idSerieDocumentalB : Integer;
+  Insercion        : Boolean;
+
+implementation
+
+end.

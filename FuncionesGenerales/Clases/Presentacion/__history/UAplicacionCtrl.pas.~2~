@@ -1,0 +1,60 @@
+unit UAplicacionCtrl;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TFrmAplicacionCtrl = class(TForm)
+    btnActualizar: TButton;
+    btnSalir: TButton;
+    PnlVersionNueva: TPanel;
+    procedure btnActualizarClick(Sender: TObject);
+    procedure btnSalirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    Version              : string;   {VERSION DEL MODULO}
+    FtpHost              : string;   {DIRECCION FTP DESCARGA DEL MODULO}
+    FtpPuerto            : word;     {PUERTO DEL FTP}
+    FtpUsuario           : string;   {USUARIO DEL FTP}
+    FtpPassword          : string;   {PASSWORD DEL USUARIO FTP}
+    FtpRutaAplicacion    : string;   {RUTA CARPETA DESCARGA DEL MODULO}
+    RutaDestino          : string;   {RUTA LOCAL DONDE SE DESCARGA EL MODULO}
+    ArchivoEjecutable    : string;   {NOMBRE DEL ARCHIVO EJECUTABLE}
+  end;
+
+var
+  FrmAplicacionCtrl : TFrmAplicacionCtrl;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmAplicacionCtrl.btnActualizarClick(Sender: TObject);
+begin
+  try
+    btnActualizar.Visible:= False;
+    lstActualiazando.Visible:=True;
+    btnSalir.Enabled:=False;
+    ProcActu.VerificarArchivos;
+    btnSalir.Enabled:=True;
+  except
+    on E:Exception do
+    begin
+      Application.MessageBox(PChar(e.Message), 'Advertencia', MB_ICONINFORMATION
+                              + MB_OK);
+      Application.Terminate;
+    end;
+  end;
+end;
+
+procedure TFrmAplicacionCtrl.btnSalirClick(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+end.

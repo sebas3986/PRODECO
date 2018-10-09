@@ -1,0 +1,93 @@
+unit UActualizaModulo;
+
+interface
+
+uses
+  forms,  SysUtils,  StdCtrls,  Vcl.ExtCtrls,  Vcl.Controls,  RxCtrls,
+  System.Classes;
+
+type
+  TFrmActualizaModulo = class(TForm)
+    btnActualizar: TButton;
+    btnSalir: TButton;
+    LblMensaje: TLabel;
+    RpnFondo: TRxPanel;
+    tmrEspera: TTimer;
+    procedure btnActualizarClick(Sender: TObject);
+    procedure btnSalirClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure tmrEsperaTimer(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    Actualiza         : Boolean;
+    DescripcionModulo : string;
+    MensajeError      : string;
+    VersionNueva      : string;
+  end;
+
+implementation
+
+
+{$R *.dfm}
+
+uses
+  UProcesoCarpetaDigi;
+
+procedure TFrmActualizaModulo.btnActualizarClick(Sender: TObject);
+begin
+  try
+    Actualiza:= True;
+    tmrEspera.Enabled := false;
+    btnActualizar.Visible:= False;
+    btnSalir.Visible:=False;
+    LblMensaje.Caption:= 'Actualizando Módulo: ' + '[ ' + DescripcionModulo + ' ] . . . . '
+                        + #13#10 + #13#10 + 'Nueva Versión: ' + VersionNueva;
+    Application.ProcessMessages;
+    DatosAplicacion.DescargarEjecutable;
+    LblMensaje.Caption:= 'El Módulo: ' + '[ ' + DescripcionModulo + ' ]'
+                          + #13#10 + 'Se actualizó satisfactoriamente.'
+                        + #13#10 + #13#10 + 'Nueva Versión: ' + VersionNueva;
+    btnSalir.visible  := True;
+    tmrEspera.Interval:= 10000;
+    tmrEspera.Enabled := True;
+  except
+    on E:Exception do
+    begin
+      MensajeError:= E.Message;
+      Self.Close;
+    end;
+  end;
+end;
+
+procedure TFrmActualizaModulo.btnSalirClick(Sender: TObject);
+begin
+  if not Actualiza then
+    MensajeError:= 'No se actualizó el Módulo: [' +DescripcionModulo
+                    + '] a la Nueva Versión.'
+                    + #13#10
+                    + 'El proceso de actualización es necesario para ejecutar el Módulo.';
+  Self.Close;
+end;
+
+procedure TFrmActualizaModulo.FormShow(Sender: TObject);
+begin
+  LblMensaje.Caption:= 'Se ha generado una actualización del Módulo:'
+                        + #13#10 + '[ ' + DescripcionModulo + ' ]'
+                        + #13#10 + #13#10 + 'Nueva Versión: ' + VersionNueva;
+  MensajeError      := '';
+  Actualiza         := False;
+  tmrEspera.Interval:= 15000;
+  tmrEspera.Enabled := True;
+end;
+
+procedure TFrmActualizaModulo.tmrEsperaTimer(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+{$REGION 'CREATE AND DESTRUCTOR'}
+{$ENDREGION}
+end.

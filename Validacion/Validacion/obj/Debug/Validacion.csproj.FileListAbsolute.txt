@@ -1,0 +1,15 @@
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Debug\Validacion.exe.config
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\obj\Debug\Validacion.csprojResolveAssemblyReference.cache
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\obj\Debug\Validacion.Form1.resources
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\obj\Debug\Validacion.Properties.Resources.resources
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\obj\Debug\Validacion.csproj.GenerateResource.Cache
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Debug\Validacion.exe
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Debug\Validacion.pdb
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Debug\Mono.Security.dll
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Debug\Npgsql.dll
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\obj\Debug\Validacion.exe
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\obj\Debug\Validacion.pdb
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Debug\DevComponents.DotNetBar2.dll
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Debug\System.Drawing.dll
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Debug\System.Windows.Forms.dll
+C:\Users\cesar.gonzalez.COBOG13-02-1987\Desktop\Andes\Desarrollo\Validacion\Validacion\bin\Debug\DevComponents.DotNetBar2.xml
