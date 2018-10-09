@@ -1,9 +1,0 @@
-unit UGlobales;
-
-interface
-var
-  TipoUsuaConeProg : string;
-  CodigoCarpetaB   : string;
-implementation
-
-end.

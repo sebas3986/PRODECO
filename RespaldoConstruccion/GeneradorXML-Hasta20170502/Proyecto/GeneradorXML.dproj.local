@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2015/12/15 16:30:56.000.041,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Unit1.dfm=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\GeneradorXML\Presentacion\UGeneradorXML.dfm</Transaction>
-    <Transaction>2015/12/15 16:31:08.000.205,C:\Users\pedro.ocampo\Documents\RAD Studio\Projects\Project1.dproj=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\GeneradorXML\Proyecto\GeneradorXML.dproj</Transaction>
-    <Transaction>2015/12/15 16:37:30.000.354,D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\GeneradorXML\Proyecto\Unit1.dfm=D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\GeneradorXML\Persistencia\DAOGeneradorXML.dfm</Transaction>
-    <Transaction>2017/03/23 15:45:52.000.950,D:\TM_UNIANDES-BPO\Aplicacion\GeneradorXML\Persistencia\XMLHistoriaLaboral.pas=D:\TM_UNIANDES-BPO\Aplicacion\GeneradorXML\Proyecto\XMLHistoriaLaboral.pas</Transaction>
-  </Transactions>
-</BorlandProject>

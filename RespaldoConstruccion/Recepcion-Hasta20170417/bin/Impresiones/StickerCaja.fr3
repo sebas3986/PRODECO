@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<TfrxReport Version="4.14.2" DataSet="fdbSticker" DataSetName="frxDBDCaja" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" PrintOptions.ShowDialog="False" ReportOptions.CreateDate="42323,7090643171" ReportOptions.Description.Text="" ReportOptions.LastChange="42339,7018756829" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end." PropData="044C65667403DD0103546F70039C000844617461736574730101062E20446174615365743D22666462537469636B65722220446174615365744E616D653D2266727844424443616A61220000095661726961626C65730100055374796C650100">
-  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
-  <TfrxReportPage Name="Page1" PaperWidth="215,9" PaperHeight="279,4" PaperSize="1" LeftMargin="10" RightMargin="10" TopMargin="1,5" BottomMargin="10" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="">
-    <TfrxBarCodeView Name="BarCode1" Left="0,8425635" Top="13,45671" Width="123" Height="39,68503937" ShowHint="False" BarType="bcCode128A" DataField="CodigoMCaja" DataSet="fdbSticker" DataSetName="frxDBDCaja" Rotation="0" Text="12345678" WideBarRatio="2" Zoom="1" Font.Charset="1" Font.Color="0" Font.Height="-9" Font.Name="Arial" Font.Style="0"/>
-    <TfrxMemoView Name="Memo1" Left="1,77953" Top="1,77953" Width="147,40167" Height="11,33859" ShowHint="False" DataField="PrecintoUno" DataSet="fdbSticker" DataSetName="frxDBDCaja" Font.Charset="1" Font.Color="0" Font.Height="-8" Font.Name="Arial" Font.Style="0" LineSpacing="1" ParentFont="False" Text="[frxDBDCaja.&#34;PrecintoUno&#34;]"/>
-  </TfrxReportPage>
-</TfrxReport>
