@@ -619,7 +619,6 @@ object Frm_Recepcion: TFrm_Recepcion
       Top = 80
       Width = 430
       Height = 89
-      Caption = ' Precinto '
       Color = 15919327
       Ctl3D = False
       DoubleBuffered = False
@@ -636,14 +635,14 @@ object Frm_Recepcion: TFrm_Recepcion
       ParentFont = False
       TabOrder = 1
       object lblPrecinto1: TLabel
-        Left = 23
-        Top = 39
-        Width = 51
+        Left = 38
+        Top = 36
+        Width = 141
         Height = 13
-        Caption = 'PRECINTO'
+        Caption = 'C'#211'DIGO CAJA PREIMPRESO:'
       end
       object lblPrecinto2: TLabel
-        Left = 23
+        Left = 29
         Top = 70
         Width = 75
         Height = 13
@@ -651,11 +650,11 @@ object Frm_Recepcion: TFrm_Recepcion
         Visible = False
       end
       object lblCofirmarPrecinto: TLabel
-        Left = 276
+        Left = 225
         Top = 62
-        Width = 121
+        Width = 110
         Height = 16
-        Caption = 'Confirmar Precinto'
+        Caption = 'Confirmar C'#243'digo'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clMaroon
         Font.Height = -13
@@ -664,9 +663,19 @@ object Frm_Recepcion: TFrm_Recepcion
         ParentFont = False
         Visible = False
       end
+      object chkDoblePrecinto: TCheckBox
+        Left = 29
+        Top = 69
+        Width = 90
+        Height = 17
+        Caption = 'Doble Precinto'
+        Enabled = False
+        TabOrder = 2
+        Visible = False
+      end
       object edPrecinto1: TEdit
-        Left = 104
-        Top = 32
+        Left = 185
+        Top = 31
         Width = 150
         Height = 25
         Font.Charset = DEFAULT_CHARSET
@@ -674,13 +683,14 @@ object Frm_Recepcion: TFrm_Recepcion
         Font.Height = -16
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
+        MaxLength = 10
         ParentFont = False
         TabOrder = 0
         OnChange = edPrecinto1Change
         OnKeyPress = edPrecinto1KeyPress
       end
       object edPrecinto2: TEdit
-        Left = 104
+        Left = 29
         Top = 61
         Width = 150
         Height = 25
@@ -692,17 +702,18 @@ object Frm_Recepcion: TFrm_Recepcion
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 1
+        Visible = False
         OnChange = edPrecinto2Change
         OnKeyPress = edPrecinto2KeyPress
       end
-      object chkDoblePrecinto: TCheckBox
-        Left = 294
-        Top = 33
-        Width = 90
-        Height = 17
-        Caption = 'Doble Precinto'
-        Enabled = False
-        TabOrder = 2
+      object btnHabilitar: TButton
+        Left = 356
+        Top = 31
+        Width = 67
+        Height = 25
+        Caption = 'Habilitar'
+        TabOrder = 3
+        OnClick = btnHabilitarClick
       end
     end
     object grpDatosCarpeta: TGroupBox
@@ -762,7 +773,7 @@ object Frm_Recepcion: TFrm_Recepcion
       Left = 86
       Top = 202
       Width = 430
-      Height = 139
+      Height = 135
       TabOrder = 2
       object lbl3: TLabel
         Left = 47
@@ -772,7 +783,7 @@ object Frm_Recepcion: TFrm_Recepcion
         Caption = 'CAJA'
       end
       object lbl4: TLabel
-        Left = 224
+        Left = 234
         Top = 40
         Width = 46
         Height = 13
@@ -786,14 +797,14 @@ object Frm_Recepcion: TFrm_Recepcion
         Caption = 'N'#250'mero'
       end
       object lbl6: TLabel
-        Left = 166
+        Left = 172
         Top = 21
         Width = 32
         Height = 13
         Caption = 'TOTAL'
       end
       object btnCarpeta: TSpeedButton
-        Left = 360
+        Left = 370
         Top = 35
         Width = 23
         Height = 22
@@ -856,19 +867,12 @@ object Frm_Recepcion: TFrm_Recepcion
         Visible = False
         OnClick = btnCarpetaClick
       end
-      object Label3: TLabel
-        Left = 23
-        Top = 76
-        Width = 118
-        Height = 13
-        Caption = 'C'#243'digo Caja Preimpreso:'
-      end
       object Label4: TLabel
-        Left = 23
-        Top = 105
-        Width = 135
+        Left = 9
+        Top = 85
+        Width = 161
         Height = 13
-        Caption = 'C'#243'digo Carpeta Preimpreso:'
+        Caption = 'C'#211'DIGO CARPETA PREIMPRESO:'
       end
       object edCaja: TEdit
         Left = 79
@@ -889,7 +893,7 @@ object Frm_Recepcion: TFrm_Recepcion
         TabOrder = 0
       end
       object edCarpeta: TEdit
-        Left = 275
+        Left = 285
         Top = 37
         Width = 75
         Height = 19
@@ -907,7 +911,7 @@ object Frm_Recepcion: TFrm_Recepcion
         TabOrder = 1
       end
       object edTotalCaja: TEdit
-        Left = 164
+        Left = 170
         Top = 37
         Width = 50
         Height = 19
@@ -925,41 +929,24 @@ object Frm_Recepcion: TFrm_Recepcion
         ReadOnly = True
         TabOrder = 2
       end
-      object edPreimpresoCaj: TEdit
-        Left = 166
-        Top = 74
-        Width = 154
-        Height = 19
-        Color = clInfoBk
-        Ctl3D = False
-        Enabled = False
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        MaxLength = 10
-        ParentCtl3D = False
-        ParentFont = False
-        TabOrder = 3
-      end
       object edPreimpresoCar: TEdit
-        Left = 166
-        Top = 103
-        Width = 154
-        Height = 19
+        Left = 176
+        Top = 81
+        Width = 184
+        Height = 22
         Color = clInfoBk
         Ctl3D = False
         Enabled = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -11
+        Font.Height = -13
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 20
         ParentCtl3D = False
         ParentFont = False
-        TabOrder = 4
+        TabOrder = 3
+        OnKeyPress = edPreimpresoCarKeyPress
       end
     end
     object btnInsercion: TButton
@@ -970,6 +957,7 @@ object Frm_Recepcion: TFrm_Recepcion
       Caption = 'Inserci'#243'n'
       Enabled = False
       TabOrder = 4
+      Visible = False
       OnClick = btnInsercionClick
     end
     object grpDatosPersona: TGroupBox
@@ -1044,6 +1032,7 @@ object Frm_Recepcion: TFrm_Recepcion
       Width = 92
       Height = 13
       Caption = 'N'#250'mero de Aletas :'
+      Visible = False
     end
     object Label1: TLabel
       Left = 400
@@ -1053,11 +1042,18 @@ object Frm_Recepcion: TFrm_Recepcion
       Caption = 'CARPETA'
     end
     object Label2: TLabel
-      Left = 75
+      Left = 83
       Top = 23
-      Width = 128
+      Width = 161
       Height = 13
-      Caption = 'C'#243'digo Planilla Preimpreso:'
+      Caption = 'C'#211'DIGO PLANILLA PREIMPRESO:'
+    end
+    object Label3: TLabel
+      Left = 413
+      Top = 23
+      Width = 103
+      Height = 13
+      Caption = 'N'#218'MERO DE FOLIOS:'
     end
     object grp3: TGroupBox
       Left = 73
@@ -1115,7 +1111,7 @@ object Frm_Recepcion: TFrm_Recepcion
       Align = alBottom
       Ctl3D = True
       ParentCtl3D = False
-      TabOrder = 1
+      TabOrder = 3
       object grpCarpetasRadicadas: TGroupBox
         Left = 73
         Top = 34
@@ -1166,7 +1162,7 @@ object Frm_Recepcion: TFrm_Recepcion
               FieldName = 'codPreimpreso'
               Title.Alignment = taCenter
               Title.Caption = 'CodigoPreImpreso'
-              Width = 100
+              Width = 130
               Visible = True
             end
             item
@@ -1206,28 +1202,47 @@ object Frm_Recepcion: TFrm_Recepcion
       Height = 25
       Caption = 'Guardar Carpeta'
       Enabled = False
-      TabOrder = 2
+      TabOrder = 4
       OnClick = btnGuardarCarpetaClick
     end
     object edPreimpresoPla: TEdit
-      Left = 216
-      Top = 21
-      Width = 154
-      Height = 19
+      Left = 250
+      Top = 19
+      Width = 119
+      Height = 22
       Color = clInfoBk
       Ctl3D = False
       Enabled = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       MaxLength = 10
       NumbersOnly = True
       ParentCtl3D = False
       ParentFont = False
-      TabOrder = 3
-      OnChange = edPreimpresoPlaChange
+      TabOrder = 1
+    end
+    object edNumFolios: TEdit
+      Left = 522
+      Top = 19
+      Width = 47
+      Height = 22
+      Color = clInfoBk
+      Ctl3D = False
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      MaxLength = 3
+      NumbersOnly = True
+      ParentCtl3D = False
+      ParentFont = False
+      TabOrder = 2
+      OnKeyPress = edNumFoliosKeyPress
     end
   end
 end

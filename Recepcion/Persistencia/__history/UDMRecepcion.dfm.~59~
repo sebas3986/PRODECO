@@ -1,0 +1,1475 @@
+object DMRecepcion: TDMRecepcion
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  OnDestroy = DataModuleDestroy
+  Height = 529
+  Width = 952
+  object ZQSerieDocumental: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 46
+    Top = 28
+  end
+  object cdsSerieDocumental: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspSerieDocumental'
+    Left = 155
+    Top = 81
+    object intgrfldSerieDocumentalidSerieDocumental: TIntegerField
+      FieldName = 'idSerieDocumental'
+    end
+    object strngfldSerieDocumentaldescripcionseriedocumental: TStringField
+      FieldName = 'DescripcionSerieDocumental'
+      Size = 100
+    end
+    object strngfldSerieDocumentalDescripcionTipoSerieDocumental: TStringField
+      FieldName = 'DescripcionTipoSerieDocumental'
+    end
+  end
+  object dspSerieDocumental: TDataSetProvider
+    DataSet = ZQSerieDocumental
+    Left = 151
+    Top = 28
+  end
+  object dsSerieDocumental: TDataSource
+    DataSet = cdsSerieDocumental
+    Left = 47
+    Top = 81
+  end
+  object ZQCaja: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 59
+    Top = 267
+  end
+  object ZQSubSerie: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 56
+    Top = 148
+  end
+  object dsSubSerie: TDataSource
+    DataSet = cdsSubSerie
+    Left = 57
+    Top = 202
+  end
+  object cdsSubSerie: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspSubSerie'
+    Left = 132
+    Top = 201
+    object intgrfldSubSerieidSerieSubSerie: TIntegerField
+      FieldName = 'idSerieSubSerie'
+    end
+    object intgrfldSubSerieidTipoCarpeta: TIntegerField
+      FieldName = 'idTipoCarpeta'
+    end
+    object strngfldSubSerieDescripcionTipoCarpeta: TStringField
+      FieldName = 'DescripcionTipoCarpeta'
+      Size = 100
+    end
+    object intgrfldSubSerieCantidadDivisiones: TIntegerField
+      FieldName = 'CantidadDivisiones'
+    end
+    object intgrfldSubSerieidSerieDocumental: TIntegerField
+      FieldName = 'idSerieDocumental'
+    end
+    object intgrfldSubSerieidSubSerieDocumental: TIntegerField
+      FieldName = 'idSubSerieDocumental'
+    end
+    object cdsSubSerieDescripcionSubSerieDocumental: TStringField
+      FieldName = 'DescripcionSubSerieDocumental'
+      Size = 100
+    end
+    object cdsSubSerieCantidad: TIntegerField
+      FieldName = 'Cantidad'
+    end
+  end
+  object dspSubSerie: TDataSetProvider
+    DataSet = cdsSubSerie
+    Left = 128
+    Top = 148
+  end
+  object cdsCaja: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCaja'
+    Left = 137
+    Top = 331
+    object intgrfldCajaidCaja: TIntegerField
+      FieldName = 'idCaja'
+    end
+    object strngfldCajaCodigoCaja: TStringField
+      FieldName = 'CodigoCaja'
+      Size = 4
+    end
+    object strngfldCajaPrecintoUno: TStringField
+      FieldName = 'PrecintoUno'
+      Size = 15
+    end
+    object strngfldCajaPrecintoDos: TStringField
+      FieldName = 'PrecintoDos'
+      Size = 15
+    end
+    object cdsCajaCerrada: TBooleanField
+      FieldName = 'Cerrada'
+    end
+    object strngfldCajaCodigoMCaja: TStringField
+      DisplayWidth = 10
+      FieldName = 'CodigoMCaja'
+      Size = 10
+    end
+    object cdsCajaFecha: TDateTimeField
+      FieldName = 'Fecha'
+    end
+    object cdsCajacodPreImpreso: TStringField
+      FieldName = 'codPreImpreso'
+      Size = 10
+    end
+  end
+  object dsCaja: TDataSource
+    DataSet = cdsCaja
+    Left = 61
+    Top = 328
+  end
+  object dspCaja: TDataSetProvider
+    DataSet = ZQCaja
+    Left = 135
+    Top = 267
+  end
+  object ZQCarpeta: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 271
+    Top = 29
+  end
+  object dsCarpeta: TDataSource
+    DataSet = cdsCarpeta
+    Left = 273
+    Top = 81
+  end
+  object cdsCarpeta: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCarpeta'
+    Left = 351
+    Top = 80
+    object intgrfldCarpetaidCarpeta: TIntegerField
+      FieldName = 'idCarpeta'
+    end
+    object cdsCarpetaidSerieDocumental: TIntegerField
+      FieldName = 'idSerieDocumental'
+    end
+    object intgrfldCarpetaSecuenciaCarpeta: TIntegerField
+      FieldName = 'SecuenciaCarpeta'
+    end
+    object strngfldCarpetaCodigoCarpeta: TStringField
+      DisplayWidth = 20
+      FieldName = 'CodigoCarpeta'
+    end
+    object strngfldCarpetaCodigoMCarpeta: TStringField
+      DisplayWidth = 20
+      FieldName = 'CodigoMCarpeta'
+    end
+    object cdsCarpetaSecuenciaClase: TIntegerField
+      FieldName = 'SecuenciaClase'
+    end
+    object cdsCarpetaClaseCarpeta: TStringField
+      FieldName = 'ClaseCarpeta'
+      Size = 2
+    end
+  end
+  object dspCarpeta: TDataSetProvider
+    DataSet = cdsCarpeta
+    Left = 347
+    Top = 29
+  end
+  object ZQCarpetaAleta: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 270
+    Top = 144
+  end
+  object dsCarpetaAleta: TDataSource
+    DataSet = cdsCarpetaAleta
+    Left = 273
+    Top = 207
+  end
+  object cdsCarpetaAleta: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCarpetaAleta'
+    Left = 358
+    Top = 206
+    object intgrfldCarpetaAletaidCarpeta: TIntegerField
+      FieldName = 'idCarpeta'
+    end
+    object intgrfldCarpetaAletaidSerieSubSerie: TIntegerField
+      FieldName = 'idSerieSubSerie'
+    end
+    object strngfldCarpetaAletaCodigoCarpetaAleta: TStringField
+      FieldName = 'CodigoCarpetaAleta'
+      Size = 10
+    end
+    object intgrfldCarpetaAletaCantidadFolios: TIntegerField
+      FieldName = 'CantidadFolios'
+    end
+    object strngfldCarpetaAletaCodigoMCarpetaAleta: TStringField
+      DisplayWidth = 16
+      FieldName = 'CodigoMCarpetaAleta'
+      Size = 16
+    end
+  end
+  object dspCarpetaAleta: TDataSetProvider
+    DataSet = ZQCarpetaAleta
+    Left = 356
+    Top = 145
+  end
+  object dsCarpetasRadicadas: TDataSource
+    DataSet = cdsCarpetasRadicadas
+    Left = 249
+    Top = 329
+  end
+  object cdsCarpetasRadicadas: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCarpetasRadicadas'
+    Left = 369
+    Top = 328
+    object intgrfldCarpetasRadicadasTotalFolios: TIntegerField
+      FieldName = 'TotalFolios'
+    end
+    object intgrfldCarpetasRadicadasidCaja: TIntegerField
+      FieldName = 'idCaja'
+    end
+    object intgrfldCarpetasRadicadasidCarpeta: TIntegerField
+      FieldName = 'idCarpeta'
+    end
+    object strngfldCarpetasRadicadasCodigoCaja: TStringField
+      DisplayWidth = 4
+      FieldName = 'CodigoCaja'
+      Size = 4
+    end
+    object strngfldCarpetasRadicadasCodigoCarpeta: TStringField
+      FieldName = 'CodigoCarpeta'
+      Size = 8
+    end
+    object cdsCarpetasRadicadasObraCivil: TBooleanField
+      FieldName = 'ObraCivil'
+      DisplayValues = 'SI;NO'
+    end
+    object strngfldCarpetasRadicadasPrecintoUno: TStringField
+      FieldName = 'PrecintoUno'
+      Size = 15
+    end
+    object strngfldCarpetasRadicadasPrecintoDos: TStringField
+      FieldName = 'PrecintoDos'
+      Size = 15
+    end
+    object cdsCarpetasRadicadasFecha: TDateTimeField
+      FieldName = 'Fecha'
+    end
+    object cdsCarpetasRadicadascodPreimpreso: TStringField
+      FieldName = 'codPreimpreso'
+    end
+  end
+  object dspCarpetasRadicadas: TDataSetProvider
+    DataSet = ZQCarpetasRadicadas
+    Left = 364
+    Top = 267
+  end
+  object ZQCarpetasRadicadas: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 246
+    Top = 268
+  end
+  object ZQCantidadFolios: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 462
+    Top = 26
+  end
+  object dsCantidadFolios: TDataSource
+    DataSet = ZQCantidadFolios
+    Left = 464
+    Top = 82
+  end
+  object cdsCantidadFolios: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCantidadFolios'
+    Left = 572
+    Top = 81
+    object intgrfldCantidadFoliosTotalFolios: TIntegerField
+      FieldName = 'TotalFolios'
+    end
+  end
+  object dspCantidadFolios: TDataSetProvider
+    DataSet = ZQCantidadFolios
+    Left = 567
+    Top = 26
+  end
+  object fdbSticker: TfrxDBDataset
+    UserName = 'frxDBDCaja'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'PrecintoUno=PrecintoUno'
+      'CodigoMCaja=CodigoMCaja')
+    DataSet = cdsStickerCaja
+    BCDToCurrency = False
+    Left = 559
+    Top = 155
+  end
+  object frxSticker: TfrxReport
+    Version = '4.12.13'
+    DataSet = fdbSticker
+    DataSetName = 'frxDBDCaja'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    PrintOptions.ShowDialog = False
+    ReportOptions.CreateDate = 42323.709064317100000000
+    ReportOptions.LastChange = 42339.701875682900000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    Left = 477
+    Top = 156
+    Datasets = <
+      item
+        DataSet = fdbSticker
+        DataSetName = 'frxDBDCaja'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 215.900000000000000000
+      PaperHeight = 279.400000000000000000
+      PaperSize = 1
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 1.500000000000000000
+      BottomMargin = 10.000000000000000000
+      object BarCode1: TfrxBarCodeView
+        Left = 0.842563500000000000
+        Top = 13.456710000000000000
+        Width = 123.000000000000000000
+        Height = 39.685039370000000000
+        ShowHint = False
+        BarType = bcCode128A
+        DataField = 'CodigoMCaja'
+        DataSet = fdbSticker
+        DataSetName = 'frxDBDCaja'
+        Rotation = 0
+        Text = '12345678'
+        WideBarRatio = 2.000000000000000000
+        Zoom = 1.000000000000000000
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -9
+        Font.Name = 'Arial'
+        Font.Style = []
+      end
+      object Memo1: TfrxMemoView
+        Left = 1.779530000000000000
+        Top = 1.779530000000000000
+        Width = 147.401670000000000000
+        Height = 11.338590000000000000
+        ShowHint = False
+        DataField = 'PrecintoUno'
+        DataSet = fdbSticker
+        DataSetName = 'frxDBDCaja'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -8
+        Font.Name = 'Arial'
+        Font.Style = []
+        LineSpacing = 1.000000000000000000
+        Memo.UTF8W = (
+          '[frxDBDCaja."PrecintoUno"]')
+        ParentFont = False
+      end
+    end
+  end
+  object fdbCarpeta: TfrxDBDataset
+    UserName = 'frxDBCarpeta'
+    CloseDataSource = False
+    DataSet = cdsCarpeta
+    BCDToCurrency = False
+    Left = 560
+    Top = 217
+  end
+  object frxCarpeta: TfrxReport
+    Version = '4.12.13'
+    DataSet = fdbCarpeta
+    DataSetName = 'frxDBCarpeta'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    PrintOptions.ShowDialog = False
+    ReportOptions.CreateDate = 42325.418634247700000000
+    ReportOptions.LastChange = 42824.600002523150000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    Left = 474
+    Top = 216
+    Datasets = <
+      item
+        DataSet = fdbCarpeta
+        DataSetName = 'frxDBCarpeta'
+      end
+      item
+        DataSet = fdbSerieDocumental
+        DataSetName = 'frxDBDSerieDocumental'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 215.900000000000000000
+      PaperHeight = 279.400000000000000000
+      PaperSize = 1
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 1.500000000000000000
+      BottomMargin = 10.000000000000000000
+      object BarCode1: TfrxBarCodeView
+        Left = 2.000000000000000000
+        Top = 12.183364290000000000
+        Width = 123.000000000000000000
+        Height = 22.677165350000000000
+        ShowHint = False
+        BarType = bcCode128A
+        DataField = 'CodigoCarpeta'
+        DataSet = fdbCarpeta
+        DataSetName = 'frxDBCarpeta'
+        Rotation = 0
+        ShowText = False
+        Text = '12345678'
+        WideBarRatio = 2.000000000000000000
+        Zoom = 1.000000000000000000
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -9
+        Font.Name = 'Arial'
+        Font.Style = []
+      end
+      object frxDBDSerieDocumentalDescripcionSerieDocumental: TfrxMemoView
+        Left = 2.000000000000000000
+        Top = 0.779530000000000000
+        Width = 226.771800000000000000
+        Height = 11.338590000000000000
+        ShowHint = False
+        DataField = 'DescripcionSerieDocumental'
+        DataSet = fdbSerieDocumental
+        DataSetName = 'frxDBDSerieDocumental'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -8
+        Font.Name = 'Arial'
+        Font.Style = []
+        Memo.UTF8W = (
+          '[frxDBDSerieDocumental."DescripcionSerieDocumental"]')
+        ParentFont = False
+      end
+      object Memo1: TfrxMemoView
+        Left = 11.559060000000000000
+        Top = 36.133890000000000000
+        Width = 200.315090000000000000
+        Height = 15.118120000000000000
+        ShowHint = False
+        DataField = 'CodigoMCarpeta'
+        DataSet = fdbCarpeta
+        DataSetName = 'frxDBCarpeta'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -9
+        Font.Name = 'Arial'
+        Font.Style = []
+        Memo.UTF8W = (
+          '[frxDBCarpeta."CodigoMCarpeta"]')
+        ParentFont = False
+      end
+    end
+  end
+  object frxCarpetaAleta: TfrxReport
+    Version = '4.12.13'
+    DataSetName = 'frxDBDCarpetaAleta'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    PrintOptions.ShowDialog = False
+    ReportOptions.CreateDate = 42325.430021620400000000
+    ReportOptions.LastChange = 42802.667502384260000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    Left = 473
+    Top = 285
+    Datasets = <
+      item
+        DataSet = fdbSerieSubSerie
+        DataSetName = 'frxDBDSerieSubSerie'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 215.900000000000000000
+      PaperHeight = 279.400000000000000000
+      PaperSize = 1
+      LeftMargin = 5.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 1.500000000000000000
+      BottomMargin = 10.000000000000000000
+      object BarCode1: TfrxBarCodeView
+        Top = 12.677180000000000000
+        Width = 123.000000000000000000
+        Height = 26.456692910000000000
+        ShowHint = False
+        BarType = bcCode128A
+        DataField = 'CodigoMCarpetaAleta'
+        DataSet = fdbSerieSubSerie
+        DataSetName = 'frxDBDSerieSubSerie'
+        Rotation = 0
+        ShowText = False
+        Text = '12345678'
+        WideBarRatio = 2.000000000000000000
+        Zoom = 1.000000000000000000
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -9
+        Font.Name = 'Arial'
+        Font.Style = []
+      end
+      object Memo1: TfrxMemoView
+        Left = -1.000000000000000000
+        Top = 0.779527560000000000
+        Width = 241.889920000000000000
+        Height = 11.338590000000000000
+        ShowHint = False
+        DataField = 'DescripcionSubSerieDocumental'
+        DataSet = fdbSerieSubSerie
+        DataSetName = 'frxDBDSerieSubSerie'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -8
+        Font.Name = 'Arial'
+        Font.Style = []
+        Memo.UTF8W = (
+          '[frxDBDSerieSubSerie."DescripcionSubSerieDocumental"]')
+        ParentFont = False
+      end
+      object Memo2: TfrxMemoView
+        Left = 8.559059999999999000
+        Top = 38.354360000000000000
+        Width = 196.535560000000000000
+        Height = 15.118120000000000000
+        ShowHint = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -9
+        Font.Name = 'Arial'
+        Font.Style = []
+        Memo.UTF8W = (
+          '[frxDBDSerieSubSerie."CodigoMCarpetaAletaI"]')
+        ParentFont = False
+      end
+    end
+  end
+  object ZQSerieSubSerie: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 61
+    Top = 401
+  end
+  object dsSerieSubSerie: TDataSource
+    DataSet = ZQSerieSubSerie
+    Left = 62
+    Top = 465
+  end
+  object dspSerieSubSerie: TDataSetProvider
+    DataSet = ZQSerieSubSerie
+    Left = 162
+    Top = 397
+  end
+  object cdsSerieSubSerie: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspSerieSubSerie'
+    Left = 163
+    Top = 464
+    object intgrfldSerieSubSerieidSerieSubSerie: TIntegerField
+      FieldName = 'idSerieSubSerie'
+    end
+    object intgrfldSerieSubSerieidSerieDocumental: TIntegerField
+      FieldName = 'idSerieDocumental'
+    end
+    object intgrfldSerieSubSerieidSubSerieDocumental: TIntegerField
+      FieldName = 'idSubSerieDocumental'
+    end
+    object intgrfldSerieSubSerieOrden: TIntegerField
+      FieldName = 'Orden'
+    end
+    object strngfldSerieSubSerieDescripcionSubSerieDocumental: TStringField
+      FieldName = 'DescripcionSubSerieDocumental'
+      Size = 100
+    end
+    object strngfldSerieSubSerieCodigoMCarpetaAleta: TStringField
+      FieldName = 'CodigoMCarpetaAleta'
+    end
+    object cdsSerieSubSerieCodigoMCarpetaAletaI: TStringField
+      FieldName = 'CodigoMCarpetaAletaI'
+    end
+  end
+  object fdbSerieSubSerie: TfrxDBDataset
+    UserName = 'frxDBDSerieSubSerie'
+    CloseDataSource = False
+    DataSet = cdsSerieSubSerie
+    BCDToCurrency = False
+    Left = 566
+    Top = 282
+  end
+  object ZQStickerCaja: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 279
+    Top = 398
+  end
+  object dsStickerCaja: TDataSource
+    DataSet = ZQStickerCaja
+    Left = 276
+    Top = 463
+  end
+  object cdsStickerCaja: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspStickerCaja'
+    Left = 380
+    Top = 461
+    object strngfldStickerCajaPrecintoUno: TStringField
+      FieldName = 'PrecintoUno'
+      Size = 15
+    end
+    object strngfldStickerCajaCodigoMCaja: TStringField
+      FieldName = 'CodigoMCaja'
+      Size = 10
+    end
+  end
+  object dspStickerCaja: TDataSetProvider
+    DataSet = ZQStickerCaja
+    Left = 379
+    Top = 398
+  end
+  object fdbSerieDocumental: TfrxDBDataset
+    UserName = 'frxDBDSerieDocumental'
+    CloseDataSource = False
+    DataSet = cdsSerieDocumental
+    BCDToCurrency = False
+    Left = 644
+    Top = 217
+  end
+  object fdbCarpetasRadicadas: TfrxDBDataset
+    UserName = 'frxDBDCarpetasRadicadas'
+    CloseDataSource = False
+    DataSet = cdsCarpetasRadicadas
+    BCDToCurrency = False
+    Left = 574
+    Top = 346
+  end
+  object frxActaRelevo: TfrxReport
+    Version = '4.12.13'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 42325.713947604200000000
+    ReportOptions.LastChange = 43383.349208159720000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    Left = 474
+    Top = 345
+    Datasets = <
+      item
+        DataSet = fdbCarpetasRadicadas
+        DataSetName = 'frxDBDCarpetasRadicadas'
+      end
+      item
+        DataSet = fdbTotales
+        DataSetName = 'frxDBDTotales'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 215.900000000000000000
+      PaperHeight = 279.400000000000000000
+      PaperSize = 1
+      LeftMargin = 30.000000000000000000
+      RightMargin = 20.000000000000000000
+      TopMargin = 10.000000000000000000
+      BottomMargin = 30.000000000000000000
+      object PageHeader1: TfrxPageHeader
+        Height = 66.031540000000000000
+        Top = 18.897650000000000000
+        Width = 627.024027000000000000
+        object Picture2: TfrxPictureView
+          Left = 531.134200000000000000
+          Top = 12.118120000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Picture.Data = {
+            0A544A504547496D616765341F0000FFD8FFE000104A46494600010101004800
+            480000FFDB00430006040506050406060506070706080A100A0A09090A140E0F
+            0C1017141818171416161A1D251F1A1B231C1616202C20232627292A29191F2D
+            302D283025282928FFDB0043010707070A080A130A0A13281A161A2828282828
+            2828282828282828282828282828282828282828282828282828282828282828
+            28282828282828282828282828FFC0001108004C017303012200021101031101
+            FFC4001F0000010501010101010100000000000000000102030405060708090A
+            0BFFC400B5100002010303020403050504040000017D01020300041105122131
+            410613516107227114328191A1082342B1C11552D1F02433627282090A161718
+            191A25262728292A3435363738393A434445464748494A535455565758595A63
+            6465666768696A737475767778797A838485868788898A92939495969798999A
+            A2A3A4A5A6A7A8A9AAB2B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6
+            D7D8D9DAE1E2E3E4E5E6E7E8E9EAF1F2F3F4F5F6F7F8F9FAFFC4001F01000301
+            01010101010101010000000000000102030405060708090A0BFFC400B5110002
+            0102040403040705040400010277000102031104052131061241510761711322
+            328108144291A1B1C109233352F0156272D10A162434E125F11718191A262728
+            292A35363738393A434445464748494A535455565758595A636465666768696A
+            737475767778797A82838485868788898A92939495969798999AA2A3A4A5A6A7
+            A8A9AAB2B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DAE2E3
+            E4E5E6E7E8E9EAF2F3F4F5F6F7F8F9FAFFDA000C03010002110311003F00D9B5
+            F1278BE2F88DE25B5F0A426F6496EE4578A45DE8811D941C92027E60576305E7
+            C5C90166D3B488BD9D939FC9CD5EF839A6CD0DC78AB53BA82586E2F7537C0963
+            285914960403D8976FCABD3481F856718DD5EE79387C2CA70E794E4AEDE89F99
+            E2DE21F177C49F0CE95F6CD574DD14DAA10AD28CB1049E320483F415CD59FC6B
+            F15DD5CC36F6D65A434D3388E35F29C6589C01FEB2BD27E3D8C7C38BBFFAEB17
+            FE862BE77F038FF8AD7C3DFF00611B7FFD1AB59CDB8CAC99C78CA95A8D754A13
+            76763DE9AFBE2CCB18FF008956850B75E1F27E9CC84550BAD4FE2EDBA48E748D
+            3E54419FDD796C48F61BF27E98CD7B2515AF2F99EABC237FF2F25F7AFF0023C6
+            7F67DD56FB55BBF13DD6A73492CF24B0B306E02B1F33200E83E83D2BD9857987
+            C2CD327D37C65E3B59ADE48A192F239216642AAEACD2B7CBD88191D2BD3C714E
+            1B0602328D14A5BDDFE6C5A28A2A8ED0A28A2800A28A2800A28A2800A28A2800
+            A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800
+            A28A28012BCFFE225EDCDB5FDAADBDC4F0A942488DCA8273ED5E815C1F8E71FF
+            00092E8E08E0B2FF00E862BCDCD2FF00577676D57E673E26FECF438DFED7D47F
+            E7FEEFFEFF003FF8D1FDADA8FF00CFFDDFFDFE7FF1AF43F12E9D67AB992C61D9
+            1EA30209633803703DBE9C7E1C57994D13C52BC52A94910956523907D2BE6B19
+            4ABE1656E76D77FCD1E7568D4A4F7BA2D0D5B511D2FEEFFEFF003FF8D6EF82B5
+            0BCB8F11411CF757124655F2AF23303F29EC4D6BF8634BB6D192DE5D480FB7DE
+            B048E36E4A2F5E9FCFF014D8142FC509428006DE807FD3115D9470F5693A5567
+            3D5C92B76BEBAFF91AC69CE2E3293EAB43BDA28A2BEACF5028A28A0028A28A00
+            28A28A00F38F8F9FF24DEEFF00EBAC5FFA18AF9DBC0BFF0023AE81FF00611B6F
+            FD1AB5F44FC7CFF926F77FF5D62FFD0C57CEDE05FF0091D740FF00B08DB7FE8D
+            5AE7A9F19F3799FF00BDC7E5F99F68514515D07D2104EC6385D82B3B00480BD4
+            FB0AF2DD4BE30C1A4989753F0DEB766CE094FB44623DD8EB8CF5ED5EAF9FFEB5
+            785FED36A3CBF0EB6795373FFB4AA26DA5747063EA4E8D27560ED6F2EED236F4
+            CF8C96BA94ED069BE1ED66EE655DCC96E8B210B9EA403D390335E9BA6DD1BEB0
+            B6B96865B669A2590C330C3C648076B0EC4670457857ECD31AFF006D6B6C47CC
+            B0C601F4049FF015F409E7DE8A6DB5761809D4AB4954A92BDFC8E13C59E3D6F0
+            D5E5C4771E1DD62E2D600ACD790C59870403F7BDB38E7BD7309F1E3476215748
+            D49989C000A124FE75E81F10901F02F88781C69F71D7DA36C57C95E18FF919B4
+            9FFAFC87FF0043151524E2F438F1F89AF879A8C65A3F247D6DE11F104BAF413C
+            9368FA8E97E5B05097D17965F233951E95D17D2931C7BD79B7C68F1A4BE16D16
+            2B5D39F6EA77D958DBFE7920FBCFF5E401F89ED5AB7CAAECF5275150A6E751DE
+            C6A78B7E22685E18CC37970D717A319B5B7C3C8BFEF7202FE273F5AC0D37E217
+            89F5DB7F3B42F04CEF6C7949A7BA11ABAFB6E500FE04D795FC1EF0BC7E2BF17B
+            CDA9AB4B65683CF9F7FCDE6B93F2AB1F73927D7691DEBEA50BB502A00AA38007
+            415116E7A9C386A95B169D472E58F44AD7FBDDCF2897E2F4BA45EADBF8AFC2FA
+            8698587CAEAE250DEA4642823E84D7A1787F5FD37C45622EB48BC8EE61E8DB78
+            287D194F2A7EB5178B7C3B67E26D127D3750895D2404A49FC513F675F71FAF43
+            C135F2B689ABEABE07F15C8F6F2ECBBB499A09E2CFC92856C3237A8E3AF6E08A
+            529383D7626AE26AE0E6BDABE683EBD57DC7D88393C76EB5C1F8BBE21AF866FA
+            E21B8D03579ADA0DB9BC8E1C407700701CF1DF1F5AEABC39AB5BEB7A2D9EA766
+            49B7B98C48A0F55F507DC1C83EE2B2BE2860FC3EF106EC63EC8FD7E9572DAE8E
+            EAD293A4E74E56D2FDFA1E7D73F1EAC15336BA35DBBFA492AA0FCC035E9BE0FD
+            7ADFC4BE1EB3D56D13624CB968C9C947070CB9EF820F3DF835F397C49F0E359E
+            89E15D6E05261BFD32DE394F612242A01FC571C7FB26BABFD9CFC4623D42F740
+            B86C2CF9B9B7C9FE3030EA3EAB83FF0001359C66F9ACCF330F8DAAB11ECAB3D1
+            FF004BEF3DFF0002AA5FDC41636535DDCB848604692463D954649FC855BC76AF
+            38F8C77D34FA669FE1BB06DB7BAE5C2C008CFC912905D8FB74FC335AB76573D6
+            AF53D95373FEAFD3F1313FE17C68F8CFF64EA3CFBA7F8D6FF85FE250F10DD5B2
+            5978735916B33F97F6B31030A7A92C38C0AF09F8B7616DA6F8FAFEC6CD765B5B
+            C70451AFA010462BDF7E0791FF000AC34700F4F381FF00BFCF59427272B33CAC
+            2622BD5C44A8CE5F0DFA76763BEA28A6B3055258E00E493DAB63DB38AF89BE33
+            87C1BA209916397509CECB781CF04F766C73B47B772077ADCF07EB71788BC37A
+            7EAB08005CC419947F038E197F06047E15F33FC4BB9BFF0011DFCFE282AC7489
+            6E5ACAD49CF0B18054E0F40D963F5DD5DDFECDFE20C1D434099F9FF8FA801FC1
+            5C7FE8271FEF1AC94EF2B1E351C7B9E2B91FC2F6FF003F99EEC467F1A36D2839
+            15CAFC4BD666D07C11AB6A16BC5C471048DBBAB3B2A06FC0B67F0AD5BB6A7AB5
+            26A9C1CDECB5317C65F14F46F0DDD359471C9A96A4A76B416EC308DFDD66EC7D
+            8027D40AAF6DE32F1ADD45F6A83C0730B6C6764978A921FA06507FF1DAF26F81
+            8B6571F11226D51834BE4C925B990E774FC7AF53B4B9FA8F5AFA8FB1079359C5
+            B9EB73CEC254A98A8BAAE5CAAFA256FC6E99E629F17B4DB659E2D7F4CD4348D4
+            2289A416F3A12242070AAD81C9C704803DEBBFD13514D5B46B2D462468A3BA81
+            27446EA1594119C7D6B97F8B5A2C3AD78235257B6F36EEDA3335BED4DCEAE307
+            0B8E790307EB5B1E068A483C17A1433A324B1D8C08E8C30548450411D8D5ABDE
+            CCE8A4EB46ABA751DD5AE9DADF79D00E86B84F1C7FC8CDA37FBCBFFA18AEEFD6
+            BCFBE21CC6DF5BD3A603718C6FC7AE0E715E766AD2C3B6FBAFCCD312ED4FEE2A
+            F8E6EA5B2F154371036C9122420FAF278FA56B472E8F7E91F88AE7092C0B8923
+            1DDC7DDE3B9F4FC3D2B8DF10EACDACDF8B9788444204DA1B3D33CFEB59BB8852
+            B93B49C919E09FF24D7CF3C7A8569CA2B9A2DDD5FBF4670BC45A726B54CE934D
+            D4E5D57C6369733F1990045CF0ABCE00ADB519F8A528FF0067FF00688AE274BB
+            B361A84374103989B7052719AE9BC37A81D53C76B7AC82332AB7CA0E7188F1FD
+            2AB0B8853508C9DE4EA2614EA73D937AF3267A6514515F627AE1451450014514
+            5001451450079C7C7CFF00926F77FF005D62FF00D0C57CEDE05FF91D740FFB08
+            DB7FE8D5AFA27E3E7FC937BBFF00AEB17FE862BE76F02FFC8EBA07FD846DBFF4
+            6AD73D4F8CF9BCCFFDEE3F2FCCFB428A28AE83E904EF5E1BFB4F7FAAF0E7FBD7
+            1FCA3AF72EF5E1BFB4F7FAAF0E7FBD71FCA3ACEA7C2CF3F34FF759FCBF34731F
+            033C4FA47866FB55935CBB16A971146B1931BBEE209CFDD07D6BD83FE16B7833
+            1FF21A5CFF00D7BCDFFC457977ECEB63697BA8EB42F2DA1B9548A32A268C305F
+            99BA66BDD4787B47C63FB26C323FE9DD3FC2952BF2E873E5EABBA11E46ADAEE9
+            F7F54705E30F891E14BFF0A6B16569ABAC97373673451279128DEC5080325703
+            923AD7CF5E18057C4FA503FF003F90FF00E862BEA5F1D689A5C3E0AD7E48B4DB
+            14912C276575B7405488DB041C75AF967C2FFF00232E95FF005F90FF00E862A2
+            A5EEAE71666A6AA43DA34FD15BAFAB3ED815F2CFC7ABC92EBE255E42DF76D618
+            614FA140FF00CDCD7D4C2BE59F8F56725AFC4ABC99BEEDD430CC9F40813F9A1A
+            AABF09DD9C5FD82B77FD19E83FB345AAAF87B57BBC0DF2DD8889EFF2203FFB39
+            AF636EA2BC73F668BB56F0FEAF660FCF15D0948F674007FE8B35EC6DD455D3F8
+            51D1975BEAD0B7F5A8FAF92FE345BA41F13358588055668E4207AB4484FEA49F
+            C6BEB4AF92BE335CA5CFC4BD65E2395568E3CFBAC6AA7F506A2B7C272E75FC18
+            FAFE8CF5BFD9C6F1E7F065DDBC8CCC2DAED827A056556C0FC771FC6BA7F8BC71
+            F0E35DCFFCF11FFA1AD731FB3959BC1E0DBBB891597ED376C53D0AAAAAE47E21
+            87E15D0FC69E7E18EB9FEEC5FF00A392AA3F01AD36D602EFF95FE4CCDBCF0E8F
+            11FC17D3F4F440D72BA6C12DB7A89563057E99E57E8C6BE6ED07559F45D72CF5
+            1B5C89EDA55900C91BB07953EC4641F635F5F78107FC513A01FF00A7083FF401
+            5F36FC65F0F7F6078DEE9A0522D2F7FD2A238E016277AFE0D9E3B022A2B2D9A3
+            8B31A2D429D78EE925FE47D45A65F41A8E9B6B7D6A4B417312CD192392AC323F
+            9D79E784F1E29F8A7ACF88186EB1D217FB3ACCE382FCEF607BF56FC1C570BE00
+            F883FD91F0BF59B279717D6436D88CFCCC253818F5D8C598FB115EBBF0DF42FF
+            00846FC1DA7D9326DBA64F3AE33D4CADC907E9C2E7D145689F358EEA55962DD3
+            B6CB57EBB25F7DDFC8F9F3E38823E28EB24F7107FE898EBDAFE01FFC937B3FFA
+            ED37FE866BC5FE39FF00C950D5BFDD87FF0044A57B27C02757F8756C14E4A4F2
+            AB0F7DD9FE445670F8D9C3817FEDD53FEDEFCCF476EC7B7AD79FFC65D665D3FC
+            30BA75882FA96B127D8E045FBD86E188FC085FAB0AF406E7007E55E15AAFF6F7
+            8E3E25DDDEF85A4B248340220864BCC98CB9C866002B64E7383E8AA7D2B59BD2
+            C7A98DA8E34F923BCB4D37F3FC0EDF5FF04C32FC2C6F0E5AA879AD6DC340C060
+            B4CBF3647A6E6C83FEF1AF9B7C21AD3F877C4FA76A88188B794191475287871F
+            8A922BE811A77C56273FDADE1EE7BED3FF00C6EBC27C7FE1FD53C3FE23961D67
+            ECCD73703ED3BEDB3E59DC4E76E40C7208C62B1ABD1A4791982B3855841C7974
+            D7CB63EC08278EE2049A075789D432B29C8607A1FA573FF10F4497C45E0DD4F4
+            AB6204F3C60C79E016560E01F4C95C66B9AF811E20FED7F052594CC5AE74C6F2
+            1B2724C7D633F4C6547FB95E960838AD97BC8F72128E228A7D24BFE1CF871D6E
+            2C6F0ACBE6DB5DC0FC839478D81FCC106BD2BC31F19F5FD2A3487548E2D56D97
+            8DD21F2E5C7FBE383F8824FAD7B6F8BBC05A178A8799A9DA15BB0302E616D920
+            1EE7A1FC41C76AF1FF0012FC0ED5ACB7CDA15DC7A8C639F2A41E549F41CED3F5
+            C8FA561C928EB13C2960B15856E549DD797F97FC39EA3E0FF89BE1FF0013CC96
+            F14ED697CC702DEE70A58FA29E8DF4CE7DABBB3823DABE1CBBB79ED2EA482EA1
+            92DEE626DAC92295643EE0F22BE9FF00829E23B9F11783D4DFBB49796721B679
+            18E5A40002AC7DF0704F538CF7AD29D4E6D19DB80CC255E5ECAA2D4F45C715C6
+            F8DA0D264BAB63AA5D4F03EC21446BB8119FA1AEC8D79C7C4E18D42CFF00EB99
+            FE75C59A4F930F26D27B6FEA7A18A76A6DDAE50FB1F85FFE8277BFF7EBFF00B1
+            A3EC7E17FF00A09DEFFDFAFF00EC699A6784AFF52B28AE6096D82480901D981E
+            A4765F6AB5FF000816A9FF003DACFF00EFB6FF00E26BC08D1AF24A51A0ACFC9F
+            F99C2A9CDABA82FEBE641F63F0BFFD04EF7FEFD7FF00635ABE16B7D122D6626B
+            0BCB996E30DB5244C03C1CF38F4ACEB8F046A5042F23CD69B54124076CE00FF7
+            6A0F001C789EDC9FEEBFFE826AA973D2AF4E352928DDAEFDFD470BC671528A5F
+            D7A9DB378C745562A6E1F20E0FEE9BFC28FF0084CF45FF009F87FF00BF4DFE15
+            E5771FEBE4FF0078FF003A6C31996648D7019D828CF4E69FF6E626F6497DCFFC
+            C5F5DA97B591EADFF099E8BFF3F127FDFA6FF0A3FE133D17FE7E24FF00BF4DFE
+            15E6FACE953E917496F72D1B394120D84918C91DC0F4359F57533AC553938CA2
+            935E4FFCCA9632AC5D9A47B0C3E24D3A689648E52558647C868AE3341FF904C1
+            FF0002FF00D08D15DB0CD2B38A7646CB132B1E9B473DFA51595AFE9CFABE953D
+            9457B7362F295C5C5ABEC913041E0FBE31F435EF1D926D26D2B9C5FC7D603E1D
+            DD648199A203DFE615F3C782DD63F18E82ECD8097F0313E8048B5EF5A87C1F8B
+            52455D4BC4FAEDDA2F413CC24C7E79F535447C07D181046AFA883EB84FF0AC25
+            1949DEC7858AC2E22BD655546D6B7547B1608A776AF3DD1FE1D4DA75F5A4EBE2
+            CF104D14122C9F6792E0F96E01CED23D0F715E84A302B64DF53DAA729C97BF1B
+            7CEE201EFF004AF0AFDA6D808FC3A3FBC6E4FF00E8AFF1AF709D4C90BA866462
+            08057A8F715E5DA8FC1E835668DF53F126B578C8084FB44824DA0F5033D2A669
+            B56472E3E9CEB5274E0AF7F3ECD3393FD9A645FED9D6D49F98C31903D4027FC4
+            57D05F438AF26D3BE0D5A69B7066D37C45ACDA4A57697B7711B11E8481D3A715
+            E9BA6DAB5969F6F6CD34B70D0C4B199A6397908006E63DC9C649A29A69598602
+            9D4A54BD9D48DADE664FC42703C0DE20E463FB3EE073FF005CDB15F257863FE4
+            65D23FEBF21FFD0C57D3BE2BF00B7892F6E249FC43AC5B5B4EAAAD670CD88400
+            00FBBD39C67EB5CB47F02F46570D0EB3A88743D5766548E7D383D2A2A45C9E87
+            1E3F0D5F113528C745E68F63CF1EF5E6DF1A3C17278A7448AEB4F40DA9D96E68
+            D71CC887EF27D78047D08EF5D4784FC3F368104D1CFAC6A3AA1918307BD97CC2
+            981D16BA2FA56AD732B33D49D355E9B84D5AE7CA9F083C503C27E3068F522D0D
+            9DD0FB3DC6FCAF94E0FCACC3D8E41F40C7D2BEA4571222BC4E19586411C822B9
+            0F187C3BD0BC524CD7B6CD6F7A719BAB7C248DFEF70437E233F4AE7B4EF875E2
+            3D060F2B41F1B5CC56C384826B50EA839E9962075EC054453869B9C386A75B08
+            9D3E5E68F4B5AFF733B7F197892CFC33A15C6A57CE06D044516EC34AFD947D7F
+            41935F2BE85A2EABE34F143C56EA64BABA95A6B8988F9630CD9676F41C9FAF41
+            5EDB27C1E7D56FC5CF8A7C4DA86A840F9544623DBCF40496C0F60057A0E83A06
+            9BE1CB0169A3D9476D0F56DBC973EACC7963F5A4E0E6F5D89AD86AB8C9A75572
+            C174DDBFB897C3BA4DBE87A2D9E976608B7B58C46A4F56F527DC9C93EE6B98F8
+            E07FE2D7EB40FF00D30C7FDFF8EBBA1C1E7BD79D78A3E1A8F125DDC497DE21D6
+            3ECD349E60B412830A1EC154F1C5692DAC8ECC4C25EC5D3A71BDD5BD343A8F02
+            1FF8A2B40C7FCF8419FF00BE05723F1E340FED7F073DEC51EEB9D31BCF5C0E7C
+            B38120FCB0DFF00AD5F08F81A4F0E5EC32A788358BBB686331ADADC4D9840C60
+            617B63B62BB1BA863B8B7960B9412432294746E8CA46083EDCD26B99598BD9BA
+            B41D39AB696FF827CA3F07FC3C35FF001CD8A48336D687ED7371C6148DA3F16D
+            A31E99AFACC1C28C715CA7807C1D63E0ED29ED2CC996699CBCD70CA033F3F283
+            EC076FA9EF5A9E26D224D6B4B36916A379A73970DE7DA3EC9303B67D29423CA8
+            CB0586961A8EAAF27AFF00C03E6CF8E8B8F89BA99C83B9213807A7EE9473F957
+            AEFECF5CF8038E7FD2E4FE42A85E7C12D3EF6E5EE6F35DD5AE2E1FEF49332BB3
+            76E491935A7E1DF85D1F87EEA07D3FC47AD470473ACED6CB2858A520824328E0
+            820007DAA2319295EC7261F0D5A9626555C7477EABAB36FE28788BFE11AF07DE
+            DE2385BB907936DCF3E637008FA0CB7FC06ABFC24F0FFF00C23FE0AB385D4FDA
+            EE47DA6E33D7730181F82ED1F81ACAF12FC2A83C47A8CB73A8EBDABBA9959D20
+            670D1C218E76A02381DBF0ADDF0B784A6F0FDEB5C3F88758D4A3319884379317
+            45E41DC07AF18FA1357AF35D9D918D4957F6938E89596AB4EECEC2BC97F684D0
+            45FF0085E1D5615FF48D3A4CB7BC4E403F91DA7D86EAF5A6E95E79E25F872DAF
+            5DDE4975E25D6D2D6E5B26D166FDCA8F40BD314E4AEAC6D8CA72A949C231BDCF
+            19F825E201A278DADA295B6DA6A23ECD264F0189F90E3D7771F4635EEFF16CB8
+            F877ADB46CEAEB0860C84A918753D4571BFF000A2346C63FB5F51C7FBA9FE15D
+            DE91E148ED7C3D79A3EA5A85F6AF6F745B7BDE4C59F6150BB03039038CFD49A8
+            A719256670E12857852950A8B477B3BF719F0D7595D6BC13A4DD2C865996058A
+            625B2DE620DAD9F72467F1AEAC93CE39AF2893E0DDBD95CB5CF86FC41AA69331
+            E32ADBC63D382A48F624D5A97C1DE3178FECF378FA616DD03AD9AA4849ED90C0
+            FF00E3D549B4B547552A95A31519C2ED766B5FBDA3CEBF68892C25F185A2DBED
+            FB6456C05C15C71C92A0FBE327E8457A47C09D02E345F05F997C8D1CF7D31B80
+            8C30553002E47B804FE34DF0A7C25D1348BC17FA84936AD7E1B7EFB9FB81BAEE
+            DBDCFF00BC4FF5AF4DC7B528C7DEE666385C249559622AAB37B2EC2D79C7C4FF
+            00F90859FF00D723FCEBD1EBCE3E27FF00C842CFFEB91FE75E7671FEE92F97E6
+            75E2FF0084CE316591461646007606BB3D2DDCFC3BD498BB6E1275CF3D56B8AA
+            ECF49FF9273A9FFD74FEAB5F3B9737CD3FF0CBF23CFC33D5FA338F334BDE47FF
+            00BE8D6FFC3FFF0091A2DBFDD7FF00D04D73B5D17C3FFF0091A2DBFDD7FF00D0
+            4D61826DE269DFBAFCC8A3FC48FA98371FEBE4FF0078FF003A92C3FE3FEDBFEB
+            A2FF003151DC7FAF93FDE3FCEA4B0FF8FF00B6FF00AE8BFCC562BE35EA66BE23
+            A4F899FF00230C5FF5EEBFFA1357275D67C4CFF91862FF00AF75FF00D09AB93A
+            EACCFF00DEA7EA6B89FE2C8EBB41FF00904C1FF02FFD08D14683FF0020983FE0
+            5FFA11A2BD2A1FC38FA2345B1D378ADF541A9690BA3C8EB27992BB21FB92854C
+            847F407A03D89CF6A8B41BAD5AEBC4F3CBA8ACB05BCD64B2C5687A43F3900376
+            2E4727D338ED5D6D15F507AE72179E22BD8B5ECA5A4EDA3C520B796510920939
+            0D206F456DAB8C73F31EC2ADEAFA8EAB6BAF470D85B25D5A2DA99A58BA3B10E0
+            611BA6EC1E87AFA8AE928A00E527D62FCF81AE35486374BD02468D5E22080242
+            172BFEE81563C217D717D6F335DDE25C4CA465123DA23EB8E70339FA718AE8E8
+            A00E6B46D7DB56D6634B64992D3EC665916588ABC72EF002B1E99C678AC7BFF1
+            05EC31EA656EDD2FA0B978EDECFECD9122060179C64E47BD77B450015CB78FA1
+            9C683717765717B15D421420B799941CBA8395079E09AEA68A00E7B5BF3F44F0
+            C5F4BA6C93CD711AEF8CCEED31CE40EF93F8541E0899E4B39D64B98E5903EF68
+            D13010B1624EEC0DC58F26BA8A28038CF0EEB5737B71A7ADCDEB9B995A4135AF
+            D9480980C40DD81B7A0E4E7D3BD49A8EB3AC59EA1AC14B3373616CA813CA53E6
+            A131E7701D1D73D40E47BD75F4500615DDFDE4769A1C91AFEF2E678927F93A2B
+            212DF4E40AA1AF6AF3DA6B52DBBDE359DB2D9ACB1BADBF99E64859C11D0F40AB
+            C71D6BACA28039AD6F52B9B5D234CB88A568FCE96259E6F20E510A925B673B79
+            C70738CD3FC35A94D7D7BA9466E1AEAD21F2FC99DA1F2F7160770E801C607E75
+            D151400570D63AF5FCB35BA89DE7BB7BE6824B3FB31012112B2EFDC0718401B2
+            4E0F4EF5DCD1401C678A358D42CFC456D696F7096D64D02C8F2B47BB04B9071F
+            29CF03A715D65A36FB785BCCF30B203BF18DDC75C76CF5C54F4500656B977736
+            AFA68B519135E2452FCB9C210C4FD3A0E6B3751D4F54B4F10CB1DADA7DAB4F8A
+            D239A4441FBD2CCF20250F462028F97F2F43D3D1401CA5DEA9A99F03DBDFDB29
+            FED39441F298FA179154FCA7A704F5E956DE4D56C7C33A85D4F279FA825BC92C
+            71F963E570A485F97EF738AE828A00E434AD667B8D6AC2082F9EF6296291AE03
+            5BECF2880BB7900772477AA7AF6B1ADDBDF6AA2CD1C4104D1C50BF94A635DD1A
+            3664FE2DBB98E48E95DDD1401CF788350D46CAFAC7FB3EDFED30159649E355CB
+            BAAECFB87A6EF98903BE314685A8DF4EFAB1D5E25B75B695762A8CED4312BE09
+            FE22324123B838AE868A00E4BC3DAEDFDD6AAD0EA3693DBC1740BDA9780A6CC1
+            3F231EE4AE1B3C73B87A543A96B77306ADA94125F3DAF912C6B6D1AD9997CD52
+            8849F53CB30E08E95D9D1401957775711F8874EB58C7FA2CD04EF29DB9F994C7
+            B79EDF79BFC8AE675FD4E58F50D57CEBA6825B03BEC22FB36F1213083BB38393
+            B99973DB9AEEE8A00E6F58BFD562B0D19B4F8A2FB5DCCC8B324AA42E0C4EC41C
+            72BCA819EDEF563C3DA95D6A136A1F6AB59AD7C9956358A55C15F914B73D1864
+            9C11DAB728A00435E6FF001373FDA1699FF9E67F9D7A41A0A86EA2B971786FAD
+            5174EF6B9956A5ED23CAD9E094F12C82331891C467AA82707F0AF78028C0AF15
+            70FDBFE5E7E1FF0004E2FA8FF7BF0FF827825743E013B7C4F6E7FD97FF00D04D
+            7AC826835A50C8FD8548CFDA5ECEFB7FC1348607924A5CDB791E1371FEBE4FF7
+            8FF3A8C120E4707DABDEF0293159BE1FD6FED3F0FF008267F51FEF7E1FF04F07
+            9259256DD2BB3B018CB1C9A6D7BDE0518143E1FBFF00CBCFC3FE087D47FBDF87
+            FC13CCB41FF904C1FF0002FF00D08D15E998A2BA565492B737E1FF0004DBEA9E
+            67FFD9}
+          HightQuality = False
+          Transparent = False
+          TransparentColor = clWhite
+        end
+        object Memo1: TfrxMemoView
+          Left = 137.874103500000000000
+          Top = 19.677180000000000000
+          Width = 355.275820000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            'ACTA DE RELEVO DE RESPONSABILIDAD DOCUMENTAL')
+          ParentFont = False
+        end
+      end
+      object MasterData1: TfrxMasterData
+        Height = 22.677180000000000000
+        Top = 502.677490000000000000
+        Width = 627.024027000000000000
+        DataSet = fdbCarpetasRadicadas
+        DataSetName = 'frxDBDCarpetasRadicadas'
+        RowCount = 0
+        object frxDBDCarpetasRadicadasCodigoCaja: TfrxMemoView
+          Left = 217.535513500000000000
+          Top = 3.779530000000022000
+          Width = 83.149660000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'CodigoCaja'
+          DataSet = fdbCarpetasRadicadas
+          DataSetName = 'frxDBDCarpetasRadicadas'
+          Memo.UTF8W = (
+            '[frxDBDCarpetasRadicadas."CodigoCaja"]')
+        end
+        object frxDBDCarpetasRadicadasCodigoCarpeta: TfrxMemoView
+          Left = 307.023763500000000000
+          Top = 3.779530000000022000
+          Width = 68.031540000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'CodigoCarpeta'
+          DataSet = fdbCarpetasRadicadas
+          DataSetName = 'frxDBDCarpetasRadicadas'
+          Memo.UTF8W = (
+            '[frxDBDCarpetasRadicadas."CodigoCarpeta"]')
+        end
+        object frxDBDCarpetasRadicadasTotalFolios: TfrxMemoView
+          Left = 415.023918500000000000
+          Width = 71.811070000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'TotalFolios'
+          DataSet = fdbCarpetasRadicadas
+          DataSetName = 'frxDBDCarpetasRadicadas'
+          Memo.UTF8W = (
+            '[frxDBDCarpetasRadicadas."TotalFolios"]')
+        end
+        object frxDBDCarpetasRadicadasPrecintoUno: TfrxMemoView
+          Left = 137.000000000000000000
+          Top = 2.322510000000022000
+          Width = 233.944960000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'PrecintoUno'
+          DataSet = fdbCarpetasRadicadas
+          DataSetName = 'frxDBDCarpetasRadicadas'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[frxDBDCarpetasRadicadas."PrecintoUno"]')
+          ParentFont = False
+        end
+      end
+      object Header2: TfrxHeader
+        Height = 332.598640000000000000
+        Top = 147.401670000000000000
+        Width = 627.024027000000000000
+        object Memo2: TfrxMemoView
+          Left = 2.559060000000000000
+          Top = 9.118120000000005000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Memo.UTF8W = (
+            'Fecha y Hora : ')
+        end
+        object Memo3: TfrxMemoView
+          Left = 1.559060000000000000
+          Top = 72.590600000000000000
+          Width = 56.692950000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Memo.UTF8W = (
+            'Se'#241'ores')
+        end
+        object Memo4: TfrxMemoView
+          Left = 1.559060000000000000
+          Top = 92.606370000000000000
+          Width = 204.094620000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            'PRODECO')
+          ParentFont = False
+        end
+        object Memo5: TfrxMemoView
+          Left = 2.000000000000000000
+          Top = 206.433210000000000000
+          Width = 619.842920000000000000
+          Height = 94.488250000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haBlock
+          Memo.UTF8W = (
+            
+              'De acuerdo al convenio suscrito entre PRODECO y Thomas MTI; por ' +
+              'medio de este documento se hace constar el relevo de responsabil' +
+              'idad sobre las siguientes unidades documentales y su contenido, ' +
+              'despu'#233's del punteo f'#237'sico entre las partes involucradas.')
+          ParentFont = False
+        end
+        object Memo6: TfrxMemoView
+          Left = 3.000000000000000000
+          Top = 113.283550000000000000
+          Width = 185.196970000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haBlock
+          Memo.UTF8W = (
+            'Gesti'#243'n Documental')
+          ParentFont = False
+        end
+        object Memo7: TfrxMemoView
+          Left = 205.181200000000000000
+          Top = 310.141930000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            'C'#243'digo Caja')
+          ParentFont = False
+        end
+        object Memo8: TfrxMemoView
+          Left = 287.110390000000000000
+          Top = 310.141930000000000000
+          Width = 98.267780000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            'C'#243'digo Carpeta')
+          ParentFont = False
+        end
+        object Memo10: TfrxMemoView
+          Left = 387.866420000000000000
+          Top = 310.141930000000000000
+          Width = 86.929190000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            'Total Planillas')
+          ParentFont = False
+        end
+        object Memo16: TfrxMemoView
+          Left = 120.000000000000000000
+          Top = 310.141930000000000000
+          Width = 82.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            'PrecintoUno')
+          ParentFont = False
+        end
+        object frxDBDCarpetasRadicadasFecha: TfrxMemoView
+          Left = 107.000000000000000000
+          Top = 9.598330000000004000
+          Width = 226.622140000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'Fecha'
+          DataSet = fdbCarpetasRadicadas
+          DataSetName = 'frxDBDCarpetasRadicadas'
+          Memo.UTF8W = (
+            '[frxDBDCarpetasRadicadas."Fecha"]')
+        end
+      end
+      object ReportSummary1: TfrxReportSummary
+        Height = 309.677180000000000000
+        Top = 585.827150000000000000
+        Width = 627.024027000000000000
+        object Memo11: TfrxMemoView
+          Left = -2.000000000000000000
+          Top = 71.086270000000010000
+          Width = 623.622450000000000000
+          Height = 49.133890000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haBlock
+          Memo.UTF8W = (
+            
+              'MTI a partir de la fecha se har'#225' responsable del adecuado uso y ' +
+              'tratamiento de la documentaci'#243'n e informaci'#243'n contenida.')
+          ParentFont = False
+        end
+        object frxDBDTotalesToalCarpetas1: TfrxMemoView
+          Left = 337.756030000000000000
+          Top = 24.172850000000040000
+          Width = 79.370130000000000000
+          Height = 18.897637800000000000
+          ShowHint = False
+          DataField = 'ToalCarpetas'
+          DataSet = fdbTotales
+          DataSetName = 'frxDBDTotales'
+          Memo.UTF8W = (
+            '[frxDBDTotales."ToalCarpetas"]')
+        end
+        object frxDBDTotalesTotalFolios: TfrxMemoView
+          Left = 415.141930000000000000
+          Top = 24.172850000000040000
+          Width = 79.370130000000000000
+          Height = 18.897637800000000000
+          ShowHint = False
+          DataField = 'TotalFolios'
+          DataSet = fdbTotales
+          DataSetName = 'frxDBDTotales'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haBlock
+          Memo.UTF8W = (
+            '[frxDBDTotales."TotalFolios"]')
+          ParentFont = False
+        end
+        object Memo14: TfrxMemoView
+          Left = 289.000000000000000000
+          Top = 3.172850000000040000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            'Total Carpetas')
+          ParentFont = False
+        end
+        object Memo15: TfrxMemoView
+          Left = 385.385900000000000000
+          Top = 3.172850000000040000
+          Width = 85.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            'Total Planillas')
+          ParentFont = False
+        end
+      end
+    end
+  end
+  object fpdfExportar: TfrxPDFExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    PrintOptimized = False
+    Outline = False
+    Background = False
+    HTMLTags = True
+    Author = 'FastReport'
+    Subject = 'FastReport PDF export'
+    ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
+    HideToolbar = False
+    HideMenubar = False
+    HideWindowUI = False
+    FitWindow = False
+    CenterWindow = False
+    PrintScaling = False
+    Left = 668
+    Top = 347
+  end
+  object ZQTotales: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 478
+    Top = 400
+  end
+  object dsTotales: TDataSource
+    DataSet = cdsTotales
+    Left = 481
+    Top = 458
+  end
+  object dspTotales: TDataSetProvider
+    DataSet = ZQTotales
+    Left = 575
+    Top = 399
+  end
+  object cdsTotales: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspTotales'
+    Left = 578
+    Top = 459
+    object intgrfldTotalesToalCarpetas: TIntegerField
+      FieldName = 'ToalCarpetas'
+    end
+    object intgrfldTotalesTotalFolios: TIntegerField
+      FieldName = 'TotalFolios'
+    end
+  end
+  object fdbTotales: TfrxDBDataset
+    UserName = 'frxDBDTotales'
+    CloseDataSource = False
+    DataSet = cdsTotales
+    BCDToCurrency = False
+    Left = 666
+    Top = 455
+  end
+  object ZQBuscarCarpeta: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 750
+    Top = 24
+  end
+  object dsBuscarCarpeta: TDataSource
+    DataSet = cdsBuscarCarpeta
+    Left = 752
+    Top = 80
+  end
+  object cdsBuscarCarpeta: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspBuscarCarpeta'
+    Left = 856
+    Top = 80
+    object cdsBuscarCarpetaidCaja: TIntegerField
+      FieldName = 'idCaja'
+    end
+    object cdsBuscarCarpetaidSerieDocumental: TIntegerField
+      FieldName = 'idSerieDocumental'
+    end
+    object cdsBuscarCarpetaidTipoCarpeta: TIntegerField
+      FieldName = 'idTipoCarpeta'
+    end
+    object cdsBuscarCarpetaDescripcionSerieDocumental: TStringField
+      FieldName = 'DescripcionSerieDocumental'
+      Size = 100
+    end
+    object cdsBuscarCarpetaCodigoCarpeta: TStringField
+      FieldName = 'CodigoCarpeta'
+      Size = 8
+    end
+    object cdsBuscarCarpetaNonmbresApellidos: TStringField
+      FieldName = 'NonmbresApellidos'
+      Size = 100
+    end
+    object cdsBuscarCarpetaNumeroDocumento: TStringField
+      FieldName = 'NumeroDocumento'
+    end
+    object cdsBuscarCarpetaidTipoIdentificacion: TIntegerField
+      FieldName = 'idTipoIdentificacion'
+    end
+    object cdsBuscarCarpetaDescripcionTipoIdentificacion: TStringField
+      FieldName = 'DescripcionTipoIdentificacion'
+      Size = 50
+    end
+    object cdsBuscarCarpetaSecuenciaCarpeta: TIntegerField
+      FieldName = 'SecuenciaCarpeta'
+    end
+    object cdsBuscarCarpetaFoliada: TBooleanField
+      FieldName = 'Foliada'
+    end
+    object cdsBuscarCarpetaCerrada: TBooleanField
+      FieldName = 'Cerrada'
+    end
+  end
+  object dspBuscarCarpeta: TDataSetProvider
+    DataSet = ZQBuscarCarpeta
+    Left = 856
+    Top = 24
+  end
+  object ZQValidarProceso: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 752
+    Top = 144
+  end
+  object ZQCarpetaCerrada: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 864
+    Top = 144
+  end
+  object ZQFolio: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 751
+    Top = 221
+  end
+  object ZQBuscarCodPreImpreso: TZQuery
+    Connection = DMConexion.ZConexion
+    Params = <>
+    Left = 863
+    Top = 221
+  end
+end

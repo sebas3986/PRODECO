@@ -92,7 +92,7 @@
         <DCCReference Include="..\..\FuncionesGenerales\Clases\Persistencia\DAO\UDAOParametro.pas"/>
         <DCCReference Include="..\..\FuncionesGenerales\Clases\Logica\UImagen.pas"/>
         <DCCReference Include="..\Persistencia\NPlanillasNomina.pas"/>
-        <DCCReference Include="..\Persistencia\NSeguridadSocial.pas"/>
+        <DCCReference Include="..\Persistencia\NSeguridadSocial5.pas"/>
         <DCCReference Include="..\Persistencia\HistoriaLaboral.pas"/>
         <DCCReference Include="..\..\FuncionesGenerales\Clases\Logica\UGlobales.pas"/>
         <DCCReference Include="..\..\FuncionesGenerales\Funciones\FPGenerales.pas"/>
@@ -110,6 +110,7 @@
             <Form>DMAplicacion</Form>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="..\Persistencia\NSeguridadSocial.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -23,7 +23,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   AmbiEjecApli:= 'QA';  {AMBIENTE PARA EL CUAL SE COMPILA EL PROECTO }
-  VeriRuta    := True;   {PARA EJECUTAR LA APLICACION VERIFICANDO RUTA DE INSTALACION O NO}
+  VeriRuta    := False;   {PARA EJECUTAR LA APLICACION VERIFICANDO RUTA DE INSTALACION O NO}
   if ParamStr(3) = 'UaNnIdVeEs' then
   begin
     if EnEjecucion(ExtractFileName(Application.ExeName)) then

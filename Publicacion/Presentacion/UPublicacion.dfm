@@ -1114,6 +1114,7 @@ object frmPublicacion: TfrmPublicacion
     ParentBackground = False
     ParentColor = False
     TabOrder = 3
+    ExplicitTop = 67
     object RpnDatosGenerales: TRxPanel
       Left = 2
       Top = 15
@@ -1274,7 +1275,7 @@ object frmPublicacion: TfrmPublicacion
         end
         object LblAletasCarpeta: TLabel
           Left = 422
-          Top = 29
+          Top = 5
           Width = 138
           Height = 19
           Caption = 'Cantidad de Aletas:'
@@ -1284,10 +1285,11 @@ object frmPublicacion: TfrmPublicacion
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
+          Visible = False
         end
         object LblFoliosCarpeta: TLabel
           Left = 422
-          Top = 74
+          Top = 50
           Width = 193
           Height = 19
           Caption = 'Cantidad Total de Planillas:'
@@ -1317,7 +1319,7 @@ object frmPublicacion: TfrmPublicacion
         end
         object PnlAletasCarpeta: TPanel
           Left = 618
-          Top = 24
+          Top = 0
           Width = 57
           Height = 30
           BevelInner = bvLowered
@@ -1331,10 +1333,11 @@ object frmPublicacion: TfrmPublicacion
           ParentBackground = False
           ParentFont = False
           TabOrder = 1
+          Visible = False
         end
         object PnlFoliosCarpeta: TPanel
           Left = 618
-          Top = 70
+          Top = 46
           Width = 57
           Height = 30
           BevelInner = bvLowered

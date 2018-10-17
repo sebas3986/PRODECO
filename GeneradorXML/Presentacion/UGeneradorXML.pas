@@ -493,86 +493,111 @@ var
 begin
   xmlSeguridadSocial.Active := True;
   SeguridadSocial := GetSEGURIDAD_SOCIAL(xmlSeguridadSocial);
+  DMGeneradorXML.PlanillaIndices(DMGeneradorXML.cdsFoliosXML.FieldByName('idFolio').AsInteger, 3);//Esta sección se ingresa los datos de captura de las personas
   with SeguridadSocial.Contenido.Add do
-     begin
-       Nombreimagen := Copy(DMGeneradorXML.cdsFoliosXML.FieldByName('NombreImagen').AsString, 1, Length (DMGeneradorXML.cdsFoliosXML.FieldByName('NombreImagen').AsString)-4);;
-       Entidad := DMGeneradorXML.cdsFoliosXML.FieldByName('DescripcionFondo').AsString;
-       Periodo_Cotizacion := DateTimeToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('PeriodoCotizacion').AsDateTime);
-       Tipo_Documental := DMGeneradorXML.cdsFoliosXML.FieldByName('DescripcionSerieDocumental').AsString;
-       Titulo_Documento.Titulodocumento := 'Aportes a Seguridad Social';
-       Autor_EmisorResponsable.Fondo := 'Universidad de los Andes';
-       Autor_EmisorResponsable.Unidad_responsable := 'Direccion de Gestion Humana y Desarrollo Organizacional';
-       Clasificacion_Acceso.Nivel_acceso := 'I';
-       Fecha_Creacion.Fechacreacion := DateToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('FechaFolio').AsDateTime);
-       Folio_Electronico.Folios_totales := IntToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('CantidadFolios').AsInteger);
-       Folio_Electronico.Folio_actual := IntToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('SecuenciaFolio').AsInteger);
-       Tema_Asunto.Tema := 'Talento humano';
-       DMGeneradorXML.PlanillaIndices(DMGeneradorXML.cdsFoliosXML.FieldByName('idFolio').AsInteger, 3);//Esta sección se ingresa los datos de captura de las personas
-       repeat
-         Palabras_Clave.AddChild('Prim_apll').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('PrimerApellido').AsString;
-         Palabras_Clave.AddChild('Seg_apll').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('SegundoApellido').AsString;
-         Palabras_Clave.AddChild('Prim_nomb').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('PrimerNombre').AsString;
-         Palabras_Clave.AddChild('Seg_nomb').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('SegundoNombre').AsString;
-         Palabras_Clave.AddChild('Num_id').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('NumeroDocumento').AsString;
-         Palabras_Clave.AddChild('Entidad').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('DescripcionFondo').AsString;
-         DMGeneradorXML.cdsPlanillaIndices.Next;
-       until DMGeneradorXML.cdsPlanillaIndices.Eof;
+  begin
+//    Nombreimagen := Copy(DMGeneradorXML.cdsFoliosXML.FieldByName('NombreImagen').AsString, 1, Length (DMGeneradorXML.cdsFoliosXML.FieldByName('NombreImagen').AsString)-4);
+//    Entidad := DMGeneradorXML.cdsFoliosXML.FieldByName('DescripcionFondo').AsString;
+//    Periodo_Cotizacion := DateTimeToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('PeriodoCotizacion').AsDateTime);
+//    Tipo_Documental := DMGeneradorXML.cdsFoliosXML.FieldByName('DescripcionSerieDocumental').AsString;
+//    Fecha_Creacion.Fechacreacion := DateToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('FechaFolio').AsDateTime);
+//    Folio_Electronico.Folios_totales := IntToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('CantidadFolios').AsInteger);
+//    Folio_Electronico.Folio_actual := IntToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('SecuenciaFolio').AsInteger);
+    Nombreimagen:= {Por verificar};
+    Titulo_documento:= 'Planilla de aportes de seguridad social';
+    Tipo_documental:= 'planillas';
+    Numero_planilla:= {Por verificar};
+    Nombre_entidad:= DMGeneradorXML.cdsFoliosXML.FieldByName('DescripcionFondo').AsString;
+    Periodo_cotizacion:= DateTimeToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('PeriodoCotizacion').AsDateTime);
+    Fecha_recaudo:= DateTimeToStr(DMGeneradorXML.cdsPlanillaIndices.FieldByName('FechaPago').AsDateTime){verificar};
+    Empresa:= {Por verificar};
+    Seccional:= {Por verificar};
+    Serie_documental:= 'Aportes';
+    Subserie_documental:= 'Aportes Seguridad social';
+    Unidad_responsable:= 'Servicios de gestion humana';
+    Autor:= 'Grupo PRODECO' ;
+    Clasificacion_acceso := 'Interno';
+    Fechacreacion:= DateTimeToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('FechaImagen').AsDateTime);
+    Folio_inicial:= '1' ;
+    Folio_final:= {por verificar};
+//    DMGeneradorXML.PlanillaIndices(DMGeneradorXML.cdsFoliosXML.FieldByName('idFolio').AsInteger, 3);//Esta sección se ingresa los datos de captura de las personas
+//    repeat
+//      Palabras_Clave.AddChild('Prim_apll').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('PrimerApellido').AsString;
+//      Palabras_Clave.AddChild('Seg_apll').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('SegundoApellido').AsString;
+//      Palabras_Clave.AddChild('Prim_nomb').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('PrimerNombre').AsString;
+//      Palabras_Clave.AddChild('Seg_nomb').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('SegundoNombre').AsString;
+//      Palabras_Clave.AddChild('Num_id').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('NumeroDocumento').AsString;
+//      Palabras_Clave.AddChild('Entidad').Text := DMGeneradorXML.cdsPlanillaIndices.FieldByName('DescripcionFondo').AsString;
+//      DMGeneradorXML.cdsPlanillaIndices.Next;
+//    until DMGeneradorXML.cdsPlanillaIndices.Eof;
   end;
   with SeguridadSocial.Estructura.Add do
-     begin
-       Descripcion.Descripcion_ := 'Documentos que garantizan los pagos efectuados mes a mes a los colaboradores por la Universidad.';
-       Formato.Formato_ := 'PDF/A-3B';
-       Estado.Estado_elaboracion := 'INACTIVO';
-       Proceso_Administrativo.Macroproceso := 'Talento humano';
-       Proceso_Administrativo.Procesonivel1 := 'Administracion y bienestar del talento humano';
-       Proceso_Administrativo.Procesonivel2 := 'Seguridad Social';
-       Unidad_Administrativa_Resp.Unidadadministrativaresp := 'Direccion de Gestion Humana y Desarrollo Organizacional';
-       Perfil_Autorizado := 'null';
-       Ubicacion := 'Archivo de Gestion';
-       Serie.Serie_ := 'Gestion de talento humano';
-       Serie.Subserie := 'Seguridad Social';
+  begin
+    Descripcion:= 'Documentos que garantizan los pagos efectuados mes a mes a los colaboradores de las empresas del grupo PRODECO';
+    Formato:= 'PDF/A-3B';
+    Macroproceso:= 'Gestión Humana';
+    Procesonivel1:= 'Servicios de gestión humana';
+    Procesonivel2:= 'Seguridad Social';
+    Unidad_administrativa_resp:= 'Servicios de gestion humana';
+    Ubicacion:= 'Archivo central';
+    Serie_documental:= 'Aportes';
+    Subserie_documental:= 'Aportes de Seguridad Social';
   end;
   with SeguridadSocial.Contexto.Add do
-     begin
-       Juridico_Administrativo.Valores_primarios := 'LEGALES,ADMINISTRATIVOS,FINANCIEROS';
-       Juridico_Administrativo.Valores_secundarios := 'HISTORICO,CULTURAL';
-       Documental := 'Los documentos contenidos en este expediente evidencian los aportes a las diferentes entidades promotoras de salud se encuentran en soporte fisico y electronico estan hasta el ano 2006 en adelante solo estaran en formato electronico';
-       Procedencia := 'Direccion de Gestion Humana y Desarrollo Organizacional';
-       Procedimental := 'Este documento es original, cuenta con firma digital y un estampado cronologico para mayor seguridad y confiabilidad.';
-       Tecnologico.Tecnologico_1 := 'null';
-       Tecnologico.Tipodefirma := 'PADESLTV V.4';
-       Autenticidad.Dominio_red := 'thomasgreg.com';
-       Autenticidad.Ip_usuario := DMGeneradorXML.cdsFoliosXML.FieldByName('ipPublicacion').AsString;
-       Autenticidad.MAC_usuario := '08-2E-5F-24-00-D6';
-       Digitalizacion.Procesado_por := 'THOMAS MTI';
-       Digitalizacion.Fecha_digitalizacion := DateTimeToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('FechaImagen').AsDateTime);
-       if DMGeneradorXML.FolioIndexacion(DMGeneradorXML.cdsFoliosXML.FieldByName('idFolio').AsInteger) then
-         Digitalizacion.Fecha_indexacion := DateTimeToStr(DMGeneradorXML.cdsFolioIndexacion.FieldByName('FechaFolio').AsDateTime)
-       else
-         Digitalizacion.Fecha_indexacion := DateTimeToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('FechaFolio').AsDateTime);
-       Digitalizacion.Resolucion := '300 DPI';
-       Digitalizacion.Tamano := '2550*2300 pixeles';//IntToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('TamanoBytes').AsInteger);
-       Digitalizacion.Software_captura := 'THOMAS MTI';
-       Digitalizacion.Color := 'RGB';
-       Digitalizacion.Compresion := 'CCIT GRUPO 4';
-       Digitalizacion.Folio_inicial := '1';
-       Digitalizacion.Folio_final := IntToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('CantidadFolios').AsInteger);
+  begin
+//     Autenticidad.Ip_usuario := DMGeneradorXML.cdsFoliosXML.FieldByName('ipPublicacion').AsString;
+//     Digitalizacion.Fecha_digitalizacion := DateTimeToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('FechaImagen').AsDateTime);
+//     Digitalizacion.Folio_final := IntToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('CantidadFolios').AsInteger);
+    Juridico_administrativo.Valores_primarios := 'Legales,administrativos y financieros';
+    Documental:= 'Los documentos contenidos en este expediente evidencian los aportes a las diferentes entidades de seguridad social se encuentran en soporte fisico hasta el mes de Agosto de 2007';
+    Procedencia:= 'Gestion Humana';
+    Procedimental:= 'Este documento es original, cuenta con firma digital y un estampado cronologico para mayor seguridad y confiabilidad.';
+    Tecnologico.Tipodefirma := 'PADESLTV';
+    Tecnologico.dominio_red := 'thomasgreg.com';
+    Tecnologico.ip_usuario := DMGeneradorXML.cdsFoliosXML.FieldByName('ipPublicacion').AsString;
+    Tecnologico.MAC_usuario := '08-2E-5F-24-00-D6';
+    Digitalizacion.Procesado_por := 'THOMAS MTI';
+    Digitalizacion.Fecha_digitalizacion := DateTimeToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('FechaImagen').AsDateTime);
+    if DMGeneradorXML.FolioIndexacion(DMGeneradorXML.cdsFoliosXML.FieldByName('idFolio').AsInteger) then
+      Digitalizacion.fecha_indexacion := DateTimeToStr(DMGeneradorXML.cdsFolioIndexacion.FieldByName('FechaFolio').AsDateTime)
+    else
+      Digitalizacion.fecha_indexacion := DateTimeToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('FechaFolio').AsDateTime);
+    Digitalizacion.Resolucion := '300 DPI';
+    Digitalizacion.Tamano := '10240';
+    Digitalizacion.software_captura:= 'THOMAS MTI';
+    Digitalizacion.color:= 'RGB';
+    Digitalizacion.compresion:= 'CCITT4';
   end;
-  DMGeneradorXML.cdsPlanillaIndices.First;
-  repeat
-    with SeguridadSocial.Indices.Add do
-       begin
-         Entidad := DMGeneradorXML.cdsPlanillaIndices.FieldByName('DescripcionFondo').AsString;
-         Periodo_Cotizacion := DateTimeToStr(DMGeneradorXML.cdsPlanillaIndices.FieldByName('PeriodoCotizacion').AsDateTime);
-         Fechapago_Banco := DateTimeToStr(DMGeneradorXML.cdsPlanillaIndices.FieldByName('FechaPago').AsDateTime);
-         Num_id := DMGeneradorXML.cdsPlanillaIndices.FieldByName('NumeroDocumento').AsString;
-         Prim_nomb := DMGeneradorXML.cdsPlanillaIndices.FieldByName('PrimerNombre').AsString;
-         Seg_nomb := DMGeneradorXML.cdsPlanillaIndices.FieldByName('SegundoNombre').AsString;
-         Prim_apll := DMGeneradorXML.cdsPlanillaIndices.FieldByName('PrimerApellido').AsString;
-         Seg_apll := DMGeneradorXML.cdsPlanillaIndices.FieldByName('SegundoApellido').AsString;
-    end;
+
+  with SeguridadSocial.Indices.Add do
+  begin
+    numero_planilla := {Por verificar};
+    nombre_entidad := 'Instituto de seguros sociales';
+    periodo_cotizacion := DateTimeToStr(DMGeneradorXML.cdsFoliosXML.FieldByName('PeriodoCotizacion').AsDateTime);
+    fecha_recaudo := DateTimeToStr(DMGeneradorXML.cdsPlanillaIndices.FieldByName('FechaPago').AsDateTime);
+    empresa := 'Prodeco';
+    seccional := {Por verificar};
+    DMGeneradorXML.cdsPlanillaIndices.First;
+    repeat
+      Colaborador.Num_id    := DMGeneradorXML.cdsPlanillaIndices.FieldByName('NumeroDocumento').AsString;
+      Colaborador.Tip_id    := DMGeneradorXML.cdsPlanillaIndices.FieldByName('DescripcionTipoIdentificacion').AsString {Por verificar};
+      Colaborador.Prim_nomb := DMGeneradorXML.cdsPlanillaIndices.FieldByName('PrimerNombre').AsString;
+      Colaborador.Seg_nomb  := DMGeneradorXML.cdsPlanillaIndices.FieldByName('SegundoNombre').AsString;
+      Colaborador.Prim_apll := DMGeneradorXML.cdsPlanillaIndices.FieldByName('PrimerApellido').AsString;
+      Colaborador.Seg_apll  := DMGeneradorXML.cdsPlanillaIndices.FieldByName('SegundoApellido').AsString;
+//      Entidad := DMGeneradorXML.cdsPlanillaIndices.FieldByName('DescripcionFondo').AsString;
+//      Periodo_Cotizacion := DateTimeToStr(DMGeneradorXML.cdsPlanillaIndices.FieldByName('PeriodoCotizacion').AsDateTime);
+//      Fechapago_Banco := DateTimeToStr(DMGeneradorXML.cdsPlanillaIndices.FieldByName('FechaPago').AsDateTime);
+//      Num_id := DMGeneradorXML.cdsPlanillaIndices.FieldByName('NumeroDocumento').AsString;
+//      Prim_nomb := DMGeneradorXML.cdsPlanillaIndices.FieldByName('PrimerNombre').AsString;
+//      Seg_nomb := DMGeneradorXML.cdsPlanillaIndices.FieldByName('SegundoNombre').AsString;
+//      Prim_apll := DMGeneradorXML.cdsPlanillaIndices.FieldByName('PrimerApellido').AsString;
+//      Seg_apll := DMGeneradorXML.cdsPlanillaIndices.FieldByName('SegundoApellido').AsString;
       DMGeneradorXML.cdsPlanillaIndices.Next;
-  until DMGeneradorXML.cdsPlanillaIndices.Eof;
+    until DMGeneradorXML.cdsPlanillaIndices.Eof;
+  end;
+
+
   xmlSeguridadSocial.SaveToFile(ExtractFilePath(Application.ExeName) + Copy(DMGeneradorXML.cdsFoliosXML.FieldByName('NombreImagen').AsString, 1, Length (DMGeneradorXML.cdsFoliosXML.FieldByName('NombreImagen').AsString)-4)+'.xml');
   xmlSeguridadSocial.XML.Clear;
 end;

@@ -17,135 +17,90 @@
     </annotation>
     <sequence>
       <element ref="nombreimagen"/>
-      <element ref="entidad"/>
-      <element ref="periodo_cotizacion"/>
-      <element ref="tipo_documental"/>
       <element ref="titulo_documento"/>
-      <element ref="autor_emisorresponsable"/>
+      <element ref="tipo_documental"/>
+      <element ref="numero_planilla"/>
+      <element ref="nombre_entidad"/>
+      <element ref="periodo_cotizacion"/>
+      <element ref="fecha_recaudo"/>
+      <element ref="empresa"/>
+      <element ref="seccional"/>
+      <element ref="serie_documental"/>
+      <element ref="subserie_documental"/>
+      <element ref="unidad_responsable"/>
+      <element ref="autor"/>
       <element ref="clasificacion_acceso"/>
-      <element ref="fecha_creacion"/>
-      <element ref="folio_electronico"/>
-      <element ref="tema_asunto"/>
-      <element ref="palabras_clave"/>
+      <element ref="fechacreacion"/>
+      <element ref="folio_inicial"/>
+      <element ref="folio_final"/>
     </sequence>
   </complexType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="nombreimagen" type="nombreimagenType"/>
   <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="nombreimagenType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="entidad" type="entidadType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="entidadType">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="periodo_cotizacion" type="periodo_cotizacionType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="periodo_cotizacionType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="titulo_documento" type="titulo_documentoType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="titulo_documentoType">
     <restriction base="xs:string"/>
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="tipo_documental" type="tipo_documentalType"/>
   <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="tipo_documentalType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="titulo_documento" type="titulo_documentoType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="titulo_documentoType">
-    <sequence>
-      <element ref="titulodocumento"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="titulodocumento" type="titulodocumentoType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="titulodocumentoType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="numero_planilla" type="numero_planillaType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="numero_planillaType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="autor_emisorresponsable" type="autor_emisorresponsableType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="autor_emisorresponsableType">
-    <sequence>
-      <element ref="fondo"/>
-      <element ref="unidad_responsable"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="fondo" type="fondoType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="fondoType">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="unidad_responsable" type="unidad_responsableType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="unidad_responsableType">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="clasificacion_acceso" type="clasificacion_accesoType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="clasificacion_accesoType">
-    <sequence>
-      <element ref="nivel_acceso"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="nivel_acceso" type="nivel_accesoType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="nivel_accesoType">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="fecha_creacion" type="fecha_creacionType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="fecha_creacionType">
-    <sequence>
-      <element ref="fechacreacion"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="fechacreacion" type="fechacreacionType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="fechacreacionType">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="folio_electronico" type="folio_electronicoType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="folio_electronicoType">
-    <sequence>
-      <element ref="folios_totales"/>
-      <element ref="folio_actual"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="tema_asunto" type="tema_asuntoType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="tema_asuntoType">
-    <sequence>
-      <element ref="tema"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="palabras_clave" type="palabras_claveType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="palabras_claveType">
-    <sequence>
-      <element ref="entidad"/>
-      <element ref="periodo_cotizacion"/>
-      <element ref="fechapago_banco"/>
-      <element ref="num_id"/>
-      <element ref="prim_apll"/>
-      <element ref="seg_apll"/>
-      <element ref="prim_nomb"/>
-      <element ref="seg_nomb"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="entidad" type="entidadType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="entidadType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="nombre_entidad" type="nombre_entidadType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="nombre_entidadType">
     <restriction base="xs:string"/>
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="periodo_cotizacion" type="periodo_cotizacionType"/>
   <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="periodo_cotizacionType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="fechapago_banco" type="fechapago_bancoType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="fechapago_bancoType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="fecha_recaudo" type="fecha_recaudoType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="fecha_recaudoType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="num_id" type="num_idType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="num_idType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="empresa" type="empresaType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="empresaType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="prim_apll" type="prim_apllType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="prim_apllType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="seccional" type="seccionalType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="seccionalType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="seg_apll" type="seg_apllType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="seg_apllType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="serie_documental" type="serie_documentalType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="serie_documentalType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="prim_nomb" type="prim_nombType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="prim_nombType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="subserie_documental" type="subserie_documentalType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="subserie_documentalType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="seg_nomb" type="seg_nombType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="seg_nombType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="unidad_responsable" type="unidad_responsableType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="unidad_responsableType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="autor" type="autorType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="autorType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="clasificacion_acceso" type="clasificacion_accesoType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="clasificacion_accesoType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="fechacreacion" type="fechacreacionType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="fechacreacionType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="folio_inicial" type="folio_inicialType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="folio_inicialType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="folio_final" type="folio_finalType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="folio_finalType">
     <restriction base="xs:string"/>
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="estructura" type="estructuraType"/>
@@ -155,52 +110,23 @@
     <sequence>
       <element ref="descripcion"/>
       <element ref="formato"/>
-      <element ref="estado"/>
-      <element ref="proceso_administrativo"/>
-      <element ref="unidad_administrativa_resp"/>
-      <element ref="perfil_autorizado"/>
-      <element ref="ubicacion"/>
-      <element ref="serie"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="descripcion" type="descripcionType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="descripcionType">
-    <sequence>
-      <element ref="descripcion_"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="descripcion_" type="descripcion_Type"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="descripcion_Type">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="formato" type="formatoType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="formatoType">
-    <sequence>
-      <element ref="formato_"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="formato_" type="formato_Type"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="formato_Type">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="estado" type="estadoType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="estadoType">
-    <sequence>
-      <element ref="estado_elaboracion"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="estado_elaboracion" type="estado_elaboracionType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="estado_elaboracionType">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="proceso_administrativo" type="proceso_administrativoType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="proceso_administrativoType">
-    <sequence>
       <element ref="macroproceso"/>
       <element ref="procesonivel1"/>
       <element ref="procesonivel2"/>
+      <element ref="unidad_administrativa_resp"/>
+      <element ref="ubicacion"/>
+      <element ref="serie_documental"/>
+      <element ref="subserie_documental"/>
     </sequence>
   </complexType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="descripcion" type="descripcionType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="descripcionType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="formato" type="formatoType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="formatoType">
+    <restriction base="xs:string"/>
+  </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="macroproceso" type="macroprocesoType"/>
   <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="macroprocesoType">
     <restriction base="xs:string"/>
@@ -214,36 +140,19 @@
     <restriction base="xs:string"/>
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="unidad_administrativa_resp" type="unidad_administrativa_respType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="unidad_administrativa_respType">
-    <sequence>
-      <element ref="unidadadministrativaresp"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="unidadadministrativaresp" type="unidadadministrativarespType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="unidadadministrativarespType">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="perfil_autorizado" type="perfil_autorizadoType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="perfil_autorizadoType">
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="unidad_administrativa_respType">
     <restriction base="xs:string"/>
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="ubicacion" type="ubicacionType"/>
   <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="ubicacionType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="serie" type="serieType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="serieType">
-    <sequence>
-      <element ref="serie_"/>
-      <element ref="subserie"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="serie_" type="serie_Type"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="serie_Type">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="serie_documental" type="serie_documentalType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="serie_documentalType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="subserie" type="subserieType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="subserieType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="subserie_documental" type="subserie_documentalType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="subserie_documentalType">
     <restriction base="xs:string"/>
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="contexto" type="contextoType"/>
@@ -256,24 +165,17 @@
       <element ref="procedencia"/>
       <element ref="procedimental"/>
       <element ref="tecnologico"/>
-      <element ref="autenticidad"/>
       <element ref="digitalizacion"/>
-      <element ref="indices"/>
     </sequence>
   </complexType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="juridico_administrativo" type="juridico_administrativoType"/>
   <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="juridico_administrativoType">
     <sequence>
       <element ref="valores_primarios"/>
-      <element ref="valores_secundarios"/>
     </sequence>
   </complexType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="valores_primarios" type="valores_primariosType"/>
   <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="valores_primariosType">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="valores_secundarios" type="valores_secundariosType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="valores_secundariosType">
     <restriction base="xs:string"/>
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="documental" type="documentalType"/>
@@ -291,18 +193,28 @@
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="tecnologico" type="tecnologicoType"/>
   <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="tecnologicoType">
     <sequence>
-      <element ref="tecnologico_1"/>
       <element ref="tipodefirma"/>
-    </sequence>
-  </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="autenticidad" type="autenticidadType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="autenticidadType">
-    <sequence>
       <element ref="dominio_red"/>
       <element ref="ip_usuario"/>
       <element ref="MAC_usuario"/>
     </sequence>
   </complexType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="tipodefirma" type="tipodefirmaType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="tipodefirmaType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="dominio_red" type="dominio_redType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="dominio_redType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="ip_usuario" type="ip_usuarioType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="ip_usuarioType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="MAC_usuario" type="MAC_usuarioType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="MAC_usuarioType">
+    <restriction base="xs:string"/>
+  </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="digitalizacion" type="digitalizacionType"/>
   <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="digitalizacionType">
     <sequence>
@@ -314,8 +226,6 @@
       <element ref="software_captura"/>
       <element ref="color"/>
       <element ref="compresion"/>
-      <element ref="folio_inicial"/>
-      <element ref="folio_final"/>
     </sequence>
   </complexType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="procesado_por" type="procesado_porType"/>
@@ -324,6 +234,10 @@
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="fecha_digitalizacion" type="fecha_digitalizacionType"/>
   <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="fecha_digitalizacionType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="fecha_indexacion" type="fecha_indexacionType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="fecha_indexacionType">
     <restriction base="xs:string"/>
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="resolucion" type="resolucionType"/>
@@ -346,51 +260,61 @@
   <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="compresionType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="folio_inicial" type="folio_inicialType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="folio_inicialType">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="folio_final" type="folio_finalType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="folio_finalType">
-    <restriction base="xs:string"/>
-  </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="indices" type="indicesType"/>
   <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="indicesType"><annotation>
       <appinfo xdb:repeated="True"/>
     </annotation>
     <sequence>
-      <element ref="entidad"/>
+      <element ref="numero_planilla"/>
+      <element ref="nombre_entidad"/>
       <element ref="periodo_cotizacion"/>
-      <element ref="fechapago_banco"/>
-      <element ref="num_id"/>
-      <element ref="prim_apll"/>
-      <element ref="seg_apll"/>
-      <element ref="prim_nomb"/>
-      <element ref="seg_nomb"/>
+      <element ref="fecha_recaudo"/>
+      <element ref="empresa"/>
+      <element ref="seccional"/>
+      <element ref="colaborador"/>
     </sequence>
   </complexType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="entidad" type="entidadType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="entidadType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="numero_planilla" type="numero_planillaType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="numero_planillaType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="nombre_entidad" type="nombre_entidadType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="nombre_entidadType">
     <restriction base="xs:string"/>
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="periodo_cotizacion" type="periodo_cotizacionType"/>
   <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="periodo_cotizacionType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="fechapago_banco" type="fechapago_bancoType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="fechapago_bancoType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="fecha_recaudo" type="fecha_recaudoType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="fecha_recaudoType">
     <restriction base="xs:string"/>
   </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="empresa" type="empresaType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="empresaType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="seccional" type="seccionalType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="seccionalType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="colaborador" type="colaboradorType"/>
+  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="colaboradorType">
+    <sequence>
+      <element ref="num_id"/>
+      <element ref="tip_id"/>
+      <element ref="prim_nomb"/>
+      <element ref="seg_nomb"/>
+      <element ref="prim_apll"/>
+      <element ref="seg_apll"/>
+    </sequence>
+  </complexType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="num_id" type="num_idType"/>
   <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="num_idType">
     <restriction base="xs:string"/>
   </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="prim_apll" type="prim_apllType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="prim_apllType">
-    <restriction base="xs:string"/>
-  </simpleType>
-  <element xmlns="http://www.w3.org/2001/XMLSchema" name="seg_apll" type="seg_apllType"/>
-  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="seg_apllType">
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="tip_id" type="tip_idType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="tip_idType">
     <restriction base="xs:string"/>
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="prim_nomb" type="prim_nombType"/>
@@ -399,6 +323,14 @@
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="seg_nomb" type="seg_nombType"/>
   <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="seg_nombType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="prim_apll" type="prim_apllType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="prim_apllType">
+    <restriction base="xs:string"/>
+  </simpleType>
+  <element xmlns="http://www.w3.org/2001/XMLSchema" name="seg_apll" type="seg_apllType"/>
+  <simpleType xmlns="http://www.w3.org/2001/XMLSchema" name="seg_apllType">
     <restriction base="xs:string"/>
   </simpleType>
 </xs:schema>

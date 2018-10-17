@@ -11,7 +11,7 @@ uses
   UDAOParametro in '..\..\FuncionesGenerales\Clases\Persistencia\DAO\UDAOParametro.pas',
   UImagen in '..\..\FuncionesGenerales\Clases\Logica\UImagen.pas',
   NPlanillasNomina in '..\Persistencia\NPlanillasNomina.pas',
-  NSeguridadSocial in '..\Persistencia\NSeguridadSocial.pas',
+  NSeguridadSocial5 in '..\Persistencia\NSeguridadSocial5.pas',
   HistoriaLaboral in '..\Persistencia\HistoriaLaboral.pas',
   UGlobales in '..\..\FuncionesGenerales\Clases\Logica\UGlobales.pas',
   FPGenerales in '..\..\FuncionesGenerales\Funciones\FPGenerales.pas',
@@ -20,7 +20,8 @@ uses
   XMLHistoriaLaboral in '..\Persistencia\XMLHistoriaLaboral.pas',
   UDMConexion in '..\..\FuncionesGenerales\Clases\Persistencia\ConexionBD\UDMConexion.pas' {DMConexion: TDataModule},
   UFTP in '..\Persistencia\UFTP.pas',
-  UDMAplicacion in '..\..\FuncionesGenerales\Clases\Persistencia\AplicacionVersion\UDMAplicacion.pas' {DMAplicacion: TDataModule};
+  UDMAplicacion in '..\..\FuncionesGenerales\Clases\Persistencia\AplicacionVersion\UDMAplicacion.pas' {DMAplicacion: TDataModule},
+  NSeguridadSocial in '..\Persistencia\NSeguridadSocial.pas';
 
 {$R *.res}
 
@@ -43,10 +44,10 @@ begin
     else
     begin
       Application.CreateForm(TDMConexion, DMConexion);
-      Application.CreateForm(Tfrm_GeneradorXML, frm_GeneradorXML);
-      Application.CreateForm(TDMGeneradorXML, DMGeneradorXML);
-      Application.CreateForm(TDMAplicacion, DMAplicacion);
-      Application.Run;
+  Application.CreateForm(Tfrm_GeneradorXML, frm_GeneradorXML);
+  Application.CreateForm(TDMGeneradorXML, DMGeneradorXML);
+  Application.CreateForm(TDMAplicacion, DMAplicacion);
+  Application.Run;
     end;
   end
   else

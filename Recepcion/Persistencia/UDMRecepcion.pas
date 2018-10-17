@@ -167,6 +167,7 @@ type
     function BuscarCodPreimpreso (CodigoPreimpreso: string; Parametro: Word ): boolean;
     var
       ListaPreImpresos    : TStringList;
+      ListaNumFolios      : TStringList;
   end;
 
 var
@@ -593,11 +594,15 @@ begin
   ListaPreImpresos  := TStringList.Create;
   ListaPreImpresos.Duplicates:= dupIgnore;
   ListaPreImpresos.Sorted:=True;
+  ListaNumFolios  := TStringList.Create;
+  ListaNumFolios.Duplicates:= dupIgnore;
+  ListaNumFolios.Sorted:=True;
 end;
 
 procedure TDMRecepcion.DataModuleDestroy(Sender: TObject);
 begin
   ListaPreImpresos.Free;
+  ListaNumFolios.Free;
 end;
 
 procedure TDMRecepcion.FoliosCaja(idCaja: integer);
@@ -777,12 +782,11 @@ begin
     begin
       Close;
       SQL.Clear;
-      SQL.Add(Format('INSERT INTO %s.FOLIO (idcarpetaaleta, tipofolio, chequeocalidad, usuario, codpreimpreso)',
+      SQL.Add(Format('INSERT INTO %s.FOLIO (idcarpetaaleta, numfolios, tipofolio, chequeocalidad, usuario, codpreimpreso)',
                       [DMConexion.esquema]));
-      SQL.Add(Format('  VALUES (%d,''%s'',''%s'',''%s'',''%s'')',[idCarpetaAleta,
-                              TipoFoli,'FALSE',
-                              Paramstr(1),ListaPreImpresos[idPreImpreso]]));
-//      SQL.Add('         RETURNING idfolio, codigofolio');
+      SQL.Add(Format('  VALUES (%d,%s,''%s'',''%s'',''%s'',''%s'')',[idCarpetaAleta, ListaNumFolios[idPreImpreso] ,TipoFoli,'FALSE',Paramstr(1),ListaPreImpresos[idPreImpreso]]));
+
+
       ExecSQL;
     end;
   except

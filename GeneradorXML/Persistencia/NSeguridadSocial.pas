@@ -1,13 +1,13 @@
 
-{************************************************************************************************************}
-{                                                                                                            }
-{                                              XML Data Binding                                              }
-{                                                                                                            }
-{         Generated on: 05/08/2016 12:29:08 p.m.                                                             }
-{       Generated from: D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\GeneradorXML\Persistencia\NSeguridadSocial.dtd   }
-{   Settings stored in: D:\TM_UNIANDES_BPO\TRUNK\Aplicacion\GeneradorXML\Persistencia\NSeguridadSocial.xdb   }
-{                                                                                                            }
-{************************************************************************************************************}
+{***********************************************************************************}
+{                                                                                   }
+{                                 XML Data Binding                                  }
+{                                                                                   }
+{         Generated on: 16/10/2018 10:47:55 a. m.                                   }
+{       Generated from: D:\PRODECO\GeneradorXML\Persistencia\NSeguridadSocial.dtd   }
+{   Settings stored in: D:\PRODECO\GeneradorXML\Persistencia\NSeguridadSocial.xdb   }
+{                                                                                   }
+{***********************************************************************************}
 
 unit NSeguridadSocial;
 
@@ -22,34 +22,21 @@ type
   IXMLSEGURIDAD_SOCIALType = interface;
   IXMLContenidoType = interface;
   IXMLContenidoTypeList = interface;
-  IXMLTitulo_documentoType = interface;
-  IXMLAutor_emisorresponsableType = interface;
-  IXMLClasificacion_accesoType = interface;
-  IXMLFecha_creacionType = interface;
-  IXMLFolio_electronicoType = interface;
-  IXMLTema_asuntoType = interface;
-  IXMLPalabras_claveType = interface;
   IXMLEstructuraType = interface;
   IXMLEstructuraTypeList = interface;
-  IXMLDescripcionType = interface;
-  IXMLFormatoType = interface;
-  IXMLEstadoType = interface;
-  IXMLProceso_administrativoType = interface;
-  IXMLUnidad_administrativa_respType = interface;
-  IXMLSerieType = interface;
   IXMLContextoType = interface;
   IXMLContextoTypeList = interface;
   IXMLJuridico_administrativoType = interface;
   IXMLTecnologicoType = interface;
-  IXMLAutenticidadType = interface;
   IXMLDigitalizacionType = interface;
   IXMLIndicesType = interface;
   IXMLIndicesTypeList = interface;
+  IXMLColaboradorType = interface;
 
 { IXMLSEGURIDAD_SOCIALType }
 
   IXMLSEGURIDAD_SOCIALType = interface(IXMLNode)
-    ['{8262B950-5401-4FEE-A1EC-EA0E94F9CFB8}']
+    ['{1D9E9B96-5D31-4087-AE85-5DEB56582C3C}']
     { Property Accessors }
     function Get_Contenido: IXMLContenidoTypeList;
     function Get_Estructura: IXMLEstructuraTypeList;
@@ -65,41 +52,66 @@ type
 { IXMLContenidoType }
 
   IXMLContenidoType = interface(IXMLNode)
-    ['{FCFCA769-71EF-4739-97A6-E247B4975CF6}']
+    ['{28A0DB96-715D-48E8-B516-C4B00C3975A4}']
     { Property Accessors }
     function Get_Nombreimagen: UnicodeString;
-    function Get_Entidad: UnicodeString;
-    function Get_Periodo_cotizacion: UnicodeString;
+    function Get_Titulo_documento: UnicodeString;
     function Get_Tipo_documental: UnicodeString;
-    function Get_Titulo_documento: IXMLTitulo_documentoType;
-    function Get_Autor_emisorresponsable: IXMLAutor_emisorresponsableType;
-    function Get_Clasificacion_acceso: IXMLClasificacion_accesoType;
-    function Get_Fecha_creacion: IXMLFecha_creacionType;
-    function Get_Folio_electronico: IXMLFolio_electronicoType;
-    function Get_Tema_asunto: IXMLTema_asuntoType;
-    function Get_Palabras_clave: IXMLPalabras_claveType;
+    function Get_Numero_planilla: UnicodeString;
+    function Get_Nombre_entidad: UnicodeString;
+    function Get_Periodo_cotizacion: UnicodeString;
+    function Get_Fecha_recaudo: UnicodeString;
+    function Get_Empresa: UnicodeString;
+    function Get_Seccional: UnicodeString;
+    function Get_Serie_documental: UnicodeString;
+    function Get_Subserie_documental: UnicodeString;
+    function Get_Unidad_responsable: UnicodeString;
+    function Get_Autor: UnicodeString;
+    function Get_Clasificacion_acceso: UnicodeString;
+    function Get_Fechacreacion: UnicodeString;
+    function Get_Folio_inicial: UnicodeString;
+    function Get_Folio_final: UnicodeString;
     procedure Set_Nombreimagen(Value: UnicodeString);
-    procedure Set_Entidad(Value: UnicodeString);
-    procedure Set_Periodo_cotizacion(Value: UnicodeString);
+    procedure Set_Titulo_documento(Value: UnicodeString);
     procedure Set_Tipo_documental(Value: UnicodeString);
+    procedure Set_Numero_planilla(Value: UnicodeString);
+    procedure Set_Nombre_entidad(Value: UnicodeString);
+    procedure Set_Periodo_cotizacion(Value: UnicodeString);
+    procedure Set_Fecha_recaudo(Value: UnicodeString);
+    procedure Set_Empresa(Value: UnicodeString);
+    procedure Set_Seccional(Value: UnicodeString);
+    procedure Set_Serie_documental(Value: UnicodeString);
+    procedure Set_Subserie_documental(Value: UnicodeString);
+    procedure Set_Unidad_responsable(Value: UnicodeString);
+    procedure Set_Autor(Value: UnicodeString);
+    procedure Set_Clasificacion_acceso(Value: UnicodeString);
+    procedure Set_Fechacreacion(Value: UnicodeString);
+    procedure Set_Folio_inicial(Value: UnicodeString);
+    procedure Set_Folio_final(Value: UnicodeString);
     { Methods & Properties }
     property Nombreimagen: UnicodeString read Get_Nombreimagen write Set_Nombreimagen;
-    property Entidad: UnicodeString read Get_Entidad write Set_Entidad;
-    property Periodo_cotizacion: UnicodeString read Get_Periodo_cotizacion write Set_Periodo_cotizacion;
+    property Titulo_documento: UnicodeString read Get_Titulo_documento write Set_Titulo_documento;
     property Tipo_documental: UnicodeString read Get_Tipo_documental write Set_Tipo_documental;
-    property Titulo_documento: IXMLTitulo_documentoType read Get_Titulo_documento;
-    property Autor_emisorresponsable: IXMLAutor_emisorresponsableType read Get_Autor_emisorresponsable;
-    property Clasificacion_acceso: IXMLClasificacion_accesoType read Get_Clasificacion_acceso;
-    property Fecha_creacion: IXMLFecha_creacionType read Get_Fecha_creacion;
-    property Folio_electronico: IXMLFolio_electronicoType read Get_Folio_electronico;
-    property Tema_asunto: IXMLTema_asuntoType read Get_Tema_asunto;
-    property Palabras_clave: IXMLPalabras_claveType read Get_Palabras_clave;
+    property Numero_planilla: UnicodeString read Get_Numero_planilla write Set_Numero_planilla;
+    property Nombre_entidad: UnicodeString read Get_Nombre_entidad write Set_Nombre_entidad;
+    property Periodo_cotizacion: UnicodeString read Get_Periodo_cotizacion write Set_Periodo_cotizacion;
+    property Fecha_recaudo: UnicodeString read Get_Fecha_recaudo write Set_Fecha_recaudo;
+    property Empresa: UnicodeString read Get_Empresa write Set_Empresa;
+    property Seccional: UnicodeString read Get_Seccional write Set_Seccional;
+    property Serie_documental: UnicodeString read Get_Serie_documental write Set_Serie_documental;
+    property Subserie_documental: UnicodeString read Get_Subserie_documental write Set_Subserie_documental;
+    property Unidad_responsable: UnicodeString read Get_Unidad_responsable write Set_Unidad_responsable;
+    property Autor: UnicodeString read Get_Autor write Set_Autor;
+    property Clasificacion_acceso: UnicodeString read Get_Clasificacion_acceso write Set_Clasificacion_acceso;
+    property Fechacreacion: UnicodeString read Get_Fechacreacion write Set_Fechacreacion;
+    property Folio_inicial: UnicodeString read Get_Folio_inicial write Set_Folio_inicial;
+    property Folio_final: UnicodeString read Get_Folio_final write Set_Folio_final;
   end;
 
 { IXMLContenidoTypeList }
 
   IXMLContenidoTypeList = interface(IXMLNodeCollection)
-    ['{A0C78A64-A149-4D7D-85F2-18514198E162}']
+    ['{97F2EB02-1D97-4985-B9BD-1421A6D3282B}']
     { Methods & Properties }
     function Add: IXMLContenidoType;
     function Insert(const Index: Integer): IXMLContenidoType;
@@ -108,140 +120,45 @@ type
     property Items[Index: Integer]: IXMLContenidoType read Get_Item; default;
   end;
 
-{ IXMLTitulo_documentoType }
-
-  IXMLTitulo_documentoType = interface(IXMLNode)
-    ['{16447709-069E-4C7A-8E34-CA569D307852}']
-    { Property Accessors }
-    function Get_Titulodocumento: UnicodeString;
-    procedure Set_Titulodocumento(Value: UnicodeString);
-    { Methods & Properties }
-    property Titulodocumento: UnicodeString read Get_Titulodocumento write Set_Titulodocumento;
-  end;
-
-{ IXMLAutor_emisorresponsableType }
-
-  IXMLAutor_emisorresponsableType = interface(IXMLNode)
-    ['{A5C1A429-96B3-4978-84C2-16D10C554553}']
-    { Property Accessors }
-    function Get_Fondo: UnicodeString;
-    function Get_Unidad_responsable: UnicodeString;
-    procedure Set_Fondo(Value: UnicodeString);
-    procedure Set_Unidad_responsable(Value: UnicodeString);
-    { Methods & Properties }
-    property Fondo: UnicodeString read Get_Fondo write Set_Fondo;
-    property Unidad_responsable: UnicodeString read Get_Unidad_responsable write Set_Unidad_responsable;
-  end;
-
-{ IXMLClasificacion_accesoType }
-
-  IXMLClasificacion_accesoType = interface(IXMLNode)
-    ['{1E618CA6-1F2B-43CA-BBB5-DAEB8BA6F5DD}']
-    { Property Accessors }
-    function Get_Nivel_acceso: UnicodeString;
-    procedure Set_Nivel_acceso(Value: UnicodeString);
-    { Methods & Properties }
-    property Nivel_acceso: UnicodeString read Get_Nivel_acceso write Set_Nivel_acceso;
-  end;
-
-{ IXMLFecha_creacionType }
-
-  IXMLFecha_creacionType = interface(IXMLNode)
-    ['{4DD13A4C-5883-4EEE-A27A-05A20138427C}']
-    { Property Accessors }
-    function Get_Fechacreacion: UnicodeString;
-    procedure Set_Fechacreacion(Value: UnicodeString);
-    { Methods & Properties }
-    property Fechacreacion: UnicodeString read Get_Fechacreacion write Set_Fechacreacion;
-  end;
-
-{ IXMLFolio_electronicoType }
-
-  IXMLFolio_electronicoType = interface(IXMLNode)
-    ['{3834E020-73FF-4487-A133-B8A6F550E839}']
-    { Property Accessors }
-    function Get_Folios_totales: UnicodeString;
-    function Get_Folio_actual: UnicodeString;
-    procedure Set_Folios_totales(Value: UnicodeString);
-    procedure Set_Folio_actual(Value: UnicodeString);
-    { Methods & Properties }
-    property Folios_totales: UnicodeString read Get_Folios_totales write Set_Folios_totales;
-    property Folio_actual: UnicodeString read Get_Folio_actual write Set_Folio_actual;
-  end;
-
-{ IXMLTema_asuntoType }
-
-  IXMLTema_asuntoType = interface(IXMLNode)
-    ['{504B2418-33A9-4A13-B6C7-BF7B9BB6F05B}']
-    { Property Accessors }
-    function Get_Tema: UnicodeString;
-    procedure Set_Tema(Value: UnicodeString);
-    { Methods & Properties }
-    property Tema: UnicodeString read Get_Tema write Set_Tema;
-  end;
-
-{ IXMLPalabras_claveType }
-
-  IXMLPalabras_claveType = interface(IXMLNode)
-    ['{A4C54EB5-3201-478C-BB5F-DBC93C2F81F5}']
-    { Property Accessors }
-    function Get_Entidad: UnicodeString;
-    function Get_Periodo_cotizacion: UnicodeString;
-    function Get_Fechapago_banco: UnicodeString;
-    function Get_Num_id: UnicodeString;
-    function Get_Prim_apll: UnicodeString;
-    function Get_Seg_apll: UnicodeString;
-    function Get_Prim_nomb: UnicodeString;
-    function Get_Seg_nomb: UnicodeString;
-    procedure Set_Entidad(Value: UnicodeString);
-    procedure Set_Periodo_cotizacion(Value: UnicodeString);
-    procedure Set_Fechapago_banco(Value: UnicodeString);
-    procedure Set_Num_id(Value: UnicodeString);
-    procedure Set_Prim_apll(Value: UnicodeString);
-    procedure Set_Seg_apll(Value: UnicodeString);
-    procedure Set_Prim_nomb(Value: UnicodeString);
-    procedure Set_Seg_nomb(Value: UnicodeString);
-    { Methods & Properties }
-    property Entidad: UnicodeString read Get_Entidad write Set_Entidad;
-    property Periodo_cotizacion: UnicodeString read Get_Periodo_cotizacion write Set_Periodo_cotizacion;
-    property Fechapago_banco: UnicodeString read Get_Fechapago_banco write Set_Fechapago_banco;
-    property Num_id: UnicodeString read Get_Num_id write Set_Num_id;
-    property Prim_apll: UnicodeString read Get_Prim_apll write Set_Prim_apll;
-    property Seg_apll: UnicodeString read Get_Seg_apll write Set_Seg_apll;
-    property Prim_nomb: UnicodeString read Get_Prim_nomb write Set_Prim_nomb;
-    property Seg_nomb: UnicodeString read Get_Seg_nomb write Set_Seg_nomb;
-  end;
-
 { IXMLEstructuraType }
 
   IXMLEstructuraType = interface(IXMLNode)
-    ['{0CECCC9C-A263-42F3-9617-2A2A156121FB}']
+    ['{CB6FAFC3-8C05-469A-A122-6A7FFD2FCB9B}']
     { Property Accessors }
-    function Get_Descripcion: IXMLDescripcionType;
-    function Get_Formato: IXMLFormatoType;
-    function Get_Estado: IXMLEstadoType;
-    function Get_Proceso_administrativo: IXMLProceso_administrativoType;
-    function Get_Unidad_administrativa_resp: IXMLUnidad_administrativa_respType;
-    function Get_Perfil_autorizado: UnicodeString;
+    function Get_Descripcion: UnicodeString;
+    function Get_Formato: UnicodeString;
+    function Get_Macroproceso: UnicodeString;
+    function Get_Procesonivel1: UnicodeString;
+    function Get_Procesonivel2: UnicodeString;
+    function Get_Unidad_administrativa_resp: UnicodeString;
     function Get_Ubicacion: UnicodeString;
-    function Get_Serie: IXMLSerieType;
-    procedure Set_Perfil_autorizado(Value: UnicodeString);
+    function Get_Serie_documental: UnicodeString;
+    function Get_Subserie_documental: UnicodeString;
+    procedure Set_Descripcion(Value: UnicodeString);
+    procedure Set_Formato(Value: UnicodeString);
+    procedure Set_Macroproceso(Value: UnicodeString);
+    procedure Set_Procesonivel1(Value: UnicodeString);
+    procedure Set_Procesonivel2(Value: UnicodeString);
+    procedure Set_Unidad_administrativa_resp(Value: UnicodeString);
     procedure Set_Ubicacion(Value: UnicodeString);
+    procedure Set_Serie_documental(Value: UnicodeString);
+    procedure Set_Subserie_documental(Value: UnicodeString);
     { Methods & Properties }
-    property Descripcion: IXMLDescripcionType read Get_Descripcion;
-    property Formato: IXMLFormatoType read Get_Formato;
-    property Estado: IXMLEstadoType read Get_Estado;
-    property Proceso_administrativo: IXMLProceso_administrativoType read Get_Proceso_administrativo;
-    property Unidad_administrativa_resp: IXMLUnidad_administrativa_respType read Get_Unidad_administrativa_resp;
-    property Perfil_autorizado: UnicodeString read Get_Perfil_autorizado write Set_Perfil_autorizado;
+    property Descripcion: UnicodeString read Get_Descripcion write Set_Descripcion;
+    property Formato: UnicodeString read Get_Formato write Set_Formato;
+    property Macroproceso: UnicodeString read Get_Macroproceso write Set_Macroproceso;
+    property Procesonivel1: UnicodeString read Get_Procesonivel1 write Set_Procesonivel1;
+    property Procesonivel2: UnicodeString read Get_Procesonivel2 write Set_Procesonivel2;
+    property Unidad_administrativa_resp: UnicodeString read Get_Unidad_administrativa_resp write Set_Unidad_administrativa_resp;
     property Ubicacion: UnicodeString read Get_Ubicacion write Set_Ubicacion;
-    property Serie: IXMLSerieType read Get_Serie;
+    property Serie_documental: UnicodeString read Get_Serie_documental write Set_Serie_documental;
+    property Subserie_documental: UnicodeString read Get_Subserie_documental write Set_Subserie_documental;
   end;
 
 { IXMLEstructuraTypeList }
 
   IXMLEstructuraTypeList = interface(IXMLNodeCollection)
-    ['{78B4C798-E703-4300-B6AE-FCA020BE4A1A}']
+    ['{A0890F3C-08E3-4BD5-B785-1E5931C8BBA5}']
     { Methods & Properties }
     function Add: IXMLEstructuraType;
     function Insert(const Index: Integer): IXMLEstructuraType;
@@ -250,94 +167,17 @@ type
     property Items[Index: Integer]: IXMLEstructuraType read Get_Item; default;
   end;
 
-{ IXMLDescripcionType }
-
-  IXMLDescripcionType = interface(IXMLNode)
-    ['{C8DD980E-C939-4A84-901B-1B22DDA52238}']
-    { Property Accessors }
-    function Get_Descripcion_: UnicodeString;
-    procedure Set_Descripcion_(Value: UnicodeString);
-    { Methods & Properties }
-    property Descripcion_: UnicodeString read Get_Descripcion_ write Set_Descripcion_;
-  end;
-
-{ IXMLFormatoType }
-
-  IXMLFormatoType = interface(IXMLNode)
-    ['{E7CAD865-6B87-4ABB-A30B-BCD479BDEC65}']
-    { Property Accessors }
-    function Get_Formato_: UnicodeString;
-    procedure Set_Formato_(Value: UnicodeString);
-    { Methods & Properties }
-    property Formato_: UnicodeString read Get_Formato_ write Set_Formato_;
-  end;
-
-{ IXMLEstadoType }
-
-  IXMLEstadoType = interface(IXMLNode)
-    ['{40B48B24-D6A0-42C1-A7BF-C21EF4514498}']
-    { Property Accessors }
-    function Get_Estado_elaboracion: UnicodeString;
-    procedure Set_Estado_elaboracion(Value: UnicodeString);
-    { Methods & Properties }
-    property Estado_elaboracion: UnicodeString read Get_Estado_elaboracion write Set_Estado_elaboracion;
-  end;
-
-{ IXMLProceso_administrativoType }
-
-  IXMLProceso_administrativoType = interface(IXMLNode)
-    ['{C11E7AF6-3915-4292-8F43-DE5284EF458A}']
-    { Property Accessors }
-    function Get_Macroproceso: UnicodeString;
-    function Get_Procesonivel1: UnicodeString;
-    function Get_Procesonivel2: UnicodeString;
-    procedure Set_Macroproceso(Value: UnicodeString);
-    procedure Set_Procesonivel1(Value: UnicodeString);
-    procedure Set_Procesonivel2(Value: UnicodeString);
-    { Methods & Properties }
-    property Macroproceso: UnicodeString read Get_Macroproceso write Set_Macroproceso;
-    property Procesonivel1: UnicodeString read Get_Procesonivel1 write Set_Procesonivel1;
-    property Procesonivel2: UnicodeString read Get_Procesonivel2 write Set_Procesonivel2;
-  end;
-
-{ IXMLUnidad_administrativa_respType }
-
-  IXMLUnidad_administrativa_respType = interface(IXMLNode)
-    ['{768CA32C-E2CD-47F4-966C-EF84C0FD053B}']
-    { Property Accessors }
-    function Get_Unidadadministrativaresp: UnicodeString;
-    procedure Set_Unidadadministrativaresp(Value: UnicodeString);
-    { Methods & Properties }
-    property Unidadadministrativaresp: UnicodeString read Get_Unidadadministrativaresp write Set_Unidadadministrativaresp;
-  end;
-
-{ IXMLSerieType }
-
-  IXMLSerieType = interface(IXMLNode)
-    ['{0DE98602-355C-4AD4-8306-03B351D02F7F}']
-    { Property Accessors }
-    function Get_Serie_: UnicodeString;
-    function Get_Subserie: UnicodeString;
-    procedure Set_Serie_(Value: UnicodeString);
-    procedure Set_Subserie(Value: UnicodeString);
-    { Methods & Properties }
-    property Serie_: UnicodeString read Get_Serie_ write Set_Serie_;
-    property Subserie: UnicodeString read Get_Subserie write Set_Subserie;
-  end;
-
 { IXMLContextoType }
 
   IXMLContextoType = interface(IXMLNode)
-    ['{265041C2-0530-4446-B29A-324AEFDFA707}']
+    ['{77CD141C-E035-4884-B22A-EAF6C50C987E}']
     { Property Accessors }
     function Get_Juridico_administrativo: IXMLJuridico_administrativoType;
     function Get_Documental: UnicodeString;
     function Get_Procedencia: UnicodeString;
     function Get_Procedimental: UnicodeString;
     function Get_Tecnologico: IXMLTecnologicoType;
-    function Get_Autenticidad: IXMLAutenticidadType;
     function Get_Digitalizacion: IXMLDigitalizacionType;
-    function Get_Indices: IXMLIndicesType;
     procedure Set_Documental(Value: UnicodeString);
     procedure Set_Procedencia(Value: UnicodeString);
     procedure Set_Procedimental(Value: UnicodeString);
@@ -347,15 +187,13 @@ type
     property Procedencia: UnicodeString read Get_Procedencia write Set_Procedencia;
     property Procedimental: UnicodeString read Get_Procedimental write Set_Procedimental;
     property Tecnologico: IXMLTecnologicoType read Get_Tecnologico;
-    property Autenticidad: IXMLAutenticidadType read Get_Autenticidad;
     property Digitalizacion: IXMLDigitalizacionType read Get_Digitalizacion;
-    property Indices: IXMLIndicesType read Get_Indices;
   end;
 
 { IXMLContextoTypeList }
 
   IXMLContextoTypeList = interface(IXMLNodeCollection)
-    ['{D32AC11F-BFC7-4395-89AE-20D03AB2779A}']
+    ['{070ABC01-B346-4002-869E-7E44AC394C68}']
     { Methods & Properties }
     function Add: IXMLContextoType;
     function Insert(const Index: Integer): IXMLContextoType;
@@ -367,43 +205,29 @@ type
 { IXMLJuridico_administrativoType }
 
   IXMLJuridico_administrativoType = interface(IXMLNode)
-    ['{3238FF1D-AA51-44C0-AA6D-07BDBE24F00F}']
+    ['{C973A0F2-E7BD-4B4A-9E28-793A66DBAE40}']
     { Property Accessors }
     function Get_Valores_primarios: UnicodeString;
-    function Get_Valores_secundarios: UnicodeString;
     procedure Set_Valores_primarios(Value: UnicodeString);
-    procedure Set_Valores_secundarios(Value: UnicodeString);
     { Methods & Properties }
     property Valores_primarios: UnicodeString read Get_Valores_primarios write Set_Valores_primarios;
-    property Valores_secundarios: UnicodeString read Get_Valores_secundarios write Set_Valores_secundarios;
   end;
 
 { IXMLTecnologicoType }
 
   IXMLTecnologicoType = interface(IXMLNode)
-    ['{269798CA-61B0-41DA-914B-6AB7B4285FED}']
+    ['{AC9C196C-282F-4EB9-906D-9399C654A3B3}']
     { Property Accessors }
-    function Get_Tecnologico_1: UnicodeString;
     function Get_Tipodefirma: UnicodeString;
-    procedure Set_Tecnologico_1(Value: UnicodeString);
-    procedure Set_Tipodefirma(Value: UnicodeString);
-    { Methods & Properties }
-    property Tecnologico_1: UnicodeString read Get_Tecnologico_1 write Set_Tecnologico_1;
-    property Tipodefirma: UnicodeString read Get_Tipodefirma write Set_Tipodefirma;
-  end;
-
-{ IXMLAutenticidadType }
-
-  IXMLAutenticidadType = interface(IXMLNode)
-    ['{31884592-B38A-48F6-8366-54E90DA4540D}']
-    { Property Accessors }
     function Get_Dominio_red: UnicodeString;
     function Get_Ip_usuario: UnicodeString;
     function Get_MAC_usuario: UnicodeString;
+    procedure Set_Tipodefirma(Value: UnicodeString);
     procedure Set_Dominio_red(Value: UnicodeString);
     procedure Set_Ip_usuario(Value: UnicodeString);
     procedure Set_MAC_usuario(Value: UnicodeString);
     { Methods & Properties }
+    property Tipodefirma: UnicodeString read Get_Tipodefirma write Set_Tipodefirma;
     property Dominio_red: UnicodeString read Get_Dominio_red write Set_Dominio_red;
     property Ip_usuario: UnicodeString read Get_Ip_usuario write Set_Ip_usuario;
     property MAC_usuario: UnicodeString read Get_MAC_usuario write Set_MAC_usuario;
@@ -412,7 +236,7 @@ type
 { IXMLDigitalizacionType }
 
   IXMLDigitalizacionType = interface(IXMLNode)
-    ['{7B9C5640-B3CE-4DD7-903A-243AAB66E129}']
+    ['{A39B5042-8BD1-4B10-A4D7-AFD76B8B21E6}']
     { Property Accessors }
     function Get_Procesado_por: UnicodeString;
     function Get_Fecha_digitalizacion: UnicodeString;
@@ -422,8 +246,6 @@ type
     function Get_Software_captura: UnicodeString;
     function Get_Color: UnicodeString;
     function Get_Compresion: UnicodeString;
-    function Get_Folio_inicial: UnicodeString;
-    function Get_Folio_final: UnicodeString;
     procedure Set_Procesado_por(Value: UnicodeString);
     procedure Set_Fecha_digitalizacion(Value: UnicodeString);
     procedure Set_Fecha_indexacion(Value: UnicodeString);
@@ -432,8 +254,6 @@ type
     procedure Set_Software_captura(Value: UnicodeString);
     procedure Set_Color(Value: UnicodeString);
     procedure Set_Compresion(Value: UnicodeString);
-    procedure Set_Folio_inicial(Value: UnicodeString);
-    procedure Set_Folio_final(Value: UnicodeString);
     { Methods & Properties }
     property Procesado_por: UnicodeString read Get_Procesado_por write Set_Procesado_por;
     property Fecha_digitalizacion: UnicodeString read Get_Fecha_digitalizacion write Set_Fecha_digitalizacion;
@@ -443,46 +263,40 @@ type
     property Software_captura: UnicodeString read Get_Software_captura write Set_Software_captura;
     property Color: UnicodeString read Get_Color write Set_Color;
     property Compresion: UnicodeString read Get_Compresion write Set_Compresion;
-    property Folio_inicial: UnicodeString read Get_Folio_inicial write Set_Folio_inicial;
-    property Folio_final: UnicodeString read Get_Folio_final write Set_Folio_final;
   end;
 
 { IXMLIndicesType }
 
   IXMLIndicesType = interface(IXMLNode)
-    ['{A67D04E5-DA3D-4117-ADDF-C1053A4909F7}']
+    ['{6A947DA0-55FA-46F9-8D7A-4AFF6AED173A}']
     { Property Accessors }
-    function Get_Entidad: UnicodeString;
+    function Get_Numero_planilla: UnicodeString;
+    function Get_Nombre_entidad: UnicodeString;
     function Get_Periodo_cotizacion: UnicodeString;
-    function Get_Fechapago_banco: UnicodeString;
-    function Get_Num_id: UnicodeString;
-    function Get_Prim_apll: UnicodeString;
-    function Get_Seg_apll: UnicodeString;
-    function Get_Prim_nomb: UnicodeString;
-    function Get_Seg_nomb: UnicodeString;
-    procedure Set_Entidad(Value: UnicodeString);
+    function Get_Fecha_recaudo: UnicodeString;
+    function Get_Empresa: UnicodeString;
+    function Get_Seccional: UnicodeString;
+    function Get_Colaborador: IXMLColaboradorType;
+    procedure Set_Numero_planilla(Value: UnicodeString);
+    procedure Set_Nombre_entidad(Value: UnicodeString);
     procedure Set_Periodo_cotizacion(Value: UnicodeString);
-    procedure Set_Fechapago_banco(Value: UnicodeString);
-    procedure Set_Num_id(Value: UnicodeString);
-    procedure Set_Prim_apll(Value: UnicodeString);
-    procedure Set_Seg_apll(Value: UnicodeString);
-    procedure Set_Prim_nomb(Value: UnicodeString);
-    procedure Set_Seg_nomb(Value: UnicodeString);
+    procedure Set_Fecha_recaudo(Value: UnicodeString);
+    procedure Set_Empresa(Value: UnicodeString);
+    procedure Set_Seccional(Value: UnicodeString);
     { Methods & Properties }
-    property Entidad: UnicodeString read Get_Entidad write Set_Entidad;
+    property Numero_planilla: UnicodeString read Get_Numero_planilla write Set_Numero_planilla;
+    property Nombre_entidad: UnicodeString read Get_Nombre_entidad write Set_Nombre_entidad;
     property Periodo_cotizacion: UnicodeString read Get_Periodo_cotizacion write Set_Periodo_cotizacion;
-    property Fechapago_banco: UnicodeString read Get_Fechapago_banco write Set_Fechapago_banco;
-    property Num_id: UnicodeString read Get_Num_id write Set_Num_id;
-    property Prim_apll: UnicodeString read Get_Prim_apll write Set_Prim_apll;
-    property Seg_apll: UnicodeString read Get_Seg_apll write Set_Seg_apll;
-    property Prim_nomb: UnicodeString read Get_Prim_nomb write Set_Prim_nomb;
-    property Seg_nomb: UnicodeString read Get_Seg_nomb write Set_Seg_nomb;
+    property Fecha_recaudo: UnicodeString read Get_Fecha_recaudo write Set_Fecha_recaudo;
+    property Empresa: UnicodeString read Get_Empresa write Set_Empresa;
+    property Seccional: UnicodeString read Get_Seccional write Set_Seccional;
+    property Colaborador: IXMLColaboradorType read Get_Colaborador;
   end;
 
 { IXMLIndicesTypeList }
 
   IXMLIndicesTypeList = interface(IXMLNodeCollection)
-    ['{A4BC0FBD-27F5-4FD3-A7F8-4268AA1CC90A}']
+    ['{FE6F9D6A-D3B8-44C6-BC50-8210776F47CD}']
     { Methods & Properties }
     function Add: IXMLIndicesType;
     function Insert(const Index: Integer): IXMLIndicesType;
@@ -491,34 +305,47 @@ type
     property Items[Index: Integer]: IXMLIndicesType read Get_Item; default;
   end;
 
+{ IXMLColaboradorType }
+
+  IXMLColaboradorType = interface(IXMLNode)
+    ['{A768A4A1-C80F-474E-9B01-E71BABF40323}']
+    { Property Accessors }
+    function Get_Num_id: UnicodeString;
+    function Get_Tip_id: UnicodeString;
+    function Get_Prim_nomb: UnicodeString;
+    function Get_Seg_nomb: UnicodeString;
+    function Get_Prim_apll: UnicodeString;
+    function Get_Seg_apll: UnicodeString;
+    procedure Set_Num_id(Value: UnicodeString);
+    procedure Set_Tip_id(Value: UnicodeString);
+    procedure Set_Prim_nomb(Value: UnicodeString);
+    procedure Set_Seg_nomb(Value: UnicodeString);
+    procedure Set_Prim_apll(Value: UnicodeString);
+    procedure Set_Seg_apll(Value: UnicodeString);
+    { Methods & Properties }
+    property Num_id: UnicodeString read Get_Num_id write Set_Num_id;
+    property Tip_id: UnicodeString read Get_Tip_id write Set_Tip_id;
+    property Prim_nomb: UnicodeString read Get_Prim_nomb write Set_Prim_nomb;
+    property Seg_nomb: UnicodeString read Get_Seg_nomb write Set_Seg_nomb;
+    property Prim_apll: UnicodeString read Get_Prim_apll write Set_Prim_apll;
+    property Seg_apll: UnicodeString read Get_Seg_apll write Set_Seg_apll;
+  end;
+
 { Forward Decls }
 
   TXMLSEGURIDAD_SOCIALType = class;
   TXMLContenidoType = class;
   TXMLContenidoTypeList = class;
-  TXMLTitulo_documentoType = class;
-  TXMLAutor_emisorresponsableType = class;
-  TXMLClasificacion_accesoType = class;
-  TXMLFecha_creacionType = class;
-  TXMLFolio_electronicoType = class;
-  TXMLTema_asuntoType = class;
-  TXMLPalabras_claveType = class;
   TXMLEstructuraType = class;
   TXMLEstructuraTypeList = class;
-  TXMLDescripcionType = class;
-  TXMLFormatoType = class;
-  TXMLEstadoType = class;
-  TXMLProceso_administrativoType = class;
-  TXMLUnidad_administrativa_respType = class;
-  TXMLSerieType = class;
   TXMLContextoType = class;
   TXMLContextoTypeList = class;
   TXMLJuridico_administrativoType = class;
   TXMLTecnologicoType = class;
-  TXMLAutenticidadType = class;
   TXMLDigitalizacionType = class;
   TXMLIndicesType = class;
   TXMLIndicesTypeList = class;
+  TXMLColaboradorType = class;
 
 { TXMLSEGURIDAD_SOCIALType }
 
@@ -544,22 +371,39 @@ type
   protected
     { IXMLContenidoType }
     function Get_Nombreimagen: UnicodeString;
-    function Get_Entidad: UnicodeString;
-    function Get_Periodo_cotizacion: UnicodeString;
+    function Get_Titulo_documento: UnicodeString;
     function Get_Tipo_documental: UnicodeString;
-    function Get_Titulo_documento: IXMLTitulo_documentoType;
-    function Get_Autor_emisorresponsable: IXMLAutor_emisorresponsableType;
-    function Get_Clasificacion_acceso: IXMLClasificacion_accesoType;
-    function Get_Fecha_creacion: IXMLFecha_creacionType;
-    function Get_Folio_electronico: IXMLFolio_electronicoType;
-    function Get_Tema_asunto: IXMLTema_asuntoType;
-    function Get_Palabras_clave: IXMLPalabras_claveType;
+    function Get_Numero_planilla: UnicodeString;
+    function Get_Nombre_entidad: UnicodeString;
+    function Get_Periodo_cotizacion: UnicodeString;
+    function Get_Fecha_recaudo: UnicodeString;
+    function Get_Empresa: UnicodeString;
+    function Get_Seccional: UnicodeString;
+    function Get_Serie_documental: UnicodeString;
+    function Get_Subserie_documental: UnicodeString;
+    function Get_Unidad_responsable: UnicodeString;
+    function Get_Autor: UnicodeString;
+    function Get_Clasificacion_acceso: UnicodeString;
+    function Get_Fechacreacion: UnicodeString;
+    function Get_Folio_inicial: UnicodeString;
+    function Get_Folio_final: UnicodeString;
     procedure Set_Nombreimagen(Value: UnicodeString);
-    procedure Set_Entidad(Value: UnicodeString);
-    procedure Set_Periodo_cotizacion(Value: UnicodeString);
+    procedure Set_Titulo_documento(Value: UnicodeString);
     procedure Set_Tipo_documental(Value: UnicodeString);
-  public
-    procedure AfterConstruction; override;
+    procedure Set_Numero_planilla(Value: UnicodeString);
+    procedure Set_Nombre_entidad(Value: UnicodeString);
+    procedure Set_Periodo_cotizacion(Value: UnicodeString);
+    procedure Set_Fecha_recaudo(Value: UnicodeString);
+    procedure Set_Empresa(Value: UnicodeString);
+    procedure Set_Seccional(Value: UnicodeString);
+    procedure Set_Serie_documental(Value: UnicodeString);
+    procedure Set_Subserie_documental(Value: UnicodeString);
+    procedure Set_Unidad_responsable(Value: UnicodeString);
+    procedure Set_Autor(Value: UnicodeString);
+    procedure Set_Clasificacion_acceso(Value: UnicodeString);
+    procedure Set_Fechacreacion(Value: UnicodeString);
+    procedure Set_Folio_inicial(Value: UnicodeString);
+    procedure Set_Folio_final(Value: UnicodeString);
   end;
 
 { TXMLContenidoTypeList }
@@ -573,104 +417,29 @@ type
     function Get_Item(Index: Integer): IXMLContenidoType;
   end;
 
-{ TXMLTitulo_documentoType }
-
-  TXMLTitulo_documentoType = class(TXMLNode, IXMLTitulo_documentoType)
-  protected
-    { IXMLTitulo_documentoType }
-    function Get_Titulodocumento: UnicodeString;
-    procedure Set_Titulodocumento(Value: UnicodeString);
-  end;
-
-{ TXMLAutor_emisorresponsableType }
-
-  TXMLAutor_emisorresponsableType = class(TXMLNode, IXMLAutor_emisorresponsableType)
-  protected
-    { IXMLAutor_emisorresponsableType }
-    function Get_Fondo: UnicodeString;
-    function Get_Unidad_responsable: UnicodeString;
-    procedure Set_Fondo(Value: UnicodeString);
-    procedure Set_Unidad_responsable(Value: UnicodeString);
-  end;
-
-{ TXMLClasificacion_accesoType }
-
-  TXMLClasificacion_accesoType = class(TXMLNode, IXMLClasificacion_accesoType)
-  protected
-    { IXMLClasificacion_accesoType }
-    function Get_Nivel_acceso: UnicodeString;
-    procedure Set_Nivel_acceso(Value: UnicodeString);
-  end;
-
-{ TXMLFecha_creacionType }
-
-  TXMLFecha_creacionType = class(TXMLNode, IXMLFecha_creacionType)
-  protected
-    { IXMLFecha_creacionType }
-    function Get_Fechacreacion: UnicodeString;
-    procedure Set_Fechacreacion(Value: UnicodeString);
-  end;
-
-{ TXMLFolio_electronicoType }
-
-  TXMLFolio_electronicoType = class(TXMLNode, IXMLFolio_electronicoType)
-  protected
-    { IXMLFolio_electronicoType }
-    function Get_Folios_totales: UnicodeString;
-    function Get_Folio_actual: UnicodeString;
-    procedure Set_Folios_totales(Value: UnicodeString);
-    procedure Set_Folio_actual(Value: UnicodeString);
-  end;
-
-{ TXMLTema_asuntoType }
-
-  TXMLTema_asuntoType = class(TXMLNode, IXMLTema_asuntoType)
-  protected
-    { IXMLTema_asuntoType }
-    function Get_Tema: UnicodeString;
-    procedure Set_Tema(Value: UnicodeString);
-  end;
-
-{ TXMLPalabras_claveType }
-
-  TXMLPalabras_claveType = class(TXMLNode, IXMLPalabras_claveType)
-  protected
-    { IXMLPalabras_claveType }
-    function Get_Entidad: UnicodeString;
-    function Get_Periodo_cotizacion: UnicodeString;
-    function Get_Fechapago_banco: UnicodeString;
-    function Get_Num_id: UnicodeString;
-    function Get_Prim_apll: UnicodeString;
-    function Get_Seg_apll: UnicodeString;
-    function Get_Prim_nomb: UnicodeString;
-    function Get_Seg_nomb: UnicodeString;
-    procedure Set_Entidad(Value: UnicodeString);
-    procedure Set_Periodo_cotizacion(Value: UnicodeString);
-    procedure Set_Fechapago_banco(Value: UnicodeString);
-    procedure Set_Num_id(Value: UnicodeString);
-    procedure Set_Prim_apll(Value: UnicodeString);
-    procedure Set_Seg_apll(Value: UnicodeString);
-    procedure Set_Prim_nomb(Value: UnicodeString);
-    procedure Set_Seg_nomb(Value: UnicodeString);
-  end;
-
 { TXMLEstructuraType }
 
   TXMLEstructuraType = class(TXMLNode, IXMLEstructuraType)
   protected
     { IXMLEstructuraType }
-    function Get_Descripcion: IXMLDescripcionType;
-    function Get_Formato: IXMLFormatoType;
-    function Get_Estado: IXMLEstadoType;
-    function Get_Proceso_administrativo: IXMLProceso_administrativoType;
-    function Get_Unidad_administrativa_resp: IXMLUnidad_administrativa_respType;
-    function Get_Perfil_autorizado: UnicodeString;
+    function Get_Descripcion: UnicodeString;
+    function Get_Formato: UnicodeString;
+    function Get_Macroproceso: UnicodeString;
+    function Get_Procesonivel1: UnicodeString;
+    function Get_Procesonivel2: UnicodeString;
+    function Get_Unidad_administrativa_resp: UnicodeString;
     function Get_Ubicacion: UnicodeString;
-    function Get_Serie: IXMLSerieType;
-    procedure Set_Perfil_autorizado(Value: UnicodeString);
+    function Get_Serie_documental: UnicodeString;
+    function Get_Subserie_documental: UnicodeString;
+    procedure Set_Descripcion(Value: UnicodeString);
+    procedure Set_Formato(Value: UnicodeString);
+    procedure Set_Macroproceso(Value: UnicodeString);
+    procedure Set_Procesonivel1(Value: UnicodeString);
+    procedure Set_Procesonivel2(Value: UnicodeString);
+    procedure Set_Unidad_administrativa_resp(Value: UnicodeString);
     procedure Set_Ubicacion(Value: UnicodeString);
-  public
-    procedure AfterConstruction; override;
+    procedure Set_Serie_documental(Value: UnicodeString);
+    procedure Set_Subserie_documental(Value: UnicodeString);
   end;
 
 { TXMLEstructuraTypeList }
@@ -684,66 +453,6 @@ type
     function Get_Item(Index: Integer): IXMLEstructuraType;
   end;
 
-{ TXMLDescripcionType }
-
-  TXMLDescripcionType = class(TXMLNode, IXMLDescripcionType)
-  protected
-    { IXMLDescripcionType }
-    function Get_Descripcion_: UnicodeString;
-    procedure Set_Descripcion_(Value: UnicodeString);
-  end;
-
-{ TXMLFormatoType }
-
-  TXMLFormatoType = class(TXMLNode, IXMLFormatoType)
-  protected
-    { IXMLFormatoType }
-    function Get_Formato_: UnicodeString;
-    procedure Set_Formato_(Value: UnicodeString);
-  end;
-
-{ TXMLEstadoType }
-
-  TXMLEstadoType = class(TXMLNode, IXMLEstadoType)
-  protected
-    { IXMLEstadoType }
-    function Get_Estado_elaboracion: UnicodeString;
-    procedure Set_Estado_elaboracion(Value: UnicodeString);
-  end;
-
-{ TXMLProceso_administrativoType }
-
-  TXMLProceso_administrativoType = class(TXMLNode, IXMLProceso_administrativoType)
-  protected
-    { IXMLProceso_administrativoType }
-    function Get_Macroproceso: UnicodeString;
-    function Get_Procesonivel1: UnicodeString;
-    function Get_Procesonivel2: UnicodeString;
-    procedure Set_Macroproceso(Value: UnicodeString);
-    procedure Set_Procesonivel1(Value: UnicodeString);
-    procedure Set_Procesonivel2(Value: UnicodeString);
-  end;
-
-{ TXMLUnidad_administrativa_respType }
-
-  TXMLUnidad_administrativa_respType = class(TXMLNode, IXMLUnidad_administrativa_respType)
-  protected
-    { IXMLUnidad_administrativa_respType }
-    function Get_Unidadadministrativaresp: UnicodeString;
-    procedure Set_Unidadadministrativaresp(Value: UnicodeString);
-  end;
-
-{ TXMLSerieType }
-
-  TXMLSerieType = class(TXMLNode, IXMLSerieType)
-  protected
-    { IXMLSerieType }
-    function Get_Serie_: UnicodeString;
-    function Get_Subserie: UnicodeString;
-    procedure Set_Serie_(Value: UnicodeString);
-    procedure Set_Subserie(Value: UnicodeString);
-  end;
-
 { TXMLContextoType }
 
   TXMLContextoType = class(TXMLNode, IXMLContextoType)
@@ -754,9 +463,7 @@ type
     function Get_Procedencia: UnicodeString;
     function Get_Procedimental: UnicodeString;
     function Get_Tecnologico: IXMLTecnologicoType;
-    function Get_Autenticidad: IXMLAutenticidadType;
     function Get_Digitalizacion: IXMLDigitalizacionType;
-    function Get_Indices: IXMLIndicesType;
     procedure Set_Documental(Value: UnicodeString);
     procedure Set_Procedencia(Value: UnicodeString);
     procedure Set_Procedimental(Value: UnicodeString);
@@ -781,9 +488,7 @@ type
   protected
     { IXMLJuridico_administrativoType }
     function Get_Valores_primarios: UnicodeString;
-    function Get_Valores_secundarios: UnicodeString;
     procedure Set_Valores_primarios(Value: UnicodeString);
-    procedure Set_Valores_secundarios(Value: UnicodeString);
   end;
 
 { TXMLTecnologicoType }
@@ -791,20 +496,11 @@ type
   TXMLTecnologicoType = class(TXMLNode, IXMLTecnologicoType)
   protected
     { IXMLTecnologicoType }
-    function Get_Tecnologico_1: UnicodeString;
     function Get_Tipodefirma: UnicodeString;
-    procedure Set_Tecnologico_1(Value: UnicodeString);
-    procedure Set_Tipodefirma(Value: UnicodeString);
-  end;
-
-{ TXMLAutenticidadType }
-
-  TXMLAutenticidadType = class(TXMLNode, IXMLAutenticidadType)
-  protected
-    { IXMLAutenticidadType }
     function Get_Dominio_red: UnicodeString;
     function Get_Ip_usuario: UnicodeString;
     function Get_MAC_usuario: UnicodeString;
+    procedure Set_Tipodefirma(Value: UnicodeString);
     procedure Set_Dominio_red(Value: UnicodeString);
     procedure Set_Ip_usuario(Value: UnicodeString);
     procedure Set_MAC_usuario(Value: UnicodeString);
@@ -823,8 +519,6 @@ type
     function Get_Software_captura: UnicodeString;
     function Get_Color: UnicodeString;
     function Get_Compresion: UnicodeString;
-    function Get_Folio_inicial: UnicodeString;
-    function Get_Folio_final: UnicodeString;
     procedure Set_Procesado_por(Value: UnicodeString);
     procedure Set_Fecha_digitalizacion(Value: UnicodeString);
     procedure Set_Fecha_indexacion(Value: UnicodeString);
@@ -833,8 +527,6 @@ type
     procedure Set_Software_captura(Value: UnicodeString);
     procedure Set_Color(Value: UnicodeString);
     procedure Set_Compresion(Value: UnicodeString);
-    procedure Set_Folio_inicial(Value: UnicodeString);
-    procedure Set_Folio_final(Value: UnicodeString);
   end;
 
 { TXMLIndicesType }
@@ -842,22 +534,21 @@ type
   TXMLIndicesType = class(TXMLNode, IXMLIndicesType)
   protected
     { IXMLIndicesType }
-    function Get_Entidad: UnicodeString;
+    function Get_Numero_planilla: UnicodeString;
+    function Get_Nombre_entidad: UnicodeString;
     function Get_Periodo_cotizacion: UnicodeString;
-    function Get_Fechapago_banco: UnicodeString;
-    function Get_Num_id: UnicodeString;
-    function Get_Prim_apll: UnicodeString;
-    function Get_Seg_apll: UnicodeString;
-    function Get_Prim_nomb: UnicodeString;
-    function Get_Seg_nomb: UnicodeString;
-    procedure Set_Entidad(Value: UnicodeString);
+    function Get_Fecha_recaudo: UnicodeString;
+    function Get_Empresa: UnicodeString;
+    function Get_Seccional: UnicodeString;
+    function Get_Colaborador: IXMLColaboradorType;
+    procedure Set_Numero_planilla(Value: UnicodeString);
+    procedure Set_Nombre_entidad(Value: UnicodeString);
     procedure Set_Periodo_cotizacion(Value: UnicodeString);
-    procedure Set_Fechapago_banco(Value: UnicodeString);
-    procedure Set_Num_id(Value: UnicodeString);
-    procedure Set_Prim_apll(Value: UnicodeString);
-    procedure Set_Seg_apll(Value: UnicodeString);
-    procedure Set_Prim_nomb(Value: UnicodeString);
-    procedure Set_Seg_nomb(Value: UnicodeString);
+    procedure Set_Fecha_recaudo(Value: UnicodeString);
+    procedure Set_Empresa(Value: UnicodeString);
+    procedure Set_Seccional(Value: UnicodeString);
+  public
+    procedure AfterConstruction; override;
   end;
 
 { TXMLIndicesTypeList }
@@ -869,6 +560,25 @@ type
     function Insert(const Index: Integer): IXMLIndicesType;
 
     function Get_Item(Index: Integer): IXMLIndicesType;
+  end;
+
+{ TXMLColaboradorType }
+
+  TXMLColaboradorType = class(TXMLNode, IXMLColaboradorType)
+  protected
+    { IXMLColaboradorType }
+    function Get_Num_id: UnicodeString;
+    function Get_Tip_id: UnicodeString;
+    function Get_Prim_nomb: UnicodeString;
+    function Get_Seg_nomb: UnicodeString;
+    function Get_Prim_apll: UnicodeString;
+    function Get_Seg_apll: UnicodeString;
+    procedure Set_Num_id(Value: UnicodeString);
+    procedure Set_Tip_id(Value: UnicodeString);
+    procedure Set_Prim_nomb(Value: UnicodeString);
+    procedure Set_Seg_nomb(Value: UnicodeString);
+    procedure Set_Prim_apll(Value: UnicodeString);
+    procedure Set_Seg_apll(Value: UnicodeString);
   end;
 
 { Global Functions }
@@ -936,18 +646,6 @@ end;
 
 { TXMLContenidoType }
 
-procedure TXMLContenidoType.AfterConstruction;
-begin
-  RegisterChildNode('titulo_documento', TXMLTitulo_documentoType);
-  RegisterChildNode('autor_emisorresponsable', TXMLAutor_emisorresponsableType);
-  RegisterChildNode('clasificacion_acceso', TXMLClasificacion_accesoType);
-  RegisterChildNode('fecha_creacion', TXMLFecha_creacionType);
-  RegisterChildNode('folio_electronico', TXMLFolio_electronicoType);
-  RegisterChildNode('tema_asunto', TXMLTema_asuntoType);
-  RegisterChildNode('palabras_clave', TXMLPalabras_claveType);
-  inherited;
-end;
-
 function TXMLContenidoType.Get_Nombreimagen: UnicodeString;
 begin
   Result := ChildNodes['nombreimagen'].Text;
@@ -958,24 +656,14 @@ begin
   ChildNodes['nombreimagen'].NodeValue := Value;
 end;
 
-function TXMLContenidoType.Get_Entidad: UnicodeString;
+function TXMLContenidoType.Get_Titulo_documento: UnicodeString;
 begin
-  Result := ChildNodes['entidad'].Text;
+  Result := ChildNodes['titulo_documento'].Text;
 end;
 
-procedure TXMLContenidoType.Set_Entidad(Value: UnicodeString);
+procedure TXMLContenidoType.Set_Titulo_documento(Value: UnicodeString);
 begin
-  ChildNodes['entidad'].NodeValue := Value;
-end;
-
-function TXMLContenidoType.Get_Periodo_cotizacion: UnicodeString;
-begin
-  Result := ChildNodes['periodo_cotizacion'].Text;
-end;
-
-procedure TXMLContenidoType.Set_Periodo_cotizacion(Value: UnicodeString);
-begin
-  ChildNodes['periodo_cotizacion'].NodeValue := Value;
+  ChildNodes['titulo_documento'].NodeValue := Value;
 end;
 
 function TXMLContenidoType.Get_Tipo_documental: UnicodeString;
@@ -988,39 +676,144 @@ begin
   ChildNodes['tipo_documental'].NodeValue := Value;
 end;
 
-function TXMLContenidoType.Get_Titulo_documento: IXMLTitulo_documentoType;
+function TXMLContenidoType.Get_Numero_planilla: UnicodeString;
 begin
-  Result := ChildNodes['titulo_documento'] as IXMLTitulo_documentoType;
+  Result := ChildNodes['numero_planilla'].Text;
 end;
 
-function TXMLContenidoType.Get_Autor_emisorresponsable: IXMLAutor_emisorresponsableType;
+procedure TXMLContenidoType.Set_Numero_planilla(Value: UnicodeString);
 begin
-  Result := ChildNodes['autor_emisorresponsable'] as IXMLAutor_emisorresponsableType;
+  ChildNodes['numero_planilla'].NodeValue := Value;
 end;
 
-function TXMLContenidoType.Get_Clasificacion_acceso: IXMLClasificacion_accesoType;
+function TXMLContenidoType.Get_Nombre_entidad: UnicodeString;
 begin
-  Result := ChildNodes['clasificacion_acceso'] as IXMLClasificacion_accesoType;
+  Result := ChildNodes['nombre_entidad'].Text;
 end;
 
-function TXMLContenidoType.Get_Fecha_creacion: IXMLFecha_creacionType;
+procedure TXMLContenidoType.Set_Nombre_entidad(Value: UnicodeString);
 begin
-  Result := ChildNodes['fecha_creacion'] as IXMLFecha_creacionType;
+  ChildNodes['nombre_entidad'].NodeValue := Value;
 end;
 
-function TXMLContenidoType.Get_Folio_electronico: IXMLFolio_electronicoType;
+function TXMLContenidoType.Get_Periodo_cotizacion: UnicodeString;
 begin
-  Result := ChildNodes['folio_electronico'] as IXMLFolio_electronicoType;
+  Result := ChildNodes['periodo_cotizacion'].Text;
 end;
 
-function TXMLContenidoType.Get_Tema_asunto: IXMLTema_asuntoType;
+procedure TXMLContenidoType.Set_Periodo_cotizacion(Value: UnicodeString);
 begin
-  Result := ChildNodes['tema_asunto'] as IXMLTema_asuntoType;
+  ChildNodes['periodo_cotizacion'].NodeValue := Value;
 end;
 
-function TXMLContenidoType.Get_Palabras_clave: IXMLPalabras_claveType;
+function TXMLContenidoType.Get_Fecha_recaudo: UnicodeString;
 begin
-  Result := ChildNodes['palabras_clave'] as IXMLPalabras_claveType;
+  Result := ChildNodes['fecha_recaudo'].Text;
+end;
+
+procedure TXMLContenidoType.Set_Fecha_recaudo(Value: UnicodeString);
+begin
+  ChildNodes['fecha_recaudo'].NodeValue := Value;
+end;
+
+function TXMLContenidoType.Get_Empresa: UnicodeString;
+begin
+  Result := ChildNodes['empresa'].Text;
+end;
+
+procedure TXMLContenidoType.Set_Empresa(Value: UnicodeString);
+begin
+  ChildNodes['empresa'].NodeValue := Value;
+end;
+
+function TXMLContenidoType.Get_Seccional: UnicodeString;
+begin
+  Result := ChildNodes['seccional'].Text;
+end;
+
+procedure TXMLContenidoType.Set_Seccional(Value: UnicodeString);
+begin
+  ChildNodes['seccional'].NodeValue := Value;
+end;
+
+function TXMLContenidoType.Get_Serie_documental: UnicodeString;
+begin
+  Result := ChildNodes['serie_documental'].Text;
+end;
+
+procedure TXMLContenidoType.Set_Serie_documental(Value: UnicodeString);
+begin
+  ChildNodes['serie_documental'].NodeValue := Value;
+end;
+
+function TXMLContenidoType.Get_Subserie_documental: UnicodeString;
+begin
+  Result := ChildNodes['subserie_documental'].Text;
+end;
+
+procedure TXMLContenidoType.Set_Subserie_documental(Value: UnicodeString);
+begin
+  ChildNodes['subserie_documental'].NodeValue := Value;
+end;
+
+function TXMLContenidoType.Get_Unidad_responsable: UnicodeString;
+begin
+  Result := ChildNodes['unidad_responsable'].Text;
+end;
+
+procedure TXMLContenidoType.Set_Unidad_responsable(Value: UnicodeString);
+begin
+  ChildNodes['unidad_responsable'].NodeValue := Value;
+end;
+
+function TXMLContenidoType.Get_Autor: UnicodeString;
+begin
+  Result := ChildNodes['autor'].Text;
+end;
+
+procedure TXMLContenidoType.Set_Autor(Value: UnicodeString);
+begin
+  ChildNodes['autor'].NodeValue := Value;
+end;
+
+function TXMLContenidoType.Get_Clasificacion_acceso: UnicodeString;
+begin
+  Result := ChildNodes['clasificacion_acceso'].Text;
+end;
+
+procedure TXMLContenidoType.Set_Clasificacion_acceso(Value: UnicodeString);
+begin
+  ChildNodes['clasificacion_acceso'].NodeValue := Value;
+end;
+
+function TXMLContenidoType.Get_Fechacreacion: UnicodeString;
+begin
+  Result := ChildNodes['fechacreacion'].Text;
+end;
+
+procedure TXMLContenidoType.Set_Fechacreacion(Value: UnicodeString);
+begin
+  ChildNodes['fechacreacion'].NodeValue := Value;
+end;
+
+function TXMLContenidoType.Get_Folio_inicial: UnicodeString;
+begin
+  Result := ChildNodes['folio_inicial'].Text;
+end;
+
+procedure TXMLContenidoType.Set_Folio_inicial(Value: UnicodeString);
+begin
+  ChildNodes['folio_inicial'].NodeValue := Value;
+end;
+
+function TXMLContenidoType.Get_Folio_final: UnicodeString;
+begin
+  Result := ChildNodes['folio_final'].Text;
+end;
+
+procedure TXMLContenidoType.Set_Folio_final(Value: UnicodeString);
+begin
+  ChildNodes['folio_final'].NodeValue := Value;
 end;
 
 { TXMLContenidoTypeList }
@@ -1040,226 +833,66 @@ begin
   Result := List[Index] as IXMLContenidoType;
 end;
 
-{ TXMLTitulo_documentoType }
-
-function TXMLTitulo_documentoType.Get_Titulodocumento: UnicodeString;
-begin
-  Result := ChildNodes['titulodocumento'].Text;
-end;
-
-procedure TXMLTitulo_documentoType.Set_Titulodocumento(Value: UnicodeString);
-begin
-  ChildNodes['titulodocumento'].NodeValue := Value;
-end;
-
-{ TXMLAutor_emisorresponsableType }
-
-function TXMLAutor_emisorresponsableType.Get_Fondo: UnicodeString;
-begin
-  Result := ChildNodes['fondo'].Text;
-end;
-
-procedure TXMLAutor_emisorresponsableType.Set_Fondo(Value: UnicodeString);
-begin
-  ChildNodes['fondo'].NodeValue := Value;
-end;
-
-function TXMLAutor_emisorresponsableType.Get_Unidad_responsable: UnicodeString;
-begin
-  Result := ChildNodes['unidad_responsable'].Text;
-end;
-
-procedure TXMLAutor_emisorresponsableType.Set_Unidad_responsable(Value: UnicodeString);
-begin
-  ChildNodes['unidad_responsable'].NodeValue := Value;
-end;
-
-{ TXMLClasificacion_accesoType }
-
-function TXMLClasificacion_accesoType.Get_Nivel_acceso: UnicodeString;
-begin
-  Result := ChildNodes['nivel_acceso'].Text;
-end;
-
-procedure TXMLClasificacion_accesoType.Set_Nivel_acceso(Value: UnicodeString);
-begin
-  ChildNodes['nivel_acceso'].NodeValue := Value;
-end;
-
-{ TXMLFecha_creacionType }
-
-function TXMLFecha_creacionType.Get_Fechacreacion: UnicodeString;
-begin
-  Result := ChildNodes['fechacreacion'].Text;
-end;
-
-procedure TXMLFecha_creacionType.Set_Fechacreacion(Value: UnicodeString);
-begin
-  ChildNodes['fechacreacion'].NodeValue := Value;
-end;
-
-{ TXMLFolio_electronicoType }
-
-function TXMLFolio_electronicoType.Get_Folios_totales: UnicodeString;
-begin
-  Result := ChildNodes['folios_totales'].Text;
-end;
-
-procedure TXMLFolio_electronicoType.Set_Folios_totales(Value: UnicodeString);
-begin
-  ChildNodes['folios_totales'].NodeValue := Value;
-end;
-
-function TXMLFolio_electronicoType.Get_Folio_actual: UnicodeString;
-begin
-  Result := ChildNodes['folio_actual'].Text;
-end;
-
-procedure TXMLFolio_electronicoType.Set_Folio_actual(Value: UnicodeString);
-begin
-  ChildNodes['folio_actual'].NodeValue := Value;
-end;
-
-{ TXMLTema_asuntoType }
-
-function TXMLTema_asuntoType.Get_Tema: UnicodeString;
-begin
-  Result := ChildNodes['tema'].Text;
-end;
-
-procedure TXMLTema_asuntoType.Set_Tema(Value: UnicodeString);
-begin
-  ChildNodes['tema'].NodeValue := Value;
-end;
-
-{ TXMLPalabras_claveType }
-
-function TXMLPalabras_claveType.Get_Entidad: UnicodeString;
-begin
-  Result := ChildNodes['entidad'].Text;
-end;
-
-procedure TXMLPalabras_claveType.Set_Entidad(Value: UnicodeString);
-begin
-  ChildNodes['entidad'].NodeValue := Value;
-end;
-
-function TXMLPalabras_claveType.Get_Periodo_cotizacion: UnicodeString;
-begin
-  Result := ChildNodes['periodo_cotizacion'].Text;
-end;
-
-procedure TXMLPalabras_claveType.Set_Periodo_cotizacion(Value: UnicodeString);
-begin
-  ChildNodes['periodo_cotizacion'].NodeValue := Value;
-end;
-
-function TXMLPalabras_claveType.Get_Fechapago_banco: UnicodeString;
-begin
-  Result := ChildNodes['fechapago_banco'].Text;
-end;
-
-procedure TXMLPalabras_claveType.Set_Fechapago_banco(Value: UnicodeString);
-begin
-  ChildNodes['fechapago_banco'].NodeValue := Value;
-end;
-
-function TXMLPalabras_claveType.Get_Num_id: UnicodeString;
-begin
-  Result := ChildNodes['num_id'].Text;
-end;
-
-procedure TXMLPalabras_claveType.Set_Num_id(Value: UnicodeString);
-begin
-  ChildNodes['num_id'].NodeValue := Value;
-end;
-
-function TXMLPalabras_claveType.Get_Prim_apll: UnicodeString;
-begin
-  Result := ChildNodes['prim_apll'].Text;
-end;
-
-procedure TXMLPalabras_claveType.Set_Prim_apll(Value: UnicodeString);
-begin
-  ChildNodes['prim_apll'].NodeValue := Value;
-end;
-
-function TXMLPalabras_claveType.Get_Seg_apll: UnicodeString;
-begin
-  Result := ChildNodes['seg_apll'].Text;
-end;
-
-procedure TXMLPalabras_claveType.Set_Seg_apll(Value: UnicodeString);
-begin
-  ChildNodes['seg_apll'].NodeValue := Value;
-end;
-
-function TXMLPalabras_claveType.Get_Prim_nomb: UnicodeString;
-begin
-  Result := ChildNodes['prim_nomb'].Text;
-end;
-
-procedure TXMLPalabras_claveType.Set_Prim_nomb(Value: UnicodeString);
-begin
-  ChildNodes['prim_nomb'].NodeValue := Value;
-end;
-
-function TXMLPalabras_claveType.Get_Seg_nomb: UnicodeString;
-begin
-  Result := ChildNodes['seg_nomb'].Text;
-end;
-
-procedure TXMLPalabras_claveType.Set_Seg_nomb(Value: UnicodeString);
-begin
-  ChildNodes['seg_nomb'].NodeValue := Value;
-end;
-
 { TXMLEstructuraType }
 
-procedure TXMLEstructuraType.AfterConstruction;
+function TXMLEstructuraType.Get_Descripcion: UnicodeString;
 begin
-  RegisterChildNode('descripcion', TXMLDescripcionType);
-  RegisterChildNode('formato', TXMLFormatoType);
-  RegisterChildNode('estado', TXMLEstadoType);
-  RegisterChildNode('proceso_administrativo', TXMLProceso_administrativoType);
-  RegisterChildNode('unidad_administrativa_resp', TXMLUnidad_administrativa_respType);
-  RegisterChildNode('serie', TXMLSerieType);
-  inherited;
+  Result := ChildNodes['descripcion'].Text;
 end;
 
-function TXMLEstructuraType.Get_Descripcion: IXMLDescripcionType;
+procedure TXMLEstructuraType.Set_Descripcion(Value: UnicodeString);
 begin
-  Result := ChildNodes['descripcion'] as IXMLDescripcionType;
+  ChildNodes['descripcion'].NodeValue := Value;
 end;
 
-function TXMLEstructuraType.Get_Formato: IXMLFormatoType;
+function TXMLEstructuraType.Get_Formato: UnicodeString;
 begin
-  Result := ChildNodes['formato'] as IXMLFormatoType;
+  Result := ChildNodes['formato'].Text;
 end;
 
-function TXMLEstructuraType.Get_Estado: IXMLEstadoType;
+procedure TXMLEstructuraType.Set_Formato(Value: UnicodeString);
 begin
-  Result := ChildNodes['estado'] as IXMLEstadoType;
+  ChildNodes['formato'].NodeValue := Value;
 end;
 
-function TXMLEstructuraType.Get_Proceso_administrativo: IXMLProceso_administrativoType;
+function TXMLEstructuraType.Get_Macroproceso: UnicodeString;
 begin
-  Result := ChildNodes['proceso_administrativo'] as IXMLProceso_administrativoType;
+  Result := ChildNodes['macroproceso'].Text;
 end;
 
-function TXMLEstructuraType.Get_Unidad_administrativa_resp: IXMLUnidad_administrativa_respType;
+procedure TXMLEstructuraType.Set_Macroproceso(Value: UnicodeString);
 begin
-  Result := ChildNodes['unidad_administrativa_resp'] as IXMLUnidad_administrativa_respType;
+  ChildNodes['macroproceso'].NodeValue := Value;
 end;
 
-function TXMLEstructuraType.Get_Perfil_autorizado: UnicodeString;
+function TXMLEstructuraType.Get_Procesonivel1: UnicodeString;
 begin
-  Result := ChildNodes['perfil_autorizado'].Text;
+  Result := ChildNodes['procesonivel1'].Text;
 end;
 
-procedure TXMLEstructuraType.Set_Perfil_autorizado(Value: UnicodeString);
+procedure TXMLEstructuraType.Set_Procesonivel1(Value: UnicodeString);
 begin
-  ChildNodes['perfil_autorizado'].NodeValue := Value;
+  ChildNodes['procesonivel1'].NodeValue := Value;
+end;
+
+function TXMLEstructuraType.Get_Procesonivel2: UnicodeString;
+begin
+  Result := ChildNodes['procesonivel2'].Text;
+end;
+
+procedure TXMLEstructuraType.Set_Procesonivel2(Value: UnicodeString);
+begin
+  ChildNodes['procesonivel2'].NodeValue := Value;
+end;
+
+function TXMLEstructuraType.Get_Unidad_administrativa_resp: UnicodeString;
+begin
+  Result := ChildNodes['unidad_administrativa_resp'].Text;
+end;
+
+procedure TXMLEstructuraType.Set_Unidad_administrativa_resp(Value: UnicodeString);
+begin
+  ChildNodes['unidad_administrativa_resp'].NodeValue := Value;
 end;
 
 function TXMLEstructuraType.Get_Ubicacion: UnicodeString;
@@ -1272,9 +905,24 @@ begin
   ChildNodes['ubicacion'].NodeValue := Value;
 end;
 
-function TXMLEstructuraType.Get_Serie: IXMLSerieType;
+function TXMLEstructuraType.Get_Serie_documental: UnicodeString;
 begin
-  Result := ChildNodes['serie'] as IXMLSerieType;
+  Result := ChildNodes['serie_documental'].Text;
+end;
+
+procedure TXMLEstructuraType.Set_Serie_documental(Value: UnicodeString);
+begin
+  ChildNodes['serie_documental'].NodeValue := Value;
+end;
+
+function TXMLEstructuraType.Get_Subserie_documental: UnicodeString;
+begin
+  Result := ChildNodes['subserie_documental'].Text;
+end;
+
+procedure TXMLEstructuraType.Set_Subserie_documental(Value: UnicodeString);
+begin
+  ChildNodes['subserie_documental'].NodeValue := Value;
 end;
 
 { TXMLEstructuraTypeList }
@@ -1294,117 +942,13 @@ begin
   Result := List[Index] as IXMLEstructuraType;
 end;
 
-{ TXMLDescripcionType }
-
-function TXMLDescripcionType.Get_Descripcion_: UnicodeString;
-begin
-  Result := ChildNodes['descripcion_'].Text;
-end;
-
-procedure TXMLDescripcionType.Set_Descripcion_(Value: UnicodeString);
-begin
-  ChildNodes['descripcion_'].NodeValue := Value;
-end;
-
-{ TXMLFormatoType }
-
-function TXMLFormatoType.Get_Formato_: UnicodeString;
-begin
-  Result := ChildNodes['formato_'].Text;
-end;
-
-procedure TXMLFormatoType.Set_Formato_(Value: UnicodeString);
-begin
-  ChildNodes['formato_'].NodeValue := Value;
-end;
-
-{ TXMLEstadoType }
-
-function TXMLEstadoType.Get_Estado_elaboracion: UnicodeString;
-begin
-  Result := ChildNodes['estado_elaboracion'].Text;
-end;
-
-procedure TXMLEstadoType.Set_Estado_elaboracion(Value: UnicodeString);
-begin
-  ChildNodes['estado_elaboracion'].NodeValue := Value;
-end;
-
-{ TXMLProceso_administrativoType }
-
-function TXMLProceso_administrativoType.Get_Macroproceso: UnicodeString;
-begin
-  Result := ChildNodes['macroproceso'].Text;
-end;
-
-procedure TXMLProceso_administrativoType.Set_Macroproceso(Value: UnicodeString);
-begin
-  ChildNodes['macroproceso'].NodeValue := Value;
-end;
-
-function TXMLProceso_administrativoType.Get_Procesonivel1: UnicodeString;
-begin
-  Result := ChildNodes['procesonivel1'].Text;
-end;
-
-procedure TXMLProceso_administrativoType.Set_Procesonivel1(Value: UnicodeString);
-begin
-  ChildNodes['procesonivel1'].NodeValue := Value;
-end;
-
-function TXMLProceso_administrativoType.Get_Procesonivel2: UnicodeString;
-begin
-  Result := ChildNodes['procesonivel2'].Text;
-end;
-
-procedure TXMLProceso_administrativoType.Set_Procesonivel2(Value: UnicodeString);
-begin
-  ChildNodes['procesonivel2'].NodeValue := Value;
-end;
-
-{ TXMLUnidad_administrativa_respType }
-
-function TXMLUnidad_administrativa_respType.Get_Unidadadministrativaresp: UnicodeString;
-begin
-  Result := ChildNodes['unidadadministrativaresp'].Text;
-end;
-
-procedure TXMLUnidad_administrativa_respType.Set_Unidadadministrativaresp(Value: UnicodeString);
-begin
-  ChildNodes['unidadadministrativaresp'].NodeValue := Value;
-end;
-
-{ TXMLSerieType }
-
-function TXMLSerieType.Get_Serie_: UnicodeString;
-begin
-  Result := ChildNodes['serie_'].Text;
-end;
-
-procedure TXMLSerieType.Set_Serie_(Value: UnicodeString);
-begin
-  ChildNodes['serie_'].NodeValue := Value;
-end;
-
-function TXMLSerieType.Get_Subserie: UnicodeString;
-begin
-  Result := ChildNodes['subserie'].Text;
-end;
-
-procedure TXMLSerieType.Set_Subserie(Value: UnicodeString);
-begin
-  ChildNodes['subserie'].NodeValue := Value;
-end;
-
 { TXMLContextoType }
 
 procedure TXMLContextoType.AfterConstruction;
 begin
   RegisterChildNode('juridico_administrativo', TXMLJuridico_administrativoType);
   RegisterChildNode('tecnologico', TXMLTecnologicoType);
-  RegisterChildNode('autenticidad', TXMLAutenticidadType);
   RegisterChildNode('digitalizacion', TXMLDigitalizacionType);
-  RegisterChildNode('indices', TXMLIndicesType);
   inherited;
 end;
 
@@ -1448,19 +992,9 @@ begin
   Result := ChildNodes['tecnologico'] as IXMLTecnologicoType;
 end;
 
-function TXMLContextoType.Get_Autenticidad: IXMLAutenticidadType;
-begin
-  Result := ChildNodes['autenticidad'] as IXMLAutenticidadType;
-end;
-
 function TXMLContextoType.Get_Digitalizacion: IXMLDigitalizacionType;
 begin
   Result := ChildNodes['digitalizacion'] as IXMLDigitalizacionType;
-end;
-
-function TXMLContextoType.Get_Indices: IXMLIndicesType;
-begin
-  Result := ChildNodes['indices'] as IXMLIndicesType;
 end;
 
 { TXMLContextoTypeList }
@@ -1492,27 +1026,7 @@ begin
   ChildNodes['valores_primarios'].NodeValue := Value;
 end;
 
-function TXMLJuridico_administrativoType.Get_Valores_secundarios: UnicodeString;
-begin
-  Result := ChildNodes['valores_secundarios'].Text;
-end;
-
-procedure TXMLJuridico_administrativoType.Set_Valores_secundarios(Value: UnicodeString);
-begin
-  ChildNodes['valores_secundarios'].NodeValue := Value;
-end;
-
 { TXMLTecnologicoType }
-
-function TXMLTecnologicoType.Get_Tecnologico_1: UnicodeString;
-begin
-  Result := ChildNodes['tecnologico_1'].Text;
-end;
-
-procedure TXMLTecnologicoType.Set_Tecnologico_1(Value: UnicodeString);
-begin
-  ChildNodes['tecnologico_1'].NodeValue := Value;
-end;
 
 function TXMLTecnologicoType.Get_Tipodefirma: UnicodeString;
 begin
@@ -1524,34 +1038,32 @@ begin
   ChildNodes['tipodefirma'].NodeValue := Value;
 end;
 
-{ TXMLAutenticidadType }
-
-function TXMLAutenticidadType.Get_Dominio_red: UnicodeString;
+function TXMLTecnologicoType.Get_Dominio_red: UnicodeString;
 begin
   Result := ChildNodes['dominio_red'].Text;
 end;
 
-procedure TXMLAutenticidadType.Set_Dominio_red(Value: UnicodeString);
+procedure TXMLTecnologicoType.Set_Dominio_red(Value: UnicodeString);
 begin
   ChildNodes['dominio_red'].NodeValue := Value;
 end;
 
-function TXMLAutenticidadType.Get_Ip_usuario: UnicodeString;
+function TXMLTecnologicoType.Get_Ip_usuario: UnicodeString;
 begin
   Result := ChildNodes['ip_usuario'].Text;
 end;
 
-procedure TXMLAutenticidadType.Set_Ip_usuario(Value: UnicodeString);
+procedure TXMLTecnologicoType.Set_Ip_usuario(Value: UnicodeString);
 begin
   ChildNodes['ip_usuario'].NodeValue := Value;
 end;
 
-function TXMLAutenticidadType.Get_MAC_usuario: UnicodeString;
+function TXMLTecnologicoType.Get_MAC_usuario: UnicodeString;
 begin
   Result := ChildNodes['MAC_usuario'].Text;
 end;
 
-procedure TXMLAutenticidadType.Set_MAC_usuario(Value: UnicodeString);
+procedure TXMLTecnologicoType.Set_MAC_usuario(Value: UnicodeString);
 begin
   ChildNodes['MAC_usuario'].NodeValue := Value;
 end;
@@ -1638,36 +1150,32 @@ begin
   ChildNodes['compresion'].NodeValue := Value;
 end;
 
-function TXMLDigitalizacionType.Get_Folio_inicial: UnicodeString;
-begin
-  Result := ChildNodes['folio_inicial'].Text;
-end;
-
-procedure TXMLDigitalizacionType.Set_Folio_inicial(Value: UnicodeString);
-begin
-  ChildNodes['folio_inicial'].NodeValue := Value;
-end;
-
-function TXMLDigitalizacionType.Get_Folio_final: UnicodeString;
-begin
-  Result := ChildNodes['folio_final'].Text;
-end;
-
-procedure TXMLDigitalizacionType.Set_Folio_final(Value: UnicodeString);
-begin
-  ChildNodes['folio_final'].NodeValue := Value;
-end;
-
 { TXMLIndicesType }
 
-function TXMLIndicesType.Get_Entidad: UnicodeString;
+procedure TXMLIndicesType.AfterConstruction;
 begin
-  Result := ChildNodes['entidad'].Text;
+  RegisterChildNode('colaborador', TXMLColaboradorType);
+  inherited;
 end;
 
-procedure TXMLIndicesType.Set_Entidad(Value: UnicodeString);
+function TXMLIndicesType.Get_Numero_planilla: UnicodeString;
 begin
-  ChildNodes['entidad'].NodeValue := Value;
+  Result := ChildNodes['numero_planilla'].Text;
+end;
+
+procedure TXMLIndicesType.Set_Numero_planilla(Value: UnicodeString);
+begin
+  ChildNodes['numero_planilla'].NodeValue := Value;
+end;
+
+function TXMLIndicesType.Get_Nombre_entidad: UnicodeString;
+begin
+  Result := ChildNodes['nombre_entidad'].Text;
+end;
+
+procedure TXMLIndicesType.Set_Nombre_entidad(Value: UnicodeString);
+begin
+  ChildNodes['nombre_entidad'].NodeValue := Value;
 end;
 
 function TXMLIndicesType.Get_Periodo_cotizacion: UnicodeString;
@@ -1680,64 +1188,39 @@ begin
   ChildNodes['periodo_cotizacion'].NodeValue := Value;
 end;
 
-function TXMLIndicesType.Get_Fechapago_banco: UnicodeString;
+function TXMLIndicesType.Get_Fecha_recaudo: UnicodeString;
 begin
-  Result := ChildNodes['fechapago_banco'].Text;
+  Result := ChildNodes['fecha_recaudo'].Text;
 end;
 
-procedure TXMLIndicesType.Set_Fechapago_banco(Value: UnicodeString);
+procedure TXMLIndicesType.Set_Fecha_recaudo(Value: UnicodeString);
 begin
-  ChildNodes['fechapago_banco'].NodeValue := Value;
+  ChildNodes['fecha_recaudo'].NodeValue := Value;
 end;
 
-function TXMLIndicesType.Get_Num_id: UnicodeString;
+function TXMLIndicesType.Get_Empresa: UnicodeString;
 begin
-  Result := ChildNodes['num_id'].Text;
+  Result := ChildNodes['empresa'].Text;
 end;
 
-procedure TXMLIndicesType.Set_Num_id(Value: UnicodeString);
+procedure TXMLIndicesType.Set_Empresa(Value: UnicodeString);
 begin
-  ChildNodes['num_id'].NodeValue := Value;
+  ChildNodes['empresa'].NodeValue := Value;
 end;
 
-function TXMLIndicesType.Get_Prim_apll: UnicodeString;
+function TXMLIndicesType.Get_Seccional: UnicodeString;
 begin
-  Result := ChildNodes['prim_apll'].Text;
+  Result := ChildNodes['seccional'].Text;
 end;
 
-procedure TXMLIndicesType.Set_Prim_apll(Value: UnicodeString);
+procedure TXMLIndicesType.Set_Seccional(Value: UnicodeString);
 begin
-  ChildNodes['prim_apll'].NodeValue := Value;
+  ChildNodes['seccional'].NodeValue := Value;
 end;
 
-function TXMLIndicesType.Get_Seg_apll: UnicodeString;
+function TXMLIndicesType.Get_Colaborador: IXMLColaboradorType;
 begin
-  Result := ChildNodes['seg_apll'].Text;
-end;
-
-procedure TXMLIndicesType.Set_Seg_apll(Value: UnicodeString);
-begin
-  ChildNodes['seg_apll'].NodeValue := Value;
-end;
-
-function TXMLIndicesType.Get_Prim_nomb: UnicodeString;
-begin
-  Result := ChildNodes['prim_nomb'].Text;
-end;
-
-procedure TXMLIndicesType.Set_Prim_nomb(Value: UnicodeString);
-begin
-  ChildNodes['prim_nomb'].NodeValue := Value;
-end;
-
-function TXMLIndicesType.Get_Seg_nomb: UnicodeString;
-begin
-  Result := ChildNodes['seg_nomb'].Text;
-end;
-
-procedure TXMLIndicesType.Set_Seg_nomb(Value: UnicodeString);
-begin
-  ChildNodes['seg_nomb'].NodeValue := Value;
+  Result := ChildNodes['colaborador'] as IXMLColaboradorType;
 end;
 
 { TXMLIndicesTypeList }
@@ -1755,6 +1238,68 @@ end;
 function TXMLIndicesTypeList.Get_Item(Index: Integer): IXMLIndicesType;
 begin
   Result := List[Index] as IXMLIndicesType;
+end;
+
+{ TXMLColaboradorType }
+
+function TXMLColaboradorType.Get_Num_id: UnicodeString;
+begin
+  Result := ChildNodes['num_id'].Text;
+end;
+
+procedure TXMLColaboradorType.Set_Num_id(Value: UnicodeString);
+begin
+  ChildNodes['num_id'].NodeValue := Value;
+end;
+
+function TXMLColaboradorType.Get_Tip_id: UnicodeString;
+begin
+  Result := ChildNodes['tip_id'].Text;
+end;
+
+procedure TXMLColaboradorType.Set_Tip_id(Value: UnicodeString);
+begin
+  ChildNodes['tip_id'].NodeValue := Value;
+end;
+
+function TXMLColaboradorType.Get_Prim_nomb: UnicodeString;
+begin
+  Result := ChildNodes['prim_nomb'].Text;
+end;
+
+procedure TXMLColaboradorType.Set_Prim_nomb(Value: UnicodeString);
+begin
+  ChildNodes['prim_nomb'].NodeValue := Value;
+end;
+
+function TXMLColaboradorType.Get_Seg_nomb: UnicodeString;
+begin
+  Result := ChildNodes['seg_nomb'].Text;
+end;
+
+procedure TXMLColaboradorType.Set_Seg_nomb(Value: UnicodeString);
+begin
+  ChildNodes['seg_nomb'].NodeValue := Value;
+end;
+
+function TXMLColaboradorType.Get_Prim_apll: UnicodeString;
+begin
+  Result := ChildNodes['prim_apll'].Text;
+end;
+
+procedure TXMLColaboradorType.Set_Prim_apll(Value: UnicodeString);
+begin
+  ChildNodes['prim_apll'].NodeValue := Value;
+end;
+
+function TXMLColaboradorType.Get_Seg_apll: UnicodeString;
+begin
+  Result := ChildNodes['seg_apll'].Text;
+end;
+
+procedure TXMLColaboradorType.Set_Seg_apll(Value: UnicodeString);
+begin
+  ChildNodes['seg_apll'].NodeValue := Value;
 end;
 
 end.
