@@ -27,7 +27,7 @@
     <File Path="..\Presentacion"/>
     <File Path="..\Presentacion\UCaptura.pas"/>
     <File Path="..\Presentacion\UCaptura.dfm"/>
-    <File Path="..\..\..\UNIANDES"/>
+    <File Path="D:\PRODECO"/>
     <File Path="..\..\FuncionesGenerales"/>
     <File Path="..\..\FuncionesGenerales\Clases"/>
     <File Path="..\..\FuncionesGenerales\Clases\Logica"/>

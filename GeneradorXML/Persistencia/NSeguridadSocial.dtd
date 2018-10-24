@@ -48,7 +48,7 @@
 <!ELEMENT software_captura (#PCDATA)>
 <!ELEMENT color (#PCDATA)>
 <!ELEMENT compresion (#PCDATA)>
-<!ELEMENT indices (numero_planilla,nombre_entidad,periodo_cotizacion,fecha_recaudo,empresa,seccional,colaborador)>
+<!ELEMENT indices (numero_planilla,nombre_entidad,periodo_cotizacion,fecha_recaudo,empresa,seccional,colaborador+)>
 <!ELEMENT numero_planilla (#PCDATA)>
 <!ELEMENT nombre_entidad (#PCDATA)>
 <!ELEMENT periodo_cotizacion (#PCDATA)>

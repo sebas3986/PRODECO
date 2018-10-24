@@ -27,7 +27,7 @@ begin
   AmbiEjecApli:= 'DESA';  {AMBIENTE PARA EL CUAL SE COMPILA EL PROECTO }
   //Sebastian Camacho 19/09/2018 temporal
   VeriRuta    := False;   {PARA EJECUTAR LA APLICACION VERIFICANDO RUTA DE INSTALACION O NO}
-  if ParamStr(3) = 'UaNnIdVeEs' then
+//  if ParamStr(3) = 'UaNnIdVeEs' then
   begin
     if EnEjecucion(ExtractFileName(Application.ExeName)) then
     begin
@@ -44,12 +44,12 @@ begin
       Application.Run;
     end;
   end
-  else
-  begin
-    Application.MessageBox('No se permite ejecutar el Módulo de Captura desde esta instancia.'
-                            + #10#13 + 'Ingrese al Menú Principal del Sistema y ejecute la opción respectiva.',
-                            'Captura de Información',MB_OK OR MB_ICONERROR);
-    Application.Terminate;
-  end;
+//  else
+//  begin
+//    Application.MessageBox('No se permite ejecutar el Módulo de Captura desde esta instancia.'
+//                            + #10#13 + 'Ingrese al Menú Principal del Sistema y ejecute la opción respectiva.',
+//                            'Captura de Información',MB_OK OR MB_ICONERROR);
+//    Application.Terminate;
+//  end;
 
 end.

@@ -137,6 +137,25 @@ object DMGeneradorXML: TDMGeneradorXML
     object cdsFoliosXMLTotalFolios: TIntegerField
       FieldName = 'TotalFolios'
     end
+    object cdsFoliosXMLcodpreimpreso: TStringField
+      FieldName = 'codpreimpreso'
+      Size = 10
+    end
+    object cdsFoliosXMLnumplanilla: TStringField
+      FieldName = 'numplanilla'
+      Size = 30
+    end
+    object cdsFoliosXMLdescripcionempresa: TStringField
+      FieldName = 'descripcionempresa'
+      Size = 150
+    end
+    object cdsFoliosXMLdescripcionseccional: TStringField
+      FieldName = 'descripcionseccional'
+      Size = 150
+    end
+    object cdsFoliosXMLnumfolios: TSmallintField
+      FieldName = 'numfolios'
+    end
   end
   object dspPlanillaIndices: TDataSetProvider
     DataSet = ZQPlanillaIndices

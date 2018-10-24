@@ -3,7 +3,7 @@
 {                                                                                   }
 {                                 XML Data Binding                                  }
 {                                                                                   }
-{         Generated on: 16/10/2018 10:47:55 a. m.                                   }
+{         Generated on: 19/10/2018 12:08:05 p. m.                                   }
 {       Generated from: D:\PRODECO\GeneradorXML\Persistencia\NSeguridadSocial.dtd   }
 {   Settings stored in: D:\PRODECO\GeneradorXML\Persistencia\NSeguridadSocial.xdb   }
 {                                                                                   }
@@ -32,11 +32,12 @@ type
   IXMLIndicesType = interface;
   IXMLIndicesTypeList = interface;
   IXMLColaboradorType = interface;
+  IXMLColaboradorTypeList = interface;
 
 { IXMLSEGURIDAD_SOCIALType }
 
   IXMLSEGURIDAD_SOCIALType = interface(IXMLNode)
-    ['{1D9E9B96-5D31-4087-AE85-5DEB56582C3C}']
+    ['{C780EDF1-5D68-4E00-9451-24AE69B3F33B}']
     { Property Accessors }
     function Get_Contenido: IXMLContenidoTypeList;
     function Get_Estructura: IXMLEstructuraTypeList;
@@ -52,7 +53,7 @@ type
 { IXMLContenidoType }
 
   IXMLContenidoType = interface(IXMLNode)
-    ['{28A0DB96-715D-48E8-B516-C4B00C3975A4}']
+    ['{46C54C43-B68C-4F8C-9C16-8B5B21627B0D}']
     { Property Accessors }
     function Get_Nombreimagen: UnicodeString;
     function Get_Titulo_documento: UnicodeString;
@@ -111,7 +112,7 @@ type
 { IXMLContenidoTypeList }
 
   IXMLContenidoTypeList = interface(IXMLNodeCollection)
-    ['{97F2EB02-1D97-4985-B9BD-1421A6D3282B}']
+    ['{7D4C446B-91EF-4158-ADF4-061C2AB84BEC}']
     { Methods & Properties }
     function Add: IXMLContenidoType;
     function Insert(const Index: Integer): IXMLContenidoType;
@@ -123,7 +124,7 @@ type
 { IXMLEstructuraType }
 
   IXMLEstructuraType = interface(IXMLNode)
-    ['{CB6FAFC3-8C05-469A-A122-6A7FFD2FCB9B}']
+    ['{EA17B4D7-4523-4114-BF3C-56BC1AF0AACD}']
     { Property Accessors }
     function Get_Descripcion: UnicodeString;
     function Get_Formato: UnicodeString;
@@ -158,7 +159,7 @@ type
 { IXMLEstructuraTypeList }
 
   IXMLEstructuraTypeList = interface(IXMLNodeCollection)
-    ['{A0890F3C-08E3-4BD5-B785-1E5931C8BBA5}']
+    ['{F1EC474F-6768-441C-A02A-14F03A505006}']
     { Methods & Properties }
     function Add: IXMLEstructuraType;
     function Insert(const Index: Integer): IXMLEstructuraType;
@@ -170,7 +171,7 @@ type
 { IXMLContextoType }
 
   IXMLContextoType = interface(IXMLNode)
-    ['{77CD141C-E035-4884-B22A-EAF6C50C987E}']
+    ['{9B179B1A-35B7-40B0-A32B-3CB0EF4E890E}']
     { Property Accessors }
     function Get_Juridico_administrativo: IXMLJuridico_administrativoType;
     function Get_Documental: UnicodeString;
@@ -193,7 +194,7 @@ type
 { IXMLContextoTypeList }
 
   IXMLContextoTypeList = interface(IXMLNodeCollection)
-    ['{070ABC01-B346-4002-869E-7E44AC394C68}']
+    ['{EDCB6C0F-08CC-497C-B25A-1755517BC1FF}']
     { Methods & Properties }
     function Add: IXMLContextoType;
     function Insert(const Index: Integer): IXMLContextoType;
@@ -205,7 +206,7 @@ type
 { IXMLJuridico_administrativoType }
 
   IXMLJuridico_administrativoType = interface(IXMLNode)
-    ['{C973A0F2-E7BD-4B4A-9E28-793A66DBAE40}']
+    ['{8884FD9E-B8B5-4126-992B-C1833C191D51}']
     { Property Accessors }
     function Get_Valores_primarios: UnicodeString;
     procedure Set_Valores_primarios(Value: UnicodeString);
@@ -216,7 +217,7 @@ type
 { IXMLTecnologicoType }
 
   IXMLTecnologicoType = interface(IXMLNode)
-    ['{AC9C196C-282F-4EB9-906D-9399C654A3B3}']
+    ['{43A10DCD-C1C0-4306-AAC1-EFC7AC50A438}']
     { Property Accessors }
     function Get_Tipodefirma: UnicodeString;
     function Get_Dominio_red: UnicodeString;
@@ -236,7 +237,7 @@ type
 { IXMLDigitalizacionType }
 
   IXMLDigitalizacionType = interface(IXMLNode)
-    ['{A39B5042-8BD1-4B10-A4D7-AFD76B8B21E6}']
+    ['{F6D45FC6-11D9-40A5-AAD8-1B739587BBAB}']
     { Property Accessors }
     function Get_Procesado_por: UnicodeString;
     function Get_Fecha_digitalizacion: UnicodeString;
@@ -268,7 +269,7 @@ type
 { IXMLIndicesType }
 
   IXMLIndicesType = interface(IXMLNode)
-    ['{6A947DA0-55FA-46F9-8D7A-4AFF6AED173A}']
+    ['{7F258820-FF37-4142-B896-1ECB79D64AD5}']
     { Property Accessors }
     function Get_Numero_planilla: UnicodeString;
     function Get_Nombre_entidad: UnicodeString;
@@ -276,7 +277,7 @@ type
     function Get_Fecha_recaudo: UnicodeString;
     function Get_Empresa: UnicodeString;
     function Get_Seccional: UnicodeString;
-    function Get_Colaborador: IXMLColaboradorType;
+    function Get_Colaborador: IXMLColaboradorTypeList;
     procedure Set_Numero_planilla(Value: UnicodeString);
     procedure Set_Nombre_entidad(Value: UnicodeString);
     procedure Set_Periodo_cotizacion(Value: UnicodeString);
@@ -290,13 +291,13 @@ type
     property Fecha_recaudo: UnicodeString read Get_Fecha_recaudo write Set_Fecha_recaudo;
     property Empresa: UnicodeString read Get_Empresa write Set_Empresa;
     property Seccional: UnicodeString read Get_Seccional write Set_Seccional;
-    property Colaborador: IXMLColaboradorType read Get_Colaborador;
+    property Colaborador: IXMLColaboradorTypeList read Get_Colaborador;
   end;
 
 { IXMLIndicesTypeList }
 
   IXMLIndicesTypeList = interface(IXMLNodeCollection)
-    ['{FE6F9D6A-D3B8-44C6-BC50-8210776F47CD}']
+    ['{C93E1719-17F9-4230-A9BA-1C60928C1A34}']
     { Methods & Properties }
     function Add: IXMLIndicesType;
     function Insert(const Index: Integer): IXMLIndicesType;
@@ -308,7 +309,7 @@ type
 { IXMLColaboradorType }
 
   IXMLColaboradorType = interface(IXMLNode)
-    ['{A768A4A1-C80F-474E-9B01-E71BABF40323}']
+    ['{AAEB7B2D-50B1-45FA-B97C-8A92532A720A}']
     { Property Accessors }
     function Get_Num_id: UnicodeString;
     function Get_Tip_id: UnicodeString;
@@ -331,6 +332,18 @@ type
     property Seg_apll: UnicodeString read Get_Seg_apll write Set_Seg_apll;
   end;
 
+{ IXMLColaboradorTypeList }
+
+  IXMLColaboradorTypeList = interface(IXMLNodeCollection)
+    ['{B5D50219-C98F-4AC9-9D46-810DA16EE40D}']
+    { Methods & Properties }
+    function Add: IXMLColaboradorType;
+    function Insert(const Index: Integer): IXMLColaboradorType;
+
+    function Get_Item(Index: Integer): IXMLColaboradorType;
+    property Items[Index: Integer]: IXMLColaboradorType read Get_Item; default;
+  end;
+
 { Forward Decls }
 
   TXMLSEGURIDAD_SOCIALType = class;
@@ -346,6 +359,7 @@ type
   TXMLIndicesType = class;
   TXMLIndicesTypeList = class;
   TXMLColaboradorType = class;
+  TXMLColaboradorTypeList = class;
 
 { TXMLSEGURIDAD_SOCIALType }
 
@@ -532,6 +546,8 @@ type
 { TXMLIndicesType }
 
   TXMLIndicesType = class(TXMLNode, IXMLIndicesType)
+  private
+    FColaborador: IXMLColaboradorTypeList;
   protected
     { IXMLIndicesType }
     function Get_Numero_planilla: UnicodeString;
@@ -540,7 +556,7 @@ type
     function Get_Fecha_recaudo: UnicodeString;
     function Get_Empresa: UnicodeString;
     function Get_Seccional: UnicodeString;
-    function Get_Colaborador: IXMLColaboradorType;
+    function Get_Colaborador: IXMLColaboradorTypeList;
     procedure Set_Numero_planilla(Value: UnicodeString);
     procedure Set_Nombre_entidad(Value: UnicodeString);
     procedure Set_Periodo_cotizacion(Value: UnicodeString);
@@ -579,6 +595,17 @@ type
     procedure Set_Seg_nomb(Value: UnicodeString);
     procedure Set_Prim_apll(Value: UnicodeString);
     procedure Set_Seg_apll(Value: UnicodeString);
+  end;
+
+{ TXMLColaboradorTypeList }
+
+  TXMLColaboradorTypeList = class(TXMLNodeCollection, IXMLColaboradorTypeList)
+  protected
+    { IXMLColaboradorTypeList }
+    function Add: IXMLColaboradorType;
+    function Insert(const Index: Integer): IXMLColaboradorType;
+
+    function Get_Item(Index: Integer): IXMLColaboradorType;
   end;
 
 { Global Functions }
@@ -1155,6 +1182,7 @@ end;
 procedure TXMLIndicesType.AfterConstruction;
 begin
   RegisterChildNode('colaborador', TXMLColaboradorType);
+  FColaborador := CreateCollection(TXMLColaboradorTypeList, IXMLColaboradorType, 'colaborador') as IXMLColaboradorTypeList;
   inherited;
 end;
 
@@ -1218,9 +1246,9 @@ begin
   ChildNodes['seccional'].NodeValue := Value;
 end;
 
-function TXMLIndicesType.Get_Colaborador: IXMLColaboradorType;
+function TXMLIndicesType.Get_Colaborador: IXMLColaboradorTypeList;
 begin
-  Result := ChildNodes['colaborador'] as IXMLColaboradorType;
+  Result := FColaborador;
 end;
 
 { TXMLIndicesTypeList }
@@ -1300,6 +1328,23 @@ end;
 procedure TXMLColaboradorType.Set_Seg_apll(Value: UnicodeString);
 begin
   ChildNodes['seg_apll'].NodeValue := Value;
+end;
+
+{ TXMLColaboradorTypeList }
+
+function TXMLColaboradorTypeList.Add: IXMLColaboradorType;
+begin
+  Result := AddItem(-1) as IXMLColaboradorType;
+end;
+
+function TXMLColaboradorTypeList.Insert(const Index: Integer): IXMLColaboradorType;
+begin
+  Result := AddItem(Index) as IXMLColaboradorType;
+end;
+
+function TXMLColaboradorTypeList.Get_Item(Index: Integer): IXMLColaboradorType;
+begin
+  Result := List[Index] as IXMLColaboradorType;
 end;
 
 end.

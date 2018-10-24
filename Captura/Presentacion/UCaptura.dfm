@@ -2199,7 +2199,7 @@ object frmCaptura: TfrmCaptura
           object rlbTipoIdentificacion: TRxDBLookupCombo
             Left = 160
             Top = 16
-            Width = 305
+            Width = 98
             Height = 25
             DropDownCount = 8
             Color = 9882571

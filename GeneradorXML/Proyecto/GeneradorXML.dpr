@@ -11,7 +11,6 @@ uses
   UDAOParametro in '..\..\FuncionesGenerales\Clases\Persistencia\DAO\UDAOParametro.pas',
   UImagen in '..\..\FuncionesGenerales\Clases\Logica\UImagen.pas',
   NPlanillasNomina in '..\Persistencia\NPlanillasNomina.pas',
-  NSeguridadSocial5 in '..\Persistencia\NSeguridadSocial5.pas',
   HistoriaLaboral in '..\Persistencia\HistoriaLaboral.pas',
   UGlobales in '..\..\FuncionesGenerales\Clases\Logica\UGlobales.pas',
   FPGenerales in '..\..\FuncionesGenerales\Funciones\FPGenerales.pas',
@@ -28,9 +27,9 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  AmbiEjecApli:= 'DESA';  {AMBIENTE PARA EL CUAL SE COMPILA EL PROECTO }
+  AmbiEjecApli:= 'QA';  {AMBIENTE PARA EL CUAL SE COMPILA EL PROECTO }
   //Sebastian Camacho 20/09/2018 temporal
-  VeriRuta    := false;   {PARA EJECUTAR LA APLICACION VERIFICANDO RUTA DE INSTALACION O NO}
+  VeriRuta    := True;   {PARA EJECUTAR LA APLICACION VERIFICANDO RUTA DE INSTALACION O NO}
 
   if ParamStr(3) = 'UaNnIdVeEs' then
   begin

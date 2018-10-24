@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2016/04/11 17:17:17.000.264,D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\CarpetaDigital\Proyecto\Unit1.dfm=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\CarpetaDigital\Presentacion\UVisor.dfm</Transaction>
+    <Transaction>2016/04/11 17:17:17.000.264,D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\CarpetaDigital\Presentacion\UVisor.dfm=D:\ProyectosGustavoVR\FabricaBPO\UniversidadAndes\Aplicacion\CarpetaDigital\Proyecto\Unit1.dfm</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="..\..\CarpetaDigital"/>
@@ -33,7 +33,7 @@
     <File Path="..\Presentacion\UVisor.dfm"/>
     <File Path="..\Presentacion\UActualizaModulo.pas"/>
     <File Path="..\Presentacion\UActualizaModulo.dfm"/>
-    <File Path="..\..\..\UNIANDES"/>
+    <File Path="D:\PRODECO"/>
     <File Path="..\..\FuncionesGenerales"/>
     <File Path="..\..\FuncionesGenerales\Clases"/>
     <File Path="..\..\FuncionesGenerales\Clases\Logica"/>

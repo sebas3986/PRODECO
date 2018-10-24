@@ -129,7 +129,7 @@ begin
 //                         0 : Foliada := True;
 //                         1 : Foliada := False;
 //          end;
-          DMRecepcion.InsertarCarpeta(DMRecepcion.cdsCaja.FieldByName('idCaja').AsInteger, rlbSerieDocumental.KeyValue, False,edCaja.Text);
+          DMRecepcion.InsertarCarpeta(DMRecepcion.cdsCaja.FieldByName('idCaja').AsInteger, rlbSerieDocumental.KeyValue, True,edCaja.Text);
           DMRecepcion.ImprimirStickerCarpeta(DMRecepcion.cdsCaja.FieldByName('idCaja').AsInteger, 0, 1,'');
           edCarpeta.Text := DMRecepcion.cdsCarpeta.FieldByName('CodigoCarpeta').AsString;
           ActivarGrupos;
@@ -141,7 +141,7 @@ begin
           edNumFolios.Enabled := True;
           edPreimpresoCar.SetFocus;
           rgpGrFoliacion.Enabled := True;
-          rgpGrFoliacion.ItemIndex := 1;
+          rgpGrFoliacion.ItemIndex := 0;
           btnCarpeta.Visible := False;
           btnCerrarCaja.Enabled := True;
       end else
@@ -484,25 +484,35 @@ begin
         begin
           if DMRecepcion.BuscarCodPreimpreso(edPreimpresoPla.Text,0) = False then
           begin
-            DMRecepcion.ListaPreImpresos.Add(edPreimpresoPla.Text);
             DMRecepcion.ListaNumFolios.Add(edNumFolios.Text);
+            DMRecepcion.ListaPreImpresos.Add(edPreimpresoPla.Text);
+            if DMRecepcion.ListaNumFolios.count <> DMRecepcion.ListaPreImpresos.count then
+              ShowMessage('Se descuadraron las listas');
             DMRecepcion.cdsSubSerie.Edit;
             DMRecepcion.cdsSubSerieCantidad.AsInteger := DMRecepcion.cdsSubSerieCantidad.AsInteger + 1;
             DMRecepcion.cdsSubSerie.Post;
           end
           else
+          begin
             ShowMessage('Ya se encuentra asignado el código preimpreso a una planilla ['+edPreimpresoPla.Text+']');
+          end;
         end
         else
+        begin
           ShowMessage('Ya se encuentra capturado el código preimpreso: '+edPreimpresoPla.Text);
+        end;
         edPreimpresoPla.Text := '';
         edNumFolios.Text := '';
       end
       else
+      begin
         ShowMessage('El código preimpreso de la planilla debe tener 10 números: '+edPreimpresoPla.Text);
+      end;
     end
     else
+    begin
       ShowMessage('El número de folios debe ser mayor a 0');
+    end;
   end;
 end;
 
@@ -561,7 +571,7 @@ begin
                    DMRecepcion.CarpetasRadicadas(DMRecepcion.cdsCaja.FieldByName('idCaja').AsInteger);
                    //Sebastian Camacho 10/10/2018
                    //rlbSerieDocumental.KeyValue := DMRecepcion.cdsCarpeta.FieldByName('idSerieDocumental').AsInteger;
-                   rgpGrFoliacion.ItemIndex := 1;
+                   rgpGrFoliacion.ItemIndex := 0;
                    rgpGrFoliacion.Enabled := False;
                    rlbSerieDocumental.KeyValue := 1;
                    lblCofirmarPrecinto.Visible := False;

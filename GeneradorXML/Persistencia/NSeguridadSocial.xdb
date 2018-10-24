@@ -271,7 +271,7 @@
       <element ref="fecha_recaudo"/>
       <element ref="empresa"/>
       <element ref="seccional"/>
-      <element ref="colaborador"/>
+      <element ref="colaborador" maxOccurs="unbounded"/>
     </sequence>
   </complexType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="numero_planilla" type="numero_planillaType"/>
@@ -299,7 +299,9 @@
     <restriction base="xs:string"/>
   </simpleType>
   <element xmlns="http://www.w3.org/2001/XMLSchema" name="colaborador" type="colaboradorType"/>
-  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="colaboradorType">
+  <complexType xmlns="http://www.w3.org/2001/XMLSchema" name="colaboradorType"><annotation>
+      <appinfo xdb:repeated="True"/>
+    </annotation>
     <sequence>
       <element ref="num_id"/>
       <element ref="tip_id"/>

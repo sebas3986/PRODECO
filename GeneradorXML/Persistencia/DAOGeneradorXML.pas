@@ -93,6 +93,11 @@ type
     cdsAletaFolio: TClientDataSet;
     cdsAletaFolioDescripcionSubSerieDocumental: TStringField;
     cdsFoliosXMLTotalFolios: TIntegerField;
+    cdsFoliosXMLcodpreimpreso: TStringField;
+    cdsFoliosXMLnumplanilla: TStringField;
+    cdsFoliosXMLdescripcionempresa: TStringField;
+    cdsFoliosXMLdescripcionseccional: TStringField;
+    cdsFoliosXMLnumfolios: TSmallintField;
   private
     { Private declarations }
   public
@@ -379,7 +384,8 @@ begin
          Close;
          SQL.Clear;
          SQL.Add('SELECT SD.idSerieDocumental, DescripcionSerieDocumental,  SSD.idSubSerieDocumental, DescripcionSubSerieDocumental, CodigoCarpeta, CodigoCarpetaAleta, MAX (Version) AS Version, IM.Fecha AS FechaImagen,');
-         SQL.Add('CantidadFolios, idFlujo, FO.idFolio, SecuenciaFolio, CodigoFolio, ipPublicacion, Densidad, FechaNomina, FO.Fecha AS FechaFolio, TamanoBytes, RutaFTP, NombreImagen, ObraCivil, Capturable');
+         SQL.Add('CantidadFolios, idFlujo, FO.idFolio, FO.codpreimpreso, DP.numplanilla,EM.descripcionempresa,SE.descripcionseccional, FO.numfolios, ');
+         SQL.Add('SecuenciaFolio, CodigoFolio, ipPublicacion, Densidad, FechaNomina, FO.Fecha AS FechaFolio, TamanoBytes, RutaFTP, NombreImagen, ObraCivil, Capturable');
          if idTipoSerieDocumental = 3 then
            SQL.Add(', PeriodoCotizacion, DescripcionFondo');
          SQL.Add(Format('FROM %s.SerieSubSerie SSS',[DMConexion.Esquema]));
@@ -393,6 +399,8 @@ begin
          SQL.Add(Format('INNER JOIN %s.Folio FO ON (FO.idCarpetaAleta = CA.idCarpetaAleta)',[DMConexion.Esquema]));
          SQL.Add(Format('INNER JOIN %s.Imagen IM ON (IM.idFolio = FO.idFolio)',[DMConexion.Esquema]));
          SQL.Add(Format('LEFT JOIN %s.DatoPlanilla DP ON (DP.idDatoPlanilla = FO.idDatoPlanilla)',[DMConexion.Esquema]));
+         SQL.Add(Format('LEFT JOIN %s.Empresa EM ON (EM.idempresa = DP.idempresa)',[DMConexion.Esquema]));
+         SQL.Add(Format('LEFT JOIN %s.seccional SE ON (SE.idseccional = DP.idseccional)',[DMConexion.Esquema]));
          if idTipoSerieDocumental = 3 then
            begin
              SQL.Add(Format('LEFT JOIN %s.Fondo FN ON (FN.idFondo = DP.idFondo)',[DMConexion.Esquema]));
@@ -404,6 +412,7 @@ begin
                  2 : SQL.Add('WHERE idTipoSerieDocumental =:idTipoSerieDocumental AND FO.idFolio =:idFolio');
          end;
          SQL.Add('GROUP BY SD.idSerieDocumental, SSD.idSubSerieDocumental, CR.CodigoCarpeta, CA.CodigoCarpetaAleta, CA.CantidadFolios, CR.idFlujo, FO.idFolio, IM.ipPublicacion,');
+         SQL.Add('FO.codpreimpreso,DP.numplanilla,EM.descripcionempresa, SE.descripcionseccional,FO.numfolios,');
          if idTipoSerieDocumental = 3 then
            SQL.Add('IM.Densidad, DP.FechaNomina, IM.TamanoBytes, IM.RutaFTP, IM.NombreImagen, PeriodoCotizacion, DescripcionFondo, IM.Fecha, ObraCivil ORDER BY CodigoCarpeta, SecuenciaFolio')
          else
@@ -444,6 +453,11 @@ begin
                cdsFoliosXML.FieldByName('NombreImagen').AsString := FieldByName('NombreImagen').AsString;
                cdsFoliosXML.FieldByName('FechaImagen').AsDateTime := FieldByName('FechaImagen').AsDateTime;
                cdsFoliosXML.FieldByName('Capturable').AsBoolean := FieldByName('Capturable').AsBoolean;
+               cdsFoliosXML.FieldByName('codpreimpreso').AsString := FieldByName('codpreimpreso').AsString;
+               cdsFoliosXML.FieldByName('numplanilla').AsString := FieldByName('numplanilla').AsString;
+               cdsFoliosXML.FieldByName('descripcionempresa').AsString := FieldByName('descripcionempresa').AsString;
+               cdsFoliosXML.FieldByName('descripcionseccional').AsString := FieldByName('descripcionseccional').AsString;
+               cdsFoliosXML.FieldByName('numfolios').AsInteger := FieldByName('numfolios').AsInteger;
                case FieldByName('idSerieDocumental').AsInteger of
                         3,4        : cdsFoliosXML.FieldByName('ObraCivil').AsBoolean := FieldByName('ObraCivil').AsBoolean;
 

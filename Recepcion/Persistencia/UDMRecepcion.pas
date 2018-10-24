@@ -593,10 +593,10 @@ procedure TDMRecepcion.DataModuleCreate(Sender: TObject);
 begin
   ListaPreImpresos  := TStringList.Create;
   ListaPreImpresos.Duplicates:= dupIgnore;
-  ListaPreImpresos.Sorted:=True;
+  ListaPreImpresos.Sorted:=False;
   ListaNumFolios  := TStringList.Create;
-  ListaNumFolios.Duplicates:= dupIgnore;
-  ListaNumFolios.Sorted:=True;
+  ListaNumFolios.Duplicates:= dupAccept;
+  ListaNumFolios.Sorted:=False;
 end;
 
 procedure TDMRecepcion.DataModuleDestroy(Sender: TObject);
